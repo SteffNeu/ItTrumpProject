@@ -2,7 +2,11 @@ import commandline.TopTrumpsCLIApplication;
 
 import online.TopTrumpsOnlineApplication;
 
-
+/**
+ * this is me bitches
+ * @author Stephanie
+ *
+ */
 
 public class TopTrumps {
 
