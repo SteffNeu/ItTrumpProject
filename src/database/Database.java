@@ -62,7 +62,7 @@ public class Database {
 	 */
 	private String readFromDatabase(String sqlstatement, String attribute) {
 
-		private Game game;
+		//private Game game;
 		//reserve space for the result
 		String result = "";
 		//create a statement
