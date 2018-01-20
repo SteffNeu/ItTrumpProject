@@ -121,16 +121,25 @@ public class Database {
         updateTable(query);
 	}
 
+	/**
+	 * write the number of rounds to the database
+	 */
 	public void writeNumRounds() {
 		//create a query to insert number of draws
         String query = "UPDATE TopTrumps.gamestats SET numofrounds = "+ game.getNumOfRounds()+" WHERE gameid = "+ currentGameID +";";
         updateTable(query);
 	}
 	
+	/**
+	 * write the winner of a game to the database
+	 */
 	public void writeWinner() {
 		
 	}
 	
+	/**
+	 * write the the rounds won by each player into the database
+	 */
 	public void writeRoundsWonByPlayers() {
 		
 	}
@@ -145,12 +154,20 @@ public class Database {
 		return readFromDatabase(query, "count");
 	}
 	
+	/**
+	 * Get the amount of games won by the player
+	 * @return
+	 */
 	public String readHumanWins() {
 		String query = "SELECT COUNT(gameid) FROM TopTrumps.gamestats WHERE TopTrumps.gamewinner = 'human';";
 		//TODO figure out what I need to pass
 		return readFromDatabase(query, "count");
 	}
 	
+	/**
+	 * Get the amount of games won by the computer
+	 * @return String
+	 */
 	public String readAIWins() {
 		String query = "SELECT COUNT(gameid) FROM TopTrumps.gamestats WHERE TopTrumps.gamewinner = 'ai1' OR"
 				+ "TopTrumps.gamewinner = 'ai2' OR TopTrumps.gamewinner = 'ai3' OR TopTrumps.gamewinner = 'ai4';";
@@ -158,11 +175,19 @@ public class Database {
 		return readFromDatabase(query, "count");
 	}
 
+	/**
+	 * Get the average amount of draws in a game
+	 * @return String
+	 */
 	public String readAverageDraw() {
 		String query = "SELECT AVG(numofdraws) FROM TopTrumps.gamestats;";
 		return readFromDatabase(query, "avg");
 	}
 	
+	/**
+	 * Get the highest number of rounds played
+	 * @return String
+	 */
 	public String readMaxRoundNumber() {
 		String query = "SELECT MAX(numofrounds) FROM TopTrumps.gamestats;";
 		return  readFromDatabase(query, "max");
