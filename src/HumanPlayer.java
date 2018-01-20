@@ -1,9 +1,10 @@
 
 public class HumanPlayer extends Player
 {
-	public HumanPlayer(String n) 
+	public HumanPlayer() 
 	{
-		
+		super();
+		human = true;
 	}
 
 	public void selectAttribute() {

@@ -5,26 +5,16 @@
  */
 public abstract class Player 
 {
-	private String name;
-	private Pile hand;
-	private int roundsWon;
-	private boolean isHuman;
+	protected String name;
+	protected Pile hand;
+	protected int roundsWon;
+	protected boolean human;
 	/**
 	 * default constructor
 	 */
 	public Player()
 	{
 		
-	}
-	/**
-	 * constructor
-	 */
-	public Player(String newName, Pile newHand, boolean human)
-	{
-		name = newName;
-		hand = newHand;
-		isHuman = human;
-		roundsWon = 0;
 	}
 	/**
 	 * gets name
@@ -71,7 +61,7 @@ public abstract class Player
 	 */
 	public boolean isHuman()
 	{
-		return isHuman;
+		return human;
 	}
 	abstract public void selectAttribute();
 	
