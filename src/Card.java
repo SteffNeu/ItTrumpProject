@@ -99,6 +99,11 @@ public class Card
 	{
 		return name;
 	}
+	
+	public HashMap<String, Integer> getCategories()
+	{
+		return categories;
+	}
 
 //	TODO delete tests
 //	public static void main (String[] args)

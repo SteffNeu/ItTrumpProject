@@ -5,24 +5,24 @@
  */
 public abstract class Player 
 {
-	protected String name;
+	protected int ID;
 	protected Pile hand;
 	protected int roundsWon;
 	protected boolean human;
 	/**
-	 * default constructor
+	 * constructor
 	 */
-	public Player()
+	public Player(int identification)
 	{
-		
+		ID = identification;
 	}
 	/**
-	 * gets name
-	 * @return string containing name
+	 * gets ID
+	 * @return integer containing ID
 	 */
-	public String getName()
+	public int getID()
 	{
-		return name;
+		return ID;
 	}
 	/**
 	 * get rounds won

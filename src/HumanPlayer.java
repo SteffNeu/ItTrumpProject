@@ -10,9 +10,9 @@ public class HumanPlayer extends Player
 	/**
 	 * default constructor to create a human player
 	 */
-	public HumanPlayer() 
+	public HumanPlayer(int identification) 
 	{
-		super();
+		super(identification);
 		human = true;
 	}	
 }

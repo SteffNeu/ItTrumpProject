@@ -10,9 +10,9 @@ public class AIPlayer extends Player
 	/**
 	 * default constructor to create an AI-player
 	 */
-	public AIPlayer()
+	public AIPlayer(int identification)
 	{
-		super();
+		super(identification);
 		human = false;
 	}
 	

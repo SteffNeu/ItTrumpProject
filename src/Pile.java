@@ -74,6 +74,12 @@ public class Pile
 		cards.remove(0);
 		numOfCards--;
 	}
+	
+	public void removeAllCards()
+	{
+		cards.clear();
+		numOfCards = 0;
+	}
 //	TODO delete, test
 //	public static void main (String[] args)
 //	{
