@@ -63,6 +63,12 @@ public abstract class Player
 	{
 		return human;
 	}
-	abstract public void selectAttribute();
+	
+	/**
+	 * @return Pile the hand of the player
+	 */
+	public Pile getPile() {
+		return hand;
+	}
 	
 }

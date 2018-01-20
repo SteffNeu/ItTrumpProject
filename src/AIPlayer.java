@@ -1,14 +1,26 @@
-
+/**
+ * Class to create an AI-Player
+ * Inherits from the Player.java class
+ * 
+ * @author Stephanie Neubauer
+ * 
+ */
 public class AIPlayer extends Player
 {
+	/**
+	 * default constructor to create an AI-player
+	 */
 	public AIPlayer()
 	{
 		super();
 		human = false;
 	}
-	public void selectAttribute() {
-		// TODO Auto-generated method stub
-		
+	
+	/** 
+	 * @return String containing the category with the highest value  
+	 */
+	public String selectAttribute() {
+		return hand.getTopCard().getHighestCategory();
 	}
 
 }
