@@ -6,11 +6,17 @@ import java.io.*;
 
 public class Log {
 	
+	/**game being played*/
 	private Game game;
-	private FileWriter logWriter;
 	
+	private FileWriter logWriter;
+	/** name of the output file*/
 	private String outFile = "toptrumps.log";
 	
+	/**
+	 * constructor
+	 * @param g - game being played 
+	 */
 	public void Log(Game g) {
 		game = g;
 		try {
@@ -36,8 +42,7 @@ public class Log {
 		
 		for (int i = 0; i < deck.length; i ++) {
 			deckLog.append(cardInfoToString(deck [i]));
-		}
-		
+		}		
 		writeLog(deckLog);
 	}
 	
@@ -54,8 +59,7 @@ public class Log {
 			for (Card card : playersCards) {
 				playerInfo.append(cardInfoToString(card));
 			}		
-		}
-		
+		}		
 		writeLog(playerInfo);
 	}
 	
@@ -117,12 +121,14 @@ public class Log {
 		return cardInfo.toString() + "/n";
 	}
 	
+	
 	private void writeLog(StringBuilder info) {
 		try {
 			logWriter.write(info.toString());
 		}
 		catch (IOException e) {}		
 	}
+	
 }
 
 
