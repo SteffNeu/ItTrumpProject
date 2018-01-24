@@ -131,14 +131,14 @@ public class Database {
 	 * write the winner of a game to the database
 	 */
 	public void writeWinner() {
-		
+		String query ="UPDATE toptrumps.gamestats SET gamewinner = " + 1;
 	}
 	
 	/**
 	 * write the the rounds won by each player into the database
 	 */
 	public void writeRoundsWonByPlayers() {
-		
+		//receiving a hash-map would be nice
 	}
 	
 	/**
