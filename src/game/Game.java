@@ -94,7 +94,7 @@ public class Game
 	
 	public void shuffleDeck() 
 	{
-	    // TODO Matt help pleeeaazzze
+	    // TODO Matt help pleeeaazzze collections.shuffle(arraystoList(
 	}
 	// TODO test this shit
 	public void distributeCards()
