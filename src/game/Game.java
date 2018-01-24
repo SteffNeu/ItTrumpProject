@@ -154,7 +154,7 @@ public class Game
 	public int chooseFirstPlayer()
 	{
 		Random rand = new Random();
-		int randomNum = rand.nextInt((activePlayers.size() - 0) + 1) + 0;
+		int randomNum = rand.nextInt(activePlayers.size());
 		
 		return activePlayers.get(randomNum).getID();
 	}
