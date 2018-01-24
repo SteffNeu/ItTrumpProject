@@ -17,7 +17,7 @@ public class Log {
 	 * constructor
 	 * @param g - game being played 
 	 */
-	public void Log(Game g) {
+	public Log(Game g) {
 		game = g;
 		try {
 			logWriter = new FileWriter(outFile);
@@ -106,6 +106,17 @@ public class Log {
 		
 	}
 	
+	public void closeLog()
+	{
+		try {
+			logWriter.close();
+		}
+		catch(IOException e)
+		{
+			System.err.println("The logFile could not be closed properly");
+		}
+	}
+	
 	/**
 	 * Creates a string for a given card that contains the
 	 * name of each card and all its category values 
@@ -115,7 +126,7 @@ public class Log {
 	private String cardInfoToString(Card card) {
 		StringBuilder cardInfo = new StringBuilder(card.getName());
 		HashMap<String, Integer> cardCategories = card.getCategories(); 
-		for (cardCategories.Entry<String, Integer> entry: cardCategories.entrySet()) {
+		for (Map.Entry<String, Integer> entry: cardCategories.entrySet()) {
 			cardInfo.append(" " + entry.getValue());
 		}
 		return cardInfo.toString() + "/n";

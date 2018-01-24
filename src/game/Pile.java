@@ -15,7 +15,8 @@ public class Pile
 	 * default constructor
 	 */
 	public Pile() {
-		
+		cards = new ArrayList<Card>();
+		numOfCards = 0;
 	}
 	/**
 	 * constructor

@@ -12,9 +12,9 @@ public class AIPlayer extends Player
 	/**
 	 * default constructor to create an AI-player
 	 */
-	public AIPlayer(int identification)
+	public AIPlayer(int identification, String name)
 	{
-		super(identification);
+		super(identification, name);
 		human = false;
 	}
 	

@@ -8,45 +8,6 @@ import java.util.Map;
  * @author Stephanie
  *
  */
-//public class Card 
-//{
-//	private String name;
-//	private String[] categoryNames;
-//	private int[] categoryValues;
-//	
-//	public Card()
-//	{
-//		
-//	}
-//	
-//	public Card(String n, String[] categories, int[] values)
-//	{
-//		name = n;
-//		categoryNames = categories;
-//		categoryValues = values;
-//	}
-//	
-//	public int getValueAtCategory(String ctgry)
-//	{
-//		for(int i = 0; i<categoryValues.length; i++)
-//		{
-//			if(categoryNames.equals(ctgry))
-//					return categoryValues[i];
-//		}
-//		return 0;
-//	}
-//	
-//	public int getHighestCategory()
-//	{
-//		return 0;
-//	}
-//	
-//	public String getName() 
-//	{
-//		return name;
-//	}
-//
-//}
 public class Card 
 {
 	private String name;
@@ -56,7 +17,8 @@ public class Card
 	 */
 	public Card()
 	{
-		
+		categories = new HashMap<String, Integer>();
+		name = "";
 	}
 	/** 
 	 * constructor
@@ -105,6 +67,11 @@ public class Card
 	public HashMap<String, Integer> getCategories()
 	{
 		return categories;
+	}
+	
+	public boolean hasCategory(String categoryToCheck)
+	{
+		return categories.containsKey(categoryToCheck);
 	}
 
 //	TODO delete tests

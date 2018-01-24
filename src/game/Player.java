@@ -10,12 +10,16 @@ public abstract class Player
 	protected Pile hand;
 	protected int roundsWon;
 	protected boolean human;
+	protected String name;
 	/**
 	 * constructor
 	 */
-	public Player(int identification)
+	public Player(int identification, String name)
 	{
 		ID = identification;
+		this.name = name;
+		hand = new Pile();
+		roundsWon = 0;
 	}
 	/**
 	 * gets ID
@@ -32,6 +36,10 @@ public abstract class Player
 	public int getRoundsWon()
 	{
 		return roundsWon;
+	}
+	public String getName()
+	{
+		return name;
 	}
 	/**
 	 * updates the pile by removing the top card and appending the new pile
@@ -71,5 +79,7 @@ public abstract class Player
 	public Pile getPile() {
 		return hand;
 	}
+	
+	public abstract String selectAttribute();
 	
 }

@@ -32,6 +32,9 @@ public class Game
 	{
 		numOfRounds = 0;
 		numOfDraws = 0;
+		activePlayers = new ArrayList<Player>();
+		inactivePlayers = new ArrayList<Player>();
+		communalPile = new Pile();
 		// initiate deck of cards and shuffle
 		deck = deckOfCards;
 		shuffleDeck();
@@ -83,6 +86,15 @@ public class Game
 	{
 		return numOfDraws;
 	}
+	public Player getCurrentPlayer()
+	{
+		for(int i = 0; i < activePlayers.size(); i++)
+		{
+			if(activePlayers.get(i).getID() == currentChooser)
+				return activePlayers.get(i);
+		}
+		return null;
+	}
 	/** 
 	 * gets list of all active players
 	 * @return arraylist<player> all active players
@@ -94,16 +106,28 @@ public class Game
 	
 	public void shuffleDeck() 
 	{
-	    // TODO Matt help pleeeaazzze collections.shuffle(arraystoList(
+		Random rand = new Random();
+
+		int index = deck.length - 1;
+		while (index > 0) 
+		{
+			int r = rand.nextInt(index);
+
+			Card tempSwap = deck [index];
+			deck [index] = deck [r];
+			deck [r] = tempSwap;
+
+			index --;
+		}
 	}
 	// TODO test this shit
 	public void distributeCards()
 	{
 		for(int i = 0, j = 0; i < deck.length; i++, j++)
 		{
-			if(j > activePlayers.size())
+			if(j >= activePlayers.size())
 				j = 0;
-			activePlayers.get(i).getPile().addCard(deck[i]);
+			activePlayers.get(j).getPile().addCard(deck[i]);
 		}
 	}
 	// TODO test this shit
@@ -111,14 +135,17 @@ public class Game
 	{
 		// TODO let Tom check code
 		int ID = 1;
-		HumanPlayer pl1 = new HumanPlayer(ID);
+		String nameHuman = "human";
+		HumanPlayer pl1 = new HumanPlayer(ID, nameHuman);
 		activePlayers.add(pl1);
+		String nameAI = "ai1";
 		for(int i = 0; i < numOfPlayers; i++)
 		{
 			ID++;
-			AIPlayer plAI = new AIPlayer(ID);
+			AIPlayer plAI = new AIPlayer(ID, nameAI);
 			activePlayers.add(plAI);
-		}
+			nameAI = nameAI.substring(0, 2);
+			nameAI += Integer.toString(ID-1);		}
 	}
 	/** 
 	 * chooses the first player of the game
@@ -136,24 +163,32 @@ public class Game
 	{
 		// get the id of the winner
 		int winner = calculateRoundWinner(category);
-		// create String for results
-		String results = category;
+		// create StringBuilder for results
+		StringBuilder results = new StringBuilder("");
 		for(int i = 0; i < activePlayers.size(); i++)
-			results = ";" + Integer.toString(activePlayers.get(i).getPile().getTopCard().getValueAtCategory(category));
+			results.append(activePlayers.get(i).getName() 
+			+ ": "
+			+ "with Card " + activePlayers.get(i).getPile().getTopCard().getName()
+			+ " with value "
+			+ Integer.toString(activePlayers.get(i).getPile().getTopCard().getValueAtCategory(category))
+			+ "\n");
 		// handle the piles
-		if(winner != 0)
+		if(winner == 0)
 			handleDraw();
 		else
+		{
 			updatePiles(winner);
+			// sets the current chooser to last winner
+			currentChooser = winner;
+			// increments winners rounds won
+			this.getCurrentPlayer().increaseRoundsWon();
+		}
 		// check if all players are still valid to keep playing
 		checkForElimination();
-		// 
+		// update number of rounds
 		updateNumOfRounds();
-		
-		if(winner != 0)
-			currentChooser = winner;
-		
-		return results;
+				
+		return results.toString();
 	}
 	public void handleDraw()
 	{
@@ -218,11 +253,11 @@ public class Game
 			{
 				tempMax = activePlayers.get(i).getPile().getTopCard().getValueAtCategory(ctgry);
 				tempID = activePlayers.get(i).getID();
-				if(isDraw == true)
+				if(isDraw)
 					isDraw = false;
 			}
 		}
-		if(isDraw == true)
+		if(isDraw)
 			return 0;
 		else
 			return tempID;
@@ -233,7 +268,14 @@ public class Game
 	 */
 	public boolean isCurrentChooserHuman() 
 	{
-		return activePlayers.get(currentChooser).isHuman();
+		int winnerIndex = 0;
+		for(int i = 0; i < activePlayers.size(); i++)
+			if(activePlayers.get(i).getID()==currentChooser)
+			{
+				winnerIndex = i;
+				break;
+			}
+		return activePlayers.get(winnerIndex).isHuman();
 	}
 	/**
 	 * increments numOfDraws by one

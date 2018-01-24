@@ -11,9 +11,13 @@ public class HumanPlayer extends Player
 	/**
 	 * default constructor to create a human player
 	 */
-	public HumanPlayer(int identification) 
+	public HumanPlayer(int identification, String name) 
 	{
-		super(identification);
+		super(identification, name);
 		human = true;
+	}
+
+	public String selectAttribute() {
+		return null;
 	}	
 }
