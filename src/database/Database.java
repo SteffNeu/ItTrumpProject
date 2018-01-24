@@ -66,7 +66,6 @@ public class Database {
 	 */
 	private String readFromDatabase(String sqlstatement, String attribute) {
 
-		//private Game game;
 		//reserve space for the result
 		String result = "";
 		//create a statement
@@ -75,8 +74,6 @@ public class Database {
 		try {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(sqlstatement);
-			//TODO review this -can there be several result sets?
-			//TODO What about aggregates
 			//iterate through results
 			while (rs.next()) {  			
 				result = rs.getString(attribute);
@@ -117,7 +114,7 @@ public class Database {
 	public void writeNumDraws() {
 		
 		//create a query to insert number of draws
-        String query = "UPDATE TopTrumps.gamestats SET numofdraws = "+ game.getNumOfDraws()+" WHERE gameid = "+ currentGameID +";";
+        String query = "UPDATE toptrumps.gamestats SET numofdraws = "+ game.getNumOfDraws()+" WHERE gameid = "+ currentGameID +";";
         updateTable(query);
 	}
 
@@ -125,8 +122,8 @@ public class Database {
 	 * write the number of rounds to the database
 	 */
 	public void writeNumRounds() {
-		//create a query to insert number of draws
-        String query = "UPDATE TopTrumps.gamestats SET numofrounds = "+ game.getNumOfRounds()+" WHERE gameid = "+ currentGameID +";";
+		//create a query to insert number of rounds
+        String query = "UPDATE toptrumps.gamestats SET numofrounds = "+ game.getNumOfRounds()+" WHERE gameid = "+ currentGameID +";";
         updateTable(query);
 	}
 	
@@ -149,7 +146,7 @@ public class Database {
 	 * @return String contains number of games
 	 */
 	public String readTotalNumGames() {
-		String query = "SELECT COUNT(gameid) FROM TopTrumps.gamestats;";
+		String query = "SELECT COUNT(gameid) FROM toptrumps.gamestats;";
 		//TODO figure out what I need to pass
 		return readFromDatabase(query, "count");
 	}
@@ -159,8 +156,7 @@ public class Database {
 	 * @return
 	 */
 	public String readHumanWins() {
-		String query = "SELECT COUNT(gameid) FROM TopTrumps.gamestats WHERE TopTrumps.gamewinner = 'human';";
-		//TODO figure out what I need to pass
+		String query = "SELECT COUNT(gameid) FROM toptrumps.gamestats WHERE gamestats.gamewinner = 1;";
 		return readFromDatabase(query, "count");
 	}
 	
@@ -169,9 +165,7 @@ public class Database {
 	 * @return String
 	 */
 	public String readAIWins() {
-		String query = "SELECT COUNT(gameid) FROM TopTrumps.gamestats WHERE TopTrumps.gamewinner = 'ai1' OR"
-				+ "TopTrumps.gamewinner = 'ai2' OR TopTrumps.gamewinner = 'ai3' OR TopTrumps.gamewinner = 'ai4';";
-		//TODO figure out what I need to pass
+		String query = "SELECT COUNT(gameid) FROM TopTrumps.gamestats WHERE gamestats.gamewinner > 1";
 		return readFromDatabase(query, "count");
 	}
 
@@ -199,5 +193,15 @@ public class Database {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
+	}
+	
+	public static void main(String[] args) {
+		Database db = new Database();
+		System.out.println("games played: " + db.readTotalNumGames());
+		System.out.println("max rounds: " + db.readMaxRoundNumber());
+		System.out.println("average draw: " + db.readAverageDraw());
+		System.out.println("computer wins: " + db.readAIWins());
+		System.out.println("human wins: " + db.readHumanWins());
+		db.disconnectFromDatabase();
 	}
 }
