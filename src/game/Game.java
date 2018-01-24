@@ -111,7 +111,7 @@ public class Game
 		int index = deck.length - 1;
 		while (index > 0) 
 		{
-			int r = rand.nextInt(index);
+			int r = rand.nextInt(index + 1);
 
 			Card tempSwap = deck [index];
 			deck [index] = deck [r];
