@@ -138,7 +138,9 @@ public class Database {
 	 * write the the rounds won by each player into the database
 	 */
 	public void writeRoundsWonByPlayers() {
-		//receiving a hash-map would be nice
+		String[] roundsWBP = game.getRoundsWonPerPlayer();
+		String query = String.format("UPDATE toptrumps.gamestats SET humanrounds = %d, ai1rounds = %d, ai2rounds = %d, ai3rounds = %d, ai4rounds = %d,  WHERE gameid = %d;", roundsWBP[0],roundsWBP[1],roundsWBP[2],roundsWBP[3],roundsWBP[4],currentGameID);
+		updateTable(query);
 	}
 	
 	/**

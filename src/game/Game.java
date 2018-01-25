@@ -287,4 +287,21 @@ public class Game
 	
 	//return winner
 	// return get all players 
+	/**
+	 * 
+	 * @return String[] containing the number of games won by each player
+	 */
+	public String[] getRoundsWonPerPlayer(){
+		
+		//initialize empty array
+		String[] roundsWBP = {null, null, null, null, null};
+		
+		//iterate through all players
+		for (Player p : inactivePlayers) {
+			//map the id to a position in the array and add the amount of rounds won
+			roundsWBP[p.getID()-1] = Integer.toString(p.getRoundsWon());
+		}
+		return roundsWBP;
+		
+	}
 }
