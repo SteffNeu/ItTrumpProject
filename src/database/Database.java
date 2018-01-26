@@ -10,13 +10,13 @@ import java.sql.*;
  *
  */
 public class Database {
-	
+
 	private Game game; 
 	//Id of the current game
 	private int currentGameID;
 	//define connection for the database
 	private Connection connection = null;
-	
+
 	/**
 	 * Constructor; creates a connection to the database
 	 */
@@ -35,15 +35,17 @@ public class Database {
 			e.printStackTrace();
 			return;
 		}
+
 		if (connection != null) {
 			System.out.println("Connection successful");
+			createGameEntry();
 		}
 		else {
 			System.err.println("Failed to make connection!");
 		}
 	}
 
-	
+
 	/**
 	 * disconnect from the database
 	 */
@@ -57,7 +59,7 @@ public class Database {
 			System.out.println("Connection could not be closed – SQL exception");
 		}
 	}
-	
+
 	/**
 	 * Executes an sql-statement and returns the result
 	 * @param sqlstatement String 
@@ -88,7 +90,7 @@ public class Database {
 		return result;
 
 	}
-	
+
 	/**
 	 * Execute a sql statement to write values into the database
 	 * @param sqlStatement String
@@ -109,13 +111,27 @@ public class Database {
 	}
 
 	/**
+	 * Creates a new game entity. 
+	 * The ID is created based on the biggest former ID 
+	 * The draw and round counter are initialised to 0
+	 * All remaining values are initialised to null
+	 */
+	private void createGameEntry() {
+		String query = "SELECT MAX(gameid) FROM toptrumps.gamestats;";
+		currentGameID = Integer.parseInt(readFromDatabase(query, "max"))+1;
+
+		query = "INSERT INTO toptrumps.gamestats VALUES ("+currentGameID+",0,0,null,null,null,null,null,null)";
+		updateTable(query);
+	}
+
+	/**
 	 * write the number of draws to the database
 	 */
 	public void writeNumDraws() {
-		
+
 		//create a query to insert number of draws
-        String query = "UPDATE toptrumps.gamestats SET numofdraws = "+ game.getNumOfDraws()+" WHERE gameid = "+ currentGameID +";";
-        updateTable(query);
+		String query = "UPDATE toptrumps.gamestats SET numofdraws = "+ game.getNumOfDraws()+" WHERE gameid = "+ currentGameID +";";
+		updateTable(query);
 	}
 
 	/**
@@ -123,17 +139,18 @@ public class Database {
 	 */
 	public void writeNumRounds() {
 		//create a query to insert number of rounds
-        String query = "UPDATE toptrumps.gamestats SET numofrounds = "+ game.getNumOfRounds()+" WHERE gameid = "+ currentGameID +";";
-        updateTable(query);
+		String query = "UPDATE toptrumps.gamestats SET numofrounds = "+ game.getNumOfRounds()+" WHERE gameid = "+ currentGameID +";";
+		updateTable(query);
 	}
-	
+
 	/**
 	 * write the winner of a game to the database
 	 */
 	public void writeWinner() {
 		String query ="UPDATE toptrumps.gamestats SET gamewinner = " + 1;
+		updateTable(query);
 	}
-	
+
 	/**
 	 * write the the rounds won by each player into the database
 	 */
@@ -142,7 +159,7 @@ public class Database {
 		String query = String.format("UPDATE toptrumps.gamestats SET humanrounds = %d, ai1rounds = %d, ai2rounds = %d, ai3rounds = %d, ai4rounds = %d,  WHERE gameid = %d;", roundsWBP[0],roundsWBP[1],roundsWBP[2],roundsWBP[3],roundsWBP[4],currentGameID);
 		updateTable(query);
 	}
-	
+
 	/**
 	 * Get the total amount of games played
 	 * @return String contains number of games
@@ -152,7 +169,7 @@ public class Database {
 		//TODO figure out what I need to pass
 		return readFromDatabase(query, "count");
 	}
-	
+
 	/**
 	 * Get the amount of games won by the player
 	 * @return
@@ -161,7 +178,7 @@ public class Database {
 		String query = "SELECT COUNT(gameid) FROM toptrumps.gamestats WHERE gamestats.gamewinner = 1;";
 		return readFromDatabase(query, "count");
 	}
-	
+
 	/**
 	 * Get the amount of games won by the computer
 	 * @return String
@@ -179,7 +196,7 @@ public class Database {
 		String query = "SELECT AVG(numofdraws) FROM TopTrumps.gamestats;";
 		return readFromDatabase(query, "avg");
 	}
-	
+
 	/**
 	 * Get the highest number of rounds played
 	 * @return String
@@ -196,7 +213,16 @@ public class Database {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	
+
+	public String getStatistics() {
+
+		return"";
+	}
+
+	public void writeInfoToDatabase() {
+
+	}
+
 	public static void main(String[] args) {
 		Database db = new Database();
 		System.out.println("games played: " + db.readTotalNumGames());
