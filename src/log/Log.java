@@ -23,6 +23,8 @@ public class Log {
 			logWriter = new FileWriter(outFile);
 		}
 		catch (IOException e) {}
+		String title = drawDelineator() + "     *** Top Trumps Test Log ***\r\n" + drawDelineator();
+		writeLog(title);
 	}
 	
 	/**
@@ -32,82 +34,108 @@ public class Log {
 	 */
 	public void writeDeck(boolean shuffled) {
 		
-		StringBuilder deckLog = new StringBuilder("");
+		StringBuilder deckInfo = new StringBuilder(drawDelineator());
 		if (shuffled) 
-			deckLog.append("Shuffled deck: /n");
+			deckInfo.append("Shuffled deck: \r\n");
 		else 
-			deckLog.append("Initialised deck before shuffling: /n");
+			deckInfo.append("Initialised deck before shuffling: \r\n");
 		
 		Card [] deck = game.getDeck();
 		
 		for (int i = 0; i < deck.length; i ++) {
-			deckLog.append(cardInfoToString(deck [i]));
+			deckInfo.append(cardInfoToString(deck [i]));
 		}		
-		writeLog(deckLog);
+		writeLog(deckInfo.toString());
 	}
 	
 	/**
 	 * Writes the contents of each players' hand of cards
 	 */
-	public void writePlayersDecks() {
+	public void writePlayersDecks() 
+	{
 		ArrayList<Player> activePlayers = game.getActivePlayers();
-		StringBuilder playerInfo = new StringBuilder("Player's hands: /n");
+		StringBuilder playerInfo = new StringBuilder(drawDelineator() + "Player's hands currently:\r\n\r\n");
 		
 		for (Player player : activePlayers) {
-			playerInfo.append(player.getName() + "/n");
+			playerInfo.append(player.getName() + ":\r\n");
 			ArrayList<Card> playersCards = player.getPile().getCards();
 			for (Card card : playersCards) {
 				playerInfo.append(cardInfoToString(card));
-			}		
+			}
+			playerInfo.append("\r\n");
 		}		
-		writeLog(playerInfo);
+		writeLog(playerInfo.toString());
+	}
+	
+	/**
+	 * writes the current round number to the log file
+	 * @param round integer
+	 */
+	public void writeRoundNumber(int round) 
+	{
+		String roundHeader = drawDelineator() + "           Round " + round + drawDelineator();
+		writeLog(roundHeader);
 	}
 	
 	/**
 	 * writes the contents of the communal pile when cards are added
 	 * after checking if the pile has had cards added
 	 */
-	public void writeCommunalPile(boolean cardsAdded) { 
+	public void writeCommunalPile() { 
 		ArrayList<Card> communalCards = game.getCommunalPile().getCards();
-		StringBuilder pileInfo = new StringBuilder("Communal pile ");
+		StringBuilder pileInfo = new StringBuilder(drawDelineator() + "Communal pile ");
 		
-		if (cardsAdded) {
-			pileInfo.append("contains: /n");
+		if (communalCards.isEmpty()) {
+			pileInfo.append("is empty.\r\n");
+		}
+		else {
+			pileInfo.append("now contains: \r\n");
 			for (Card card : communalCards) {
 				pileInfo.append(cardInfoToString(card));
 			}
-		}
-		else {
-			pileInfo.append("is empty./n");
-		}
-		
-		writeLog(pileInfo);
+		}	
+		writeLog(pileInfo.toString());
 	}
 	
 	/**
 	 * writes the top card of each player's pile 
 	 */
 	public void writeCardsInPlay() {
-		StringBuilder cardsInPlayInfo = new StringBuilder("Current cards in play: /n");
+		StringBuilder cardsInPlayInfo = new StringBuilder(drawDelineator() + "Current cards in play: \r\n");
 		for (Player player : game.getActivePlayers()) {
 			cardsInPlayInfo.append(player.getName() + ": ");
 			Card playersTopCard = player.getPile().getTopCard();
 			cardsInPlayInfo.append(cardInfoToString(playersTopCard));
 		}		
-		writeLog(cardsInPlayInfo);	
+		writeLog(cardsInPlayInfo.toString());	
 	}
 	
-	public void writeCategorySelected() { //UNFINISHED
-		StringBuilder categoryInfo = new StringBuilder("Category selected: ");
-		
+	/**
+	 * writes the category selected by the active player
+	 * to the logfile 
+	 * @param category
+	 */
+	public void writeCategorySelected(String category)
+	{ 
+		String categoryInfo = drawDelineator() + game.getCurrentPlayer().getName() + " selected: " + category;
+		writeLog(categoryInfo);
 	}
 	
-	public void writeWinner() {
-		
+	/**
+	 * writes the overall winner to the log file
+	 * @param winner
+	 */
+	public void writeWinner(Player winner) 
+	{
+		writeLog(drawDelineator() + winner.getName() + " won this game of Top Trumps.\r\n");
 	}
 	
+	/**
+	 * closes the FileWriter object
+	 */
 	public void closeLog()
 	{
+		writeLog(drawDelineator());
 		try {
 			logWriter.close();
 		}
@@ -129,15 +157,34 @@ public class Log {
 		for (Map.Entry<String, Integer> entry: cardCategories.entrySet()) {
 			cardInfo.append(" " + entry.getValue());
 		}
-		return cardInfo.toString() + "/n";
+		return cardInfo.toString() + "\r\n";
 	}
 	
-	
-	private void writeLog(StringBuilder info) {
+	/**
+	 *  writes a given String to the log output file
+	 * @param info
+	 */
+	private void writeLog(String info) {
 		try {
-			logWriter.write(info.toString());
+			logWriter.write(info);
+			logWriter.flush();
 		}
-		catch (IOException e) {}		
+		catch (IOException e) {
+			System.err.println("Error occured while writing the log file.\r\n");
+		}		
+	}
+	
+	/**
+	 * writes a line of dashes across the log file to 
+	 * demarcate different sections
+	 */
+	private String drawDelineator()
+	{
+		StringBuilder line = new StringBuilder();
+		for (int i = 0; i < 38; i++)
+			line.append('-');
+		line.append("\r\n");
+		return line.toString();
 	}
 	
 }

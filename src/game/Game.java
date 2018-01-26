@@ -29,7 +29,7 @@ public class Game
 	/** 
 	 * constructor
 	 */
-	public Game(int numberOfPlayers, Card[] deckOfCards)
+	public Game(Card[] deckOfCards)
 	{
 		numOfRounds = 0;
 		numOfDraws = 0;
@@ -39,6 +39,14 @@ public class Game
 		lastRoundDraw = false;
 		// initiate deck of cards and shuffle
 		deck = deckOfCards;
+
+	}
+	/**
+	 * calls the methods needed to start a game
+	 * @param numberOfPlayers
+	 */
+	public void startGame(int numberOfPlayers)
+	{
 		shuffleDeck();
 		// create the players
 		createPlayers(numberOfPlayers);

@@ -87,12 +87,28 @@ public class TopTrumpsCLIApplication {
 					}
 				}
 				
-				Game game = new Game(numOfPlayer, deck);
-				logFile = new Log(game);
-				logFile.writeDeck(true);
+				Game game = new Game(deck);
+				if (writeGameLogsToFile) // create log and write the initialised deck
+				{
+					logFile = new Log(game);
+					logFile.writeDeck(false);
+				}
+								
+				game.startGame(numOfPlayer);
+				if (writeGameLogsToFile) // write the shuffled deck and players hands to log
+				{
+					logFile.writeDeck(true);
+					logFile.writePlayersDecks();
+				}
+				
 				boolean humanStillPlaying = true;
 				while(game.getNumOfActivePlayers() > 1)
 				{
+					if (writeGameLogsToFile) // write all top cards to log
+					{
+						logFile.writeRoundNumber(game.getNumOfRounds());
+						logFile.writeCardsInPlay();
+					}
 					// start round
 					// by getting a category
 					String category = "";
@@ -124,6 +140,10 @@ public class TopTrumpsCLIApplication {
 								+ game.getCurrentPlayer().getName()
 								+ " is " + category +".");
 					}
+
+					if (writeGameLogsToFile) // write chosen category to log file
+						logFile.writeCategorySelected(category);			
+					
 					// we now have a category and can execute the round
 					String roundResults = game.executeRound(category);
 					if(game.isHumanPlaying())
@@ -131,11 +151,16 @@ public class TopTrumpsCLIApplication {
 						// communicate results with user
 						System.out.println("The round has been played.");
 						if(game.lastRoundWasDraw())
-							System.out.println("There was no winner.");
+							System.out.println("There was no winner.");			
 						else
 							System.out.println("The winner is: " + game.getCurrentPlayer().getName());
 						System.out.println("The results of the round are the followin \n" + roundResults);
 						
+						if (writeGameLogsToFile) // write players hands and communal pile after the round is played
+						{			
+							logFile.writePlayersDecks();
+							logFile.writeCommunalPile();
+						}
 					
 						System.out.println("If you are ready for the next round \n"
 								+ "please press enter. \n"
@@ -180,6 +205,10 @@ public class TopTrumpsCLIApplication {
 				System.out.println("There were " + Integer.toString(game.getNumOfRounds()) + " rounds played.");
 				System.out.println("There were " + Integer.toString(game.getNumOfDraws()) + " draws.");
 				
+				if (writeGameLogsToFile) // write winner to the logfile
+				{
+					logFile.writeWinner(game.getCurrentPlayer());
+				}
 				// give game to database
 				// TODO Tom
 			}
