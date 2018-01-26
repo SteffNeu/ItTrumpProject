@@ -6,6 +6,7 @@ import java.util.*;
 
 import game.*;
 import log.*;
+import database.*;
 
 /**
  * Top Trumps command line application
@@ -32,6 +33,7 @@ public class TopTrumpsCLIApplication {
 		Scanner scanner = new Scanner(System.in);
 		
 		// Loop until the user wants to exit the game
+		mainLoop:
 		while (!userWantsToQuit) {
 			boolean playAGame = false;
 			boolean wantsStatisitics = false;
@@ -88,6 +90,7 @@ public class TopTrumpsCLIApplication {
 				Game game = new Game(numOfPlayer, deck);
 				logFile = new Log(game);
 				logFile.writeDeck(true);
+				boolean humanStillPlaying = true;
 				while(game.getNumOfActivePlayers() > 1)
 				{
 					// start round
@@ -123,26 +126,94 @@ public class TopTrumpsCLIApplication {
 					}
 					// we now have a category and can execute the round
 					String roundResults = game.executeRound(category);
+					if(game.isHumanPlaying())
+					{
+						// communicate results with user
+						System.out.println("The round has been played.");
+						if(game.lastRoundWasDraw())
+							System.out.println("There was no winner.");
+						else
+							System.out.println("The winner is: " + game.getCurrentPlayer().getName());
+						System.out.println("The results of the round are the followin \n" + roundResults);
+						
 					
-					// communicate results with user
-					System.out.println("The round has been played.");
-					System.out.println("The winner is: " + game.getCurrentPlayer().getName());
-					System.out.println("The results of the round are the followin \n" + roundResults);
+						System.out.println("If you are ready for the next round \n"
+								+ "please press enter. \n"
+								+ "If you want to end this game. Type 'exit'.");
+						requireInput = true;
+						while(requireInput)
+						{
+							// get input
+							try{
+								input = scanner.nextLine();
+								if(input.equals("exit"))
+								{
+									requireInput = false;
+									break mainLoop;
+								}
+								else if(input.equals(""))
+								{
+									requireInput = false;
+								}
+								else
+									System.err.println("Your input isn't valid. Please try again.");
+							}
+							catch(InputMismatchException e)
+							{
+								System.err.println("Your input wasn't valid. Please try again.");
+							}
+						}
+					}
+					else
+					{
+						if (humanStillPlaying)
+							System.out.println("\n You have lost the game.");
+
+						humanStillPlaying=false;
+					}
+					// check again because of that weird mistake
+					game.checkForElimination();
 				}
 				// game has finished
 				System.out.println("The game has finished. \n"
 						+ "the winner is: " + game.getCurrentPlayer().getName());
+				System.out.println("There were " + Integer.toString(game.getNumOfRounds()) + " rounds played.");
+				System.out.println("There were " + Integer.toString(game.getNumOfDraws()) + " draws.");
+				
+				// give game to database
+				// TODO Tom
 			}
 			else if(input.equals("s"))
 			{
-				
+				Database database = new Database();
+			}
+			// make quiting statement
+			System.out.println("You can now choose to exit the game. \n"
+					+ "Should you desire to exit the game please type 'exit'. \n"
+					+ "Should you want to continue type anything else.");
+			requireInput = true;
+			while(requireInput)
+			{
+				// get input
+				try{
+					input = scanner.nextLine();
+					if(input.equals("exit"))
+					{
+						requireInput = false;
+						userWantsToQuit=true;
+					}
+				}
+				catch(InputMismatchException e)
+				{
+					System.err.println("Your input wasn't valid. Please try again.");
+				}
 			}
 			
 			
-			
-			userWantsToQuit=true; // use this when the user wants to exit the game
 					
 		}
+		System.out.println("Goodybye and thank you for participating. \n"
+				+ "Love, the IT Crowd.");
 		scanner.close();
 		logFile.closeLog();
 

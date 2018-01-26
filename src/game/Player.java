@@ -41,22 +41,22 @@ public abstract class Player
 	{
 		return name;
 	}
-	/**
-	 * updates the pile by removing the top card and appending the new pile
-	 * @param newPile pile to be appended
-	 */
-	public void updatePile(Pile newPile)
-	{
-		hand.removeTopCard();
-		hand.addPile(newPile);
-	}
-	/**
-	 * updates the pile by removing the top card
-	 */
-	public void updatePile()
-	{
-		hand.removeTopCard();
-	}
+//	/**
+//	 * updates the pile by removing the top card and appending the new pile
+//	 * @param newPile pile to be appended
+//	 */
+//	public void updatePile(Pile newPile)
+//	{
+//		hand.removeTopCard();
+//		hand.addPile(newPile);
+//	}
+//	/**
+//	 * updates the pile by removing the top card
+//	 */
+//	public void updatePile()
+//	{
+//		hand.removeTopCard();
+//	}
 	/**
 	 * increases the rounds won by one
 	 */

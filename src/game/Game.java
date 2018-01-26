@@ -24,6 +24,7 @@ public class Game
 	private Pile communalPile;
 	/** content of the current round  TODO maybe delete */
 	private ArrayList<String> roundContent;
+	private boolean lastRoundDraw;
 	
 	/** 
 	 * constructor
@@ -35,6 +36,7 @@ public class Game
 		activePlayers = new ArrayList<Player>();
 		inactivePlayers = new ArrayList<Player>();
 		communalPile = new Pile();
+		lastRoundDraw = false;
 		// initiate deck of cards and shuffle
 		deck = deckOfCards;
 		shuffleDeck();
@@ -144,8 +146,8 @@ public class Game
 			ID++;
 			AIPlayer plAI = new AIPlayer(ID, nameAI);
 			activePlayers.add(plAI);
-			nameAI = nameAI.substring(0, 2);
-			nameAI += Integer.toString(ID-1);		}
+			nameAI = nameAI.substring(0, 2) + Integer.toString(ID);
+		}
 	}
 	/** 
 	 * chooses the first player of the game
@@ -166,18 +168,29 @@ public class Game
 		// create StringBuilder for results
 		StringBuilder results = new StringBuilder("");
 		for(int i = 0; i < activePlayers.size(); i++)
+		{	
 			results.append(activePlayers.get(i).getName() 
 			+ ": "
 			+ "with Card " + activePlayers.get(i).getPile().getTopCard().getName()
 			+ " with value "
 			+ Integer.toString(activePlayers.get(i).getPile().getTopCard().getValueAtCategory(category))
 			+ "\n");
+		}
+		
 		// handle the piles
 		if(winner == 0)
+		{
 			handleDraw();
+			if(winner == 0)
+				results.append("There was a draw.  The communal pile contains "
+						+ Integer.toString(communalPile.getNumOfCards()) + "cards.");
+			updateNumOfDraws();
+			lastRoundDraw = true;
+		}
 		else
 		{
 			updatePiles(winner);
+			lastRoundDraw = false;
 			// sets the current chooser to last winner
 			currentChooser = winner;
 			// increments winners rounds won
@@ -192,7 +205,6 @@ public class Game
 	}
 	public void handleDraw()
 	{
-		updateNumOfDraws();
 		for(int i = 0; i < activePlayers.size(); i++)
 		{
 			communalPile.addCard(activePlayers.get(i).getPile().getTopCard());
@@ -219,6 +231,11 @@ public class Game
 			activePlayers.get(winnerIndex).getPile().addPile(communalPile);
 			communalPile.removeAllCards();
 		}
+	}
+	
+	public boolean lastRoundWasDraw()
+	{
+		return lastRoundDraw;
 	}
 	
 	public void checkForElimination()
@@ -303,5 +320,16 @@ public class Game
 		}
 		return roundsWBP;
 		
+	}
+	/**
+	 * checks if human is still an active player
+	 * @return boolean if true human still active player
+	 */
+	public boolean isHumanPlaying()
+	{
+		if(activePlayers.get(0).isHuman())
+			return true;
+		else 
+			return false;
 	}
 }
