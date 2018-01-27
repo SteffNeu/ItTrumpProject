@@ -23,8 +23,8 @@ public class TopTrumpsCLIApplication {
 	
 	public static void main(String[] args) {
 
-		boolean writeGameLogsToFile = true; // Should we write game logs to file?
-		//if (args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
+		boolean writeGameLogsToFile = false; // Should we write game logs to file?
+		if (args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
 		
 		// State
 		boolean userWantsToQuit = false; // flag to check whether the user wants to quit the application
@@ -146,6 +146,12 @@ public class TopTrumpsCLIApplication {
 					
 					// we now have a category and can execute the round
 					String roundResults = game.executeRound(category);
+					if (writeGameLogsToFile) // write players hands and communal pile after the round is played
+					{			
+						logFile.writePlayersDecks();
+						logFile.writeCommunalPile();
+					}
+					
 					if(game.isHumanPlaying())
 					{
 						// communicate results with user
@@ -155,13 +161,7 @@ public class TopTrumpsCLIApplication {
 						else
 							System.out.println("The winner is: " + game.getCurrentPlayer().getName());
 						System.out.println("The results of the round are the followin \n" + roundResults);
-						
-						if (writeGameLogsToFile) // write players hands and communal pile after the round is played
-						{			
-							logFile.writePlayersDecks();
-							logFile.writeCommunalPile();
-						}
-					
+
 						System.out.println("If you are ready for the next round \n"
 								+ "please press enter. \n"
 								+ "If you want to end this game. Type 'exit'.");
