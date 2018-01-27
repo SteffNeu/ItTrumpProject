@@ -37,8 +37,8 @@ public class Database {
 		}
 
 		if (connection != null) {
+			//TODO remove before submission
 			System.out.println("Connection successful");
-			createGameEntry();
 		}
 		else {
 			System.err.println("Failed to make connection!");
@@ -52,6 +52,7 @@ public class Database {
 	public void disconnectFromDatabase() {
 		try {
 			connection.close();
+			//TODO remove before submission
 			System.out.println("Connection closed");
 		}
 		catch (SQLException e) {
@@ -62,9 +63,9 @@ public class Database {
 
 	/**
 	 * Executes an sql-statement and returns the result
-	 * @param sqlstatement String 
-	 * @param attribute String
-	 * @return
+	 * @param String sql-statement to be executed 
+	 * @param String attribute of interest
+	 * @return String with desired result
 	 */
 	private String readFromDatabase(String sqlstatement, String attribute) {
 
@@ -77,7 +78,8 @@ public class Database {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(sqlstatement);
 			//iterate through results
-			while (rs.next()) {  			
+			while (rs.next()) {  
+				//retrieve the attribute of interest
 				result = rs.getString(attribute);
 			}
 
@@ -93,7 +95,7 @@ public class Database {
 
 	/**
 	 * Execute a sql statement to write values into the database
-	 * @param sqlStatement String
+	 * @param String sql-statement to be executed
 	 */
 	private void updateTable(String sqlStatement) {
 
@@ -109,54 +111,77 @@ public class Database {
 			System.err.println("error executing query " + sqlStatement);
 		}
 	}
+	
+	/**
+	 * Get a String containing the formatted statistics
+	 * @return String containing the statistics
+	 */
+	public String getStatistics() {
+		String text = "Games played: %s%nComputer wins: %s%nHuman wins: %s%nAverage of draws: %.2f%nLargest number of rounds: %s%n";
+		String	statistics = String.format(text, readTotalNumGames(),readAIWins(), readHumanWins(), readAverageDraw(), readMaxRoundNumber()); 
+		return statistics;
+	}
 
 	/**
-	 * Creates a new game entity. 
+	 * Create a game entity and write the required information to the database
+	 */
+	public void writeInfoToDatabase() {
+		createGameEntry();
+		writeNumDraws();
+		writeNumRounds();
+		writeRoundsWonByPlayers();
+		writeWinner();
+	}
+
+	/**
+	 * Creates a new game entity 
 	 * The ID is created based on the biggest former ID 
 	 * The draw and round counter are initialised to 0
 	 * All remaining values are initialised to null
 	 */
 	private void createGameEntry() {
+		//get the highest id from the database and increment it
 		String query = "SELECT MAX(gameid) FROM toptrumps.gamestats;";
 		currentGameID = Integer.parseInt(readFromDatabase(query, "max"))+1;
 
+		//create a new game entity
 		query = "INSERT INTO toptrumps.gamestats VALUES ("+currentGameID+",0,0,null,null,null,null,null,null)";
 		updateTable(query);
 	}
 
 	/**
-	 * write the number of draws to the database
+	 * Write the number of draws to the database
 	 */
-	public void writeNumDraws() {
-
+	private void writeNumDraws() {
 		//create a query to insert number of draws
 		String query = "UPDATE toptrumps.gamestats SET numofdraws = "+ game.getNumOfDraws()+" WHERE gameid = "+ currentGameID +";";
 		updateTable(query);
 	}
 
 	/**
-	 * write the number of rounds to the database
+	 * Write the number of rounds to the database
 	 */
-	public void writeNumRounds() {
+	private void writeNumRounds() {
 		//create a query to insert number of rounds
 		String query = "UPDATE toptrumps.gamestats SET numofrounds = "+ game.getNumOfRounds()+" WHERE gameid = "+ currentGameID +";";
 		updateTable(query);
 	}
 
 	/**
-	 * write the winner of a game to the database
+	 * Write the winner of a game to the database
 	 */
-	public void writeWinner() {
-		String query ="UPDATE toptrumps.gamestats SET gamewinner = " + 1;
+	private void writeWinner() {
+		//TODO this works, but is rather ugly - should I change it?
+		String query ="UPDATE toptrumps.gamestats SET gamewinner = " + game.getCurrentPlayer().getID()+ " WHERE gameid = "+ currentGameID +";";
 		updateTable(query);
 	}
 
 	/**
-	 * write the the rounds won by each player into the database
+	 * Write the the rounds won by each player into the database
 	 */
-	public void writeRoundsWonByPlayers() {
+	private void writeRoundsWonByPlayers() {
 		String[] roundsWBP = game.getRoundsWonPerPlayer();
-		String query = String.format("UPDATE toptrumps.gamestats SET humanrounds = %d, ai1rounds = %d, ai2rounds = %d, ai3rounds = %d, ai4rounds = %d,  WHERE gameid = %d;", roundsWBP[0],roundsWBP[1],roundsWBP[2],roundsWBP[3],roundsWBP[4],currentGameID);
+		String query = String.format("UPDATE toptrumps.gamestats SET humanrounds = %s, ai1rounds = %s, ai2rounds = %s, ai3rounds = %s, ai4rounds = %s  WHERE gameid = %d;", roundsWBP[0],roundsWBP[1],roundsWBP[2],roundsWBP[3],roundsWBP[4],currentGameID);
 		updateTable(query);
 	}
 
@@ -164,72 +189,60 @@ public class Database {
 	 * Get the total amount of games played
 	 * @return String contains number of games
 	 */
-	public String readTotalNumGames() {
+	private String readTotalNumGames() {
 		String query = "SELECT COUNT(gameid) FROM toptrumps.gamestats;";
-		//TODO figure out what I need to pass
 		return readFromDatabase(query, "count");
 	}
 
 	/**
 	 * Get the amount of games won by the player
-	 * @return
+	 * @return String number of games won by human player
 	 */
-	public String readHumanWins() {
+	private String readHumanWins() {
 		String query = "SELECT COUNT(gameid) FROM toptrumps.gamestats WHERE gamestats.gamewinner = 1;";
 		return readFromDatabase(query, "count");
 	}
 
 	/**
 	 * Get the amount of games won by the computer
-	 * @return String
+	 * @return String number of games won by computer
 	 */
-	public String readAIWins() {
+	 private String readAIWins() {
 		String query = "SELECT COUNT(gameid) FROM TopTrumps.gamestats WHERE gamestats.gamewinner > 1";
 		return readFromDatabase(query, "count");
 	}
 
 	/**
 	 * Get the average amount of draws in a game
-	 * @return String
+	 * @return String number of average draws
 	 */
-	public String readAverageDraw() {
+	private double readAverageDraw() {
 		String query = "SELECT AVG(numofdraws) FROM TopTrumps.gamestats;";
-		return readFromDatabase(query, "avg");
+		return Double.parseDouble(readFromDatabase(query, "avg"));
 	}
 
 	/**
 	 * Get the highest number of rounds played
-	 * @return String
+	 * @return String highest game number
 	 */
-	public String readMaxRoundNumber() {
+	private String readMaxRoundNumber() {
 		String query = "SELECT MAX(numofrounds) FROM TopTrumps.gamestats;";
 		return  readFromDatabase(query, "max");
 	}
 
 	/**
 	 * Setter for the game object
-	 * @param game Game object
+	 * @param game Game-object
 	 */
 	public void setGame(Game game) {
 		this.game = game;
 	}
 
-	public String getStatistics() {
 
-		return"";
-	}
-
-	public void writeInfoToDatabase() {
-
-	}
-
+	//TODO remove before submission
 	public static void main(String[] args) {
 		Database db = new Database();
-		System.out.println("games played: " + db.readTotalNumGames());
-		System.out.println("max rounds: " + db.readMaxRoundNumber());
-		System.out.println("average draw: " + db.readAverageDraw());
-		System.out.println("computer wins: " + db.readAIWins());
-		System.out.println("human wins: " + db.readHumanWins());
+		System.out.println(db.getStatistics());
 		db.disconnectFromDatabase();
 	}
 }

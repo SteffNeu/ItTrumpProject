@@ -209,12 +209,19 @@ public class TopTrumpsCLIApplication {
 				{
 					logFile.writeWinner(game.getCurrentPlayer());
 				}
+				
 				// give game to database
-				// TODO Tom
+				Database db = new Database();
+				db.setGame(game);
+				db.writeInfoToDatabase();
+				db.disconnectFromDatabase();
 			}
 			else if(input.equals("s"))
 			{
+				//display the statistics
 				Database database = new Database();
+				System.out.println(database.getStatistics());
+				database.disconnectFromDatabase();
 			}
 			// make quiting statement
 			System.out.println("You can now choose to exit the game. \n"
@@ -244,8 +251,10 @@ public class TopTrumpsCLIApplication {
 		System.out.println("Goodybye and thank you for participating. \n"
 				+ "Love, the IT Crowd.");
 		scanner.close();
-		logFile.closeLog();
-
+		
+		if (writeGameLogsToFile) {
+			logFile.closeLog();
+		}
 	}
 	
 	public static Card[] initializeDeck()

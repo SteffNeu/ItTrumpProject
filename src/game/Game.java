@@ -326,6 +326,9 @@ public class Game
 			//map the id to a position in the array and add the amount of rounds won
 			roundsWBP[p.getID()-1] = Integer.toString(p.getRoundsWon());
 		}
+		//TODO If we decide to move the remaining player this needs to be removed
+		Player wp = activePlayers.get(0);
+		roundsWBP[wp.getID()-1] = Integer.toString(wp.getRoundsWon());
 		return roundsWBP;
 		
 	}
