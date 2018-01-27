@@ -36,9 +36,9 @@ public class Log {
 		
 		StringBuilder deckInfo = new StringBuilder(drawDelineator());
 		if (shuffled) 
-			deckInfo.append("Shuffled deck: \r\n");
+			deckInfo.append("Shuffled deck: \r\n\r\n");
 		else 
-			deckInfo.append("Initialised deck before shuffling: \r\n");
+			deckInfo.append("Initialised deck before shuffling: \r\n\r\n");
 		
 		Card [] deck = game.getDeck();
 		
@@ -54,7 +54,7 @@ public class Log {
 	public void writePlayersDecks() 
 	{
 		ArrayList<Player> activePlayers = game.getActivePlayers();
-		StringBuilder playerInfo = new StringBuilder(drawDelineator() + "Player's hands currently:\r\n\r\n");
+		StringBuilder playerInfo = new StringBuilder(drawDelineator() + "Players' hands:\r\n\r\n");
 		
 		for (Player player : activePlayers) {
 			playerInfo.append(player.getName() + ":\r\n");
@@ -73,7 +73,7 @@ public class Log {
 	 */
 	public void writeRoundNumber(int round) 
 	{
-		String roundHeader = drawDelineator() + "           Round " + round + drawDelineator();
+		String roundHeader = drawDelineator() + "          *** Round " + (round + 1) + " ***\r\n" + drawDelineator();
 		writeLog(roundHeader);
 	}
 	
@@ -86,7 +86,7 @@ public class Log {
 		StringBuilder pileInfo = new StringBuilder(drawDelineator() + "Communal pile ");
 		
 		if (communalCards.isEmpty()) {
-			pileInfo.append("is empty.\r\n");
+			pileInfo.append("is empty.\r\n\r\n");
 		}
 		else {
 			pileInfo.append("now contains: \r\n");
@@ -94,7 +94,7 @@ public class Log {
 				pileInfo.append(cardInfoToString(card));
 			}
 		}	
-		writeLog(pileInfo.toString());
+		writeLog(pileInfo.toString() + "\r\n");
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class Log {
 	 */
 	public void writeCategorySelected(String category)
 	{ 
-		String categoryInfo = drawDelineator() + game.getCurrentPlayer().getName() + " selected: " + category;
+		String categoryInfo = drawDelineator() + game.getCurrentPlayer().getName() + " selected: " + category + "\r\n";
 		writeLog(categoryInfo);
 	}
 	
