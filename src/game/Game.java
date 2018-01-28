@@ -191,7 +191,7 @@ public class Game
 			handleDraw();
 			if(winner == 0)
 				results.append("There was a draw.  The communal pile contains "
-						+ Integer.toString(communalPile.getNumOfCards()) + "cards.");
+						+ Integer.toString(communalPile.getNumOfCards()) + " cards.");
 			updateNumOfDraws();
 			lastRoundDraw = true;
 		}
@@ -250,7 +250,16 @@ public class Game
 	{
 		for(int i = 0; i < activePlayers.size(); i++)
 			if(activePlayers.get(i).getPile().getNumOfCards() == 0)
-				killPlayer(i);
+			{
+				if(activePlayers.get(i).getID()== currentChooser)
+				{
+					killPlayer(i);
+					currentChooser = activePlayers.get(0).getID();
+				}
+				else
+					killPlayer(i);
+				
+			}
 	}
 	
 	public void killPlayer(int index) {

@@ -136,9 +136,6 @@ public class TopTrumpsCLIApplication {
 					else // get category from AI player if he is current player
 					{
 						category = game.getCurrentPlayer().selectAttribute();
-						System.out.println("The selected category by player "
-								+ game.getCurrentPlayer().getName()
-								+ " is " + category +".");
 					}
 
 					if (writeGameLogsToFile) // write chosen category to log file
@@ -154,7 +151,10 @@ public class TopTrumpsCLIApplication {
 					
 					if(game.isHumanPlaying())
 					{
-						// communicate results with user
+						System.out.println("The selected category by player "
+								+ game.getCurrentPlayer().getName()
+								+ " is " + category +".");
+						// communicate results with user + 
 						System.out.println("The round has been played.");
 						if(game.lastRoundWasDraw())
 							System.out.println("There was no winner.");			
@@ -162,7 +162,8 @@ public class TopTrumpsCLIApplication {
 							System.out.println("The winner is: " + game.getCurrentPlayer().getName());
 						System.out.println("The results of the round are the followin \n" + roundResults);
 
-						System.out.println("If you are ready for the next round \n"
+						System.out.println("This was round number " + Integer.toString(game.getNumOfRounds())
+								+ "\n If you are ready for the next round \n"
 								+ "please press enter. \n"
 								+ "If you want to end this game. Type 'exit'.");
 						requireInput = true;
@@ -196,7 +197,7 @@ public class TopTrumpsCLIApplication {
 
 						humanStillPlaying=false;
 					}
-					// check again because of that weird mistake
+					// check again because of that weird mistake TODO delete
 					game.checkForElimination();
 				}
 				// game has finished
@@ -237,6 +238,10 @@ public class TopTrumpsCLIApplication {
 					{
 						requireInput = false;
 						userWantsToQuit=true;
+					}
+					else
+					{
+						requireInput = false;
 					}
 				}
 				catch(InputMismatchException e)
