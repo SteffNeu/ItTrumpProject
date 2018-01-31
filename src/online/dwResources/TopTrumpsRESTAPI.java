@@ -16,7 +16,9 @@ import online.configuration.TopTrumpsJSONConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import game.*;
 import database.*;
+import commandline.*;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
@@ -99,4 +101,27 @@ public class TopTrumpsRESTAPI {
 		String stats = String.format("{ \"games\":\"%s\", \"aiWins\":\"%s\", \"humanWins\":\"%s\", \"avgDraws\":\"%s\", \"maxRounds\":\"%s\"}", rs[0],rs[1],rs[2],rs[3],rs[4]);
 		return stats;
 	}
+
+	@GET
+	@Path("/game")
+	public String GameOnline(@QueryParam("3") String numOfPlayers) throws IOException
+	{
+		String returnString = "";
+		//StringBuilder sb = new StringBuilder(returnString);
+		
+		Game game = new Game(getDeck());
+		game.startGame(Integer.parseInt(numOfPlayers));
+		
+		returnString = game.getCurrentPlayer().getPile().getTopCard().getName();
+		
+		//String returnStringJSON = oWriter.writeValueAsString(returnString);
+		
+		return returnString;
+	}
+	
+	public Card[] getDeck()
+	{
+		return TopTrumpsCLIApplication.initializeDeck();
+	}
+	
 }

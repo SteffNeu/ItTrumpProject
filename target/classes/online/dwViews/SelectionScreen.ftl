@@ -25,7 +25,35 @@
     	<div class="container">
 
 			<!-- Add your HTML Here -->
+			<h1>Top Trumps Online</h1>
+		<br />
+		Please Select an option
+		<br />
 		
+		<button id = "gameButton" class="float-left submit-button">Start a new Game</button>
+		<script type="text/javascript">
+			document.getElementById("gameButton").onclick = function () {
+				location.href = "http://localhost:7777/toptrumps/game";
+			};
+		</script>
+		<button id = "statsButton" class="float-left submit-button">View Game Statistics</button>
+		<script type="text/javascript">
+			document.getElementById("statsButton").onclick = function () {
+				location.href = "http://localhost:7777/toptrumps/stats";
+			};
+		</script>
+		<br />
+		<br />
+		<br />
+		<h3>Game Rules</h3>
+		During your turn select a category from your current card. The higher the value the better.
+		<br />
+		Outvalue all players' cards to win their cards.
+		<br />
+		You win if you collect all 40 cards first and eliminate all other players.
+		<br />
+		Good luck and have fun!
+				
 		</div>
 		
 		<script type="text/javascript">
@@ -38,8 +66,8 @@
 				// --------------------------------------------------------------------------
 				
 				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
+				//helloJSONList();
+				//helloWord("Student");
 				
 			}
 			

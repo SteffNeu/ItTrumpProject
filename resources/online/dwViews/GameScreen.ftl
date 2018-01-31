@@ -25,6 +25,18 @@
     	<div class="container">
 
 			<!-- Add your HTML Here -->
+			<input type="text" id="numPl" value="">
+			<button onclick="setNumPl()">Start Game</button>
+			
+			<p id="currentPlayers"></p>
+			<br />
+				
+			<button id = "returnButton" class="float-left submit-button">Beam me up Scotty</button>
+			<script type="text/javascript">
+				document.getElementById("returnButton").onclick = function () {
+					location.href = "http://localhost:7777/toptrumps";
+				};
+			</script>
 		
 		</div>
 		
@@ -38,11 +50,12 @@
 				// --------------------------------------------------------------------------
 				
 				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
-				
+				//GameOnline("3");	
 			}
-			
+			function setNumPl() {
+				var x = document.getElementById("numPl").value;
+				GameOnline(x);
+			}
 			// -----------------------------------------
 			// Add your other Javascript methods Here
 			// -----------------------------------------
@@ -120,6 +133,30 @@
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
+			
+			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
+			function GameOnline(numOfPlayers) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game"); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+					//alert(responseText); // lets produce an alert
+					document.getElementById("currentPlayers").innerHTML = responseText;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
 
 		</script>
 		
