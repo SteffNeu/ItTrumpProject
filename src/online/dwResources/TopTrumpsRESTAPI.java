@@ -1,5 +1,6 @@
 package online.dwResources;
 
+import database.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,4 +85,18 @@ public class TopTrumpsRESTAPI {
 		return "Hello "+Word;
 	}
 	
+	@GET
+	@Path("/test")
+	public String test() {
+		return "It's something";
+	}
+	
+	@GET
+	@Path("/stats")
+	public String firstTest() {
+		String datString = "Something more, maybe?";
+		return datString;
+	}
+	
+
 }

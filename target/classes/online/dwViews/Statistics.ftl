@@ -25,6 +25,7 @@
     	<div class="container">
 
 			<!-- Add your HTML Here -->
+			<h1 id="test"></h1>
 		
 		</div>
 		
@@ -38,8 +39,9 @@
 				// --------------------------------------------------------------------------
 				
 				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
+				//helloJSONList();
+				//helloWord("Tom");
+				firstTest();
 				
 			}
 			
@@ -120,6 +122,33 @@
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
+			
+			//From here on out just learn JavaScript \(^.^)/
+			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
+			function firstTest() {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/stats"); // Request type and URL
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+					//alert(responseText); // lets produce an alert
+					//update some stuff
+					document.getElementById("test").innerHTML = responseText;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+		
 
 		</script>
 		
