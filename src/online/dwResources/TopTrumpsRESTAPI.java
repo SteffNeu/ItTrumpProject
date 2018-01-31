@@ -1,6 +1,7 @@
 package online.dwResources;
 
 import database.*;
+import game.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.mysql.fabric.xmlrpc.base.Data;
+
+import commandline.TopTrumpsCLIApplication;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
@@ -37,6 +40,7 @@ public class TopTrumpsRESTAPI {
 	/** A Jackson Object writer. It allows us to turn Java objects
 	 * into JSON strings easily. */
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+	Game game;
 	
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
@@ -45,9 +49,7 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
-		// ----------------------------------------------------
-		// Add relevant initalization here
-		// ----------------------------------------------------
+		game = new Game(TopTrumpsCLIApplication.initializeDeck());
 	}
 	
 	// ----------------------------------------------------
@@ -86,12 +88,7 @@ public class TopTrumpsRESTAPI {
 	public String helloWord(@QueryParam("Word") String Word) throws IOException {
 		return "Hello "+Word;
 	}
-	
-	@GET
-	@Path("/test")
-	public String test() {
-		return "It's something";
-	}
+
 	
 	@GET
 	@Path("/vals")
@@ -109,6 +106,14 @@ public class TopTrumpsRESTAPI {
 		
 		String stats = String.format("{ \"games\":\"%s\", \"aiWins\":\"%s\", \"humanWins\":\"%s\", \"avgDraws\":\"%s\", \"maxRounds\":\"%s\"}", rs[0],rs[1],rs[2],rs[3],rs[4]);
 		return stats;
+	}
+	
+	@GET
+	@Path("/game")
+	public String goGame(@QueryParam("Cargo") String category) throws IOException {
+		
+		game.executeRound(category);
+		return "";
 	}
 	
 

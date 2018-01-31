@@ -27,8 +27,11 @@
 			<!-- Add your HTML Here -->
 			<h1>Make a choice</h1>
 			<div>
-				<a href="http://localhost:7777/toptrumps/stats">Hey you, want some statistics?</a>
+				<a href="http://localhost:7777/toptrumps/stats">Hey you - want some statistics?</a>
+				<br />
+				<a href="http://localhost:7777/toptrumps/game">Or maybe start a game?</a>
 			</div>
+			
 		
 		</div>
 		
