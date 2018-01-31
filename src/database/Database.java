@@ -116,9 +116,8 @@ public class Database {
 	 * Get a String containing the formatted statistics
 	 * @return String containing the statistics
 	 */
-	public String getStatistics() {
-		String text = "Games played: %s%nComputer wins: %s%nHuman wins: %s%nAverage of draws: %.2f%nLargest number of rounds: %s%n";
-		String	statistics = String.format(text, readTotalNumGames(),readAIWins(), readHumanWins(), readAverageDraw(), readMaxRoundNumber()); 
+	public String[] getStatistics() {
+		String[] statistics = {readTotalNumGames(),readAIWins(), readHumanWins(), readAverageDraw(), readMaxRoundNumber()}; 
 		return statistics;
 	}
 
@@ -213,12 +212,13 @@ public class Database {
 	}
 
 	/**
-	 * Get the average amount of draws in a game
+	 * Get the average amount of draws in a game rounded to two decimal digits
 	 * @return String number of average draws
 	 */
-	private double readAverageDraw() {
+	private String readAverageDraw() {
 		String query = "SELECT AVG(numofdraws) FROM TopTrumps.gamestats;";
-		return Double.parseDouble(readFromDatabase(query, "avg"));
+		double tmp = Double.parseDouble(readFromDatabase(query, "avg"));
+		return String.format("%.2f", tmp);
 	}
 
 	/**

@@ -221,7 +221,12 @@ public class TopTrumpsCLIApplication {
 			{
 				//display the statistics
 				Database database = new Database();
-				System.out.println(database.getStatistics());
+				String[] dbContent = database.getStatistics();
+				System.out.println("Total number of games: "+dbContent[0]);
+				System.out.println("Computer wins: "+dbContent[1]);
+				System.out.println("Human wins: "+dbContent[2]);
+				System.out.println("Average number of draws: "+dbContent[3]);
+				System.out.println("Maximum round number: "+dbContent[4]);
 				database.disconnectFromDatabase();
 			}
 			// make quiting statement
