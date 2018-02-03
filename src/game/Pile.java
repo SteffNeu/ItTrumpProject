@@ -77,49 +77,12 @@ public class Pile
 		cards.remove(0);
 		numOfCards--;
 	}
-	
+	/**
+	 * removes all cards from the pile
+	 */
 	public void removeAllCards()
 	{
 		cards.clear();
 		numOfCards = 0;
 	}
-//	TODO delete, test
-//	public static void main (String[] args)
-//	{
-//		ArrayList<Card> testList = new ArrayList<Card>();
-//		String[] cats = {"Health", "Sexiness", "Age", "strength"};
-//		int[] vals = {2, 6, 2, 9};
-//		
-//		String nm = "Chaos";
-//		
-//		Card trie = new Card(nm, cats, vals);
-//		testList.add(trie);
-//		int[] vals2 = {1, 3, 4, 3};
-//		
-//		String nm2 = "Trump";
-//		
-//		Card trie2 = new Card(nm, cats, vals);
-//		
-//		int[] vals3 = {1, 2, 8, 3};
-//		
-//		String nm3 = "Shit";		
-//		Card trie3 = new Card(nm, cats, vals);
-//		
-//		testList.add(trie2);
-//		testList.add(trie3);
-//		
-//		Pile testPile = new Pile(testList);
-//		
-//		System.out.println(testPile.getNumOfCards());
-//		
-//		System.out.println(testPile.getCards());
-//		System.out.println(testPile.getTopCard());
-//		testPile.removeTopCard();
-//		System.out.println(testPile.getCards());
-//		testPile.addCard(trie);
-//		testPile.addPile(testPile);
-//		System.out.println(testPile.getCards());
-//		System.out.println("Bye suckers.");
-//	}
-	
 }

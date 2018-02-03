@@ -24,6 +24,7 @@ public class Game
 	private Pile communalPile;
 	/** content of the current round  TODO maybe delete */
 	private ArrayList<String> roundContent;
+	/** TODO */
 	private boolean lastRoundDraw;
 	
 	/** 
@@ -168,7 +169,11 @@ public class Game
 		
 		return activePlayers.get(randomNum).getID();
 	}
-	
+	/**
+	 * calls all functions and sets all variables necessary for the procedure of executing a round
+	 * @param category string containing the chosen category for the round
+	 * @return String containing information about the players and their category value
+	 */
 	public String executeRound(String category)
 	{
 		// get the id of the winner
@@ -211,6 +216,9 @@ public class Game
 				
 		return results.toString();
 	}
+	/**
+	 * takes first card of all players and appends them to the communal pile
+	 */
 	public void handleDraw()
 	{
 		for(int i = 0; i < activePlayers.size(); i++)
@@ -219,6 +227,11 @@ public class Game
 			activePlayers.get(i).getPile().removeTopCard();
 		}
 	}
+
+	/**
+	 * takes first card of all players and appends them to the winners pile
+	 * if the communal pile contains cards they are also appended to the winners pile
+	 */
 	public void updatePiles(int winner)
 	{
 		//get index of winner

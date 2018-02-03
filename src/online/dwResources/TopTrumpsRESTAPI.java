@@ -38,6 +38,8 @@ public class TopTrumpsRESTAPI {
 	/** A Jackson Object writer. It allows us to turn Java objects
 	 * into JSON strings easily. */
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+	/** TODO comment */
+	Game game;
 	
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
@@ -109,7 +111,7 @@ public class TopTrumpsRESTAPI {
 		String returnString = "";
 		//StringBuilder sb = new StringBuilder(returnString);
 		
-		Game game = new Game(getDeck());
+		game = new Game(getDeck());
 		game.startGame(Integer.parseInt(numOfPlayers));
 		
 		returnString = game.getCurrentPlayer().getPile().getTopCard().getName();
@@ -118,6 +120,27 @@ public class TopTrumpsRESTAPI {
 		
 		return returnString;
 	}
+	
+	@GET
+	@Path("/game/executeRound")
+	public String GameExecuteRound(@QueryParam("category") String category) throws IOException
+	{
+		// TODO might be a problem because null value ??? 
+		if(category.equals("") || category == null)
+		{
+			category = game.getCurrentPlayer().selectAttribute();
+		}
+		
+		String returnString = "";
+		
+		returnString = game.executeRound(category);
+		
+		// get info about who's winner
+		
+		return returnString;
+		
+	}
+	
 	
 	public Card[] getDeck()
 	{
