@@ -122,25 +122,81 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	@GET
-	@Path("/game/executeRound")
-	public String GameExecuteRound(@QueryParam("category") String category) throws IOException
+	@Path("/game/isCurrentHuman")
+	public String isCurrentHuman()
 	{
-		// TODO might be a problem because null value ??? 
-		if(category.equals("") || category == null)
-		{
-			category = game.getCurrentPlayer().selectAttribute();
-		}
-		
-		String returnString = "";
-		
-		returnString = game.executeRound(category);
-		
-		// get info about who's winner
-		
-		return returnString;
+		if(game.isCurrentChooserHuman())
+			return "1";
+		else
+			return "0";
 		
 	}
 	
+	@GET
+	@Path("/game/executeRoundHuman")
+	public String executeRoundHuman(@QueryParam("category") String category) throws IOException
+	{	
+		String roundResult = this.executeRound(category);
+		return roundResult;	
+	}
+	
+
+	@GET
+	@Path("/game/executeRoundAI")
+	public String executeRoundAI()
+	{
+		String roundResult = this.executeRound(game.getCurrentPlayer().selectAttribute());
+		return roundResult; //TODO object formatting
+	}
+	
+	
+	private String executeRound(String category) {
+		
+		
+		game.executeRound(category);
+		ArrayList<Player> players = game.getActivePlayers();
+		
+		// get top cards of each player
+		StringBuilder roundResult = new StringBuilder("{"); //TODO formatting in object
+		for(int i = 0; i < players.size(); i++)
+		{	
+			roundResult.append(players.get(i).getName() + ":\"" + players.get(i).getPile().getTopCard().getName() + "\", ");	
+		}
+				
+		roundResult.append("roundnumber:\"" + Integer.toString(game.getNumOfRounds()) + "\", ");
+				
+		roundResult.append("communalcardnumber:\"" + Integer.toString(game.getCommunalPile().getNumOfCards()) + "\", ");
+		
+		// get the number of cards for each player
+		for (Player player : players)
+		{
+			roundResult.append(player.getName() + "cards:\"");
+			roundResult.append(player.getPile().getNumOfCards() + "\", ");
+		}
+		
+		String isHumanPlaying = "humanplaying:\"";
+		if (game.isHumanPlaying())
+			isHumanPlaying += "1\", ";
+		else
+			isHumanPlaying += "0\", ";
+		roundResult.append(isHumanPlaying);
+		
+		String isGameOver = "gameover:\"";
+		if (players.size() == 1) {
+			isGameOver += "1\"}";
+			Database db = new Database();
+			db.setGame(game);
+			db.writeInfoToDatabase();
+			db.disconnectFromDatabase();
+		}
+		else {
+			isGameOver += "0\"}";
+		}
+		roundResult.append(isGameOver);
+		
+		return roundResult.toString()  ;			
+	}
+
 	
 	public Card[] getDeck()
 	{

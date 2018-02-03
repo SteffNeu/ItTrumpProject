@@ -169,6 +169,7 @@ public class TopTrumpsCLIApplication {
 					
 					// we now have a category and can execute the round
 					String roundResults = game.executeRound(category);
+					
 					if (writeGameLogsToFile) // write players hands and communal pile after the round is played
 					{			
 						logFile.writePlayersDecks();
@@ -350,4 +351,6 @@ public class TopTrumpsCLIApplication {
 		output = cardInfo.toString();
 		return output;
 	}
+	
+	
 }
