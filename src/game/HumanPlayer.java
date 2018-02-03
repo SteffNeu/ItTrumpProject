@@ -16,7 +16,9 @@ public class HumanPlayer extends Player
 		super(identification, name);
 		human = true;
 	}
-
+	/**
+	 * returns default null value because human selects himself
+	 */
 	public String selectAttribute() {
 		return null;
 	}	

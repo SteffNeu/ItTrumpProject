@@ -3,6 +3,12 @@ package log;
 import java.util.*;
 import game.*;
 import java.io.*;
+/**
+ * class object to manage the log file in the command line mode
+ * @author Matthew Wilson
+ *
+ */
+
 
 public class Log {
 	

@@ -41,12 +41,13 @@ public class TopTrumpsCLIApplication {
 			String input = "";
 			// ask user to play game or get statistics
 			System.out.println("Hello there. Do you want to play a game or see statistics?"
-					+ "\n If you want to play a game, type in 'g' or 's' for statistics."
+					+ "\n If you want to play a game, type in 'g' or 's' for statistics and press 'Enter'."
 					+ "\n Thank you.");
 			while(requireInput)
 			{
 				// get input
-				try{
+				try
+				{
 					input = scanner.nextLine();
 					if(input.equals("g")|| input.equals("s"))
 						requireInput = false;
@@ -71,7 +72,9 @@ public class TopTrumpsCLIApplication {
 				{
 					try
 					{
-						numOfPlayer = scanner.nextInt();
+						String tempStringNumOfPlayer = scanner.nextLine();
+						
+						numOfPlayer = Integer.parseInt(tempStringNumOfPlayer);
 					
 						if(numOfPlayer >=1 && numOfPlayer <= 4)
 							requireInput = false;
@@ -80,9 +83,28 @@ public class TopTrumpsCLIApplication {
 									+ " either to small or too big. "
 									+ "Please try again.");
 					}
-					catch(InputMismatchException e)
+					catch(InputMismatchException| NumberFormatException e)
 					{
-						System.err.println("Your input is not be an integer at all. "
+						System.err.println("There was a problem while reading in your input. Are you sure you entered a number? "
+								+ "Please try again.");
+					}
+				}
+				requireInput=true;
+				while(requireInput)
+				{
+					try
+					{
+						System.out.println("We are all set up. Are you ready to start? If so, please press 'Enter'.");
+						String tempStringNumOfPlayer = scanner.nextLine();
+											
+						if(tempStringNumOfPlayer.equals(""))
+							requireInput = false;
+						else
+							System.err.println("Sorry, we couldn't handle your input, please press 'Enter' if you want to continue. ");
+					}
+					catch(InputMismatchException| NumberFormatException e)
+					{
+						System.err.println("There was a problem while reading in your input. Are you sure you entered a number? "
 								+ "Please try again.");
 					}
 				}
@@ -139,7 +161,11 @@ public class TopTrumpsCLIApplication {
 					}
 
 					if (writeGameLogsToFile) // write chosen category to log file
-						logFile.writeCategorySelected(category);			
+						logFile.writeCategorySelected(category);	
+					if(humanStillPlaying)
+						System.out.println("The selected category by player "
+								+ game.getCurrentPlayer().getName()
+								+ " is " + category +".");
 					
 					// we now have a category and can execute the round
 					String roundResults = game.executeRound(category);
@@ -151,19 +177,19 @@ public class TopTrumpsCLIApplication {
 					
 					if(game.isHumanPlaying())
 					{
-						System.out.println("The selected category by player "
-								+ game.getCurrentPlayer().getName()
-								+ " is " + category +".");
 						// communicate results with user + 
 						System.out.println("The round has been played.");
 						if(game.lastRoundWasDraw())
 							System.out.println("There was no winner.");			
 						else
 							System.out.println("The winner is: " + game.getCurrentPlayer().getName());
-						System.out.println("The results of the round are the followin \n" + roundResults);
+						System.out.println("The results of the round are the following: \n" + roundResults);
+						System.out.print("Cards left: ");
+						for(Player p : game.getActivePlayers())
+							System.out.print(p.getName()+ ", " + p.getPile().getNumOfCards()+ "; " );
 
-						System.out.println("This was round number " + Integer.toString(game.getNumOfRounds())
-								+ "\n If you are ready for the next round \n"
+						System.out.println("\nThis was round number " + Integer.toString(game.getNumOfRounds())
+								+ "\nIf you are ready for the next round \n"
 								+ "please press enter. \n"
 								+ "If you want to end this game. Type 'exit'.");
 						requireInput = true;
@@ -179,6 +205,7 @@ public class TopTrumpsCLIApplication {
 								}
 								else if(input.equals(""))
 								{
+									System.out.println("--------------------------------------------------");
 									requireInput = false;
 								}
 								else
@@ -230,8 +257,8 @@ public class TopTrumpsCLIApplication {
 				database.disconnectFromDatabase();
 			}
 			// make quiting statement
-			System.out.println("You can now choose to exit the game. \n"
-					+ "Should you desire to exit the game please type 'exit'. \n"
+			System.out.println("You can now choose to exit the program. \n"
+					+ "Should you desire to exit the program please type 'exit'. \n"
 					+ "Should you want to continue type anything else.");
 			requireInput = true;
 			while(requireInput)

@@ -11,6 +11,7 @@ import java.sql.*;
  */
 public class Database {
 
+	// current game
 	private Game game; 
 	//Id of the current game
 	private int currentGameID;
@@ -38,14 +39,12 @@ public class Database {
 
 		if (connection != null) {
 			//TODO remove before submission
-			System.out.println("Connection successful");
+			System.out.println("Connection to database was successful");
 		}
 		else {
-			System.err.println("Failed to make connection!");
+			System.err.println("Failed to make connection to database!");
 		}
 	}
-
-
 	/**
 	 * disconnect from the database
 	 */
@@ -170,7 +169,6 @@ public class Database {
 	 * Write the winner of a game to the database
 	 */
 	private void writeWinner() {
-		//TODO this works, but is rather ugly - should I change it?
 		String query ="UPDATE toptrumps.gamestats SET gamewinner = " + game.getCurrentPlayer().getID()+ " WHERE gameid = "+ currentGameID +";";
 		updateTable(query);
 	}
@@ -236,13 +234,5 @@ public class Database {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
-	}
-
-
-	//TODO remove before submission
-	public static void main(String[] args) {
-		Database db = new Database();
-		System.out.println(db.getStatistics());
-		db.disconnectFromDatabase();
 	}
 }

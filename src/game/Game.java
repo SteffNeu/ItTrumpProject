@@ -22,9 +22,7 @@ public class Game
 	private int numOfDraws;
 	/** communal pile for draws */
 	private Pile communalPile;
-	/** content of the current round  TODO maybe delete */
-	private ArrayList<String> roundContent;
-	/** TODO */
+	/** true if last round was a draw */
 	private boolean lastRoundDraw;
 	
 	/** 
@@ -32,6 +30,7 @@ public class Game
 	 */
 	public Game(Card[] deckOfCards)
 	{
+		// initialize variables
 		numOfRounds = 0;
 		numOfDraws = 0;
 		activePlayers = new ArrayList<Player>();
@@ -97,6 +96,10 @@ public class Game
 	{
 		return numOfDraws;
 	}
+	/**
+	 * gets the player that is currently choosing the categories
+	 * @return Player that current chooser
+	 */
 	public Player getCurrentPlayer()
 	{
 		for(int i = 0; i < activePlayers.size(); i++)
@@ -108,13 +111,15 @@ public class Game
 	}
 	/** 
 	 * gets list of all active players
-	 * @return arraylist<player> all active players
+	 * @return Arraylist<player> all active players
 	 */
 	public ArrayList<Player> getActivePlayers()
 	{
 		return activePlayers;
 	}
-	
+	/**
+	 * deck is shuffled into a random order
+	 */
 	public void shuffleDeck() 
 	{
 		Random rand = new Random();
@@ -131,7 +136,9 @@ public class Game
 			index --;
 		}
 	}
-	// TODO test this shit
+	/**
+	 * distributes the deck between the players one by one
+	 */
 	public void distributeCards()
 	{
 		for(int i = 0, j = 0; i < deck.length; i++, j++)
@@ -141,10 +148,12 @@ public class Game
 			activePlayers.get(j).getPile().addCard(deck[i]);
 		}
 	}
-	// TODO test this shit
+	/**
+	 * initializes the players for the game, assigning names and adding them to the list of active players
+	 * @param numOfPlayers integer specifying the amount of AI players desired
+	 */
 	public void createPlayers(int numOfPlayers)
 	{
-		// TODO let Tom check code
 		int ID = 1;
 		String nameHuman = "human";
 		HumanPlayer pl1 = new HumanPlayer(ID, nameHuman);
@@ -196,7 +205,7 @@ public class Game
 			handleDraw();
 			if(winner == 0)
 				results.append("There was a draw.  The communal pile contains "
-						+ Integer.toString(communalPile.getNumOfCards()) + " cards.");
+						+ Integer.toString(communalPile.getNumOfCards()) + " cards. \n");
 			updateNumOfDraws();
 			lastRoundDraw = true;
 		}
@@ -242,6 +251,7 @@ public class Game
 				winnerIndex = i;
 				break;
 			}
+		// redistribute cards to winner
 		for(int i = 0; i < activePlayers.size(); i++)
 		{
 			activePlayers.get(winnerIndex).getPile().addCard(activePlayers.get(i).getPile().getTopCard());
@@ -253,12 +263,17 @@ public class Game
 			communalPile.removeAllCards();
 		}
 	}
-	
+	/**
+	 * gets information if last round was a draw
+	 * @return boolean, true = last round was a draw
+	 */
 	public boolean lastRoundWasDraw()
 	{
 		return lastRoundDraw;
 	}
-	
+	/**
+	 * checks if any players have lost in the round and checks that current chooser is an active player
+	 */
 	public void checkForElimination()
 	{
 		for(int i = 0; i < activePlayers.size(); i++)
@@ -270,28 +285,38 @@ public class Game
 					currentChooser = activePlayers.get(0).getID();
 				}
 				else
-					killPlayer(i);
-				
+					killPlayer(i);	
 			}
 	}
-	
+	/**
+	 * puts given player at index into the inactive player list and removes them from the active player list
+	 * @param index integer giving index of player position in active player list
+	 */
 	public void killPlayer(int index) {
 		inactivePlayers.add(activePlayers.get(index));
 		activePlayers.remove(index);
 	}
-	
+	/**
+	 * updates number of rounds played so far
+	 */
 	public void updateNumOfRounds()
 	{
 		numOfRounds++;
 	}
-	
+	/**
+	 * calculates the winner of the round by finding the highest value
+	 * @param ctgry String containing category name of the round
+	 * @return integer of winners ID or 0 when draw
+	 */
 	public int calculateRoundWinner(String ctgry)
 	{
 		int tempMax = 0;
 		int tempID = 0;
 		boolean isDraw = false;
+		// searching for max
 		for (int i = 0; i < activePlayers.size(); i++)
 		{
+			// checking for draws
 			if(activePlayers.get(i).getPile().getTopCard().getValueAtCategory(ctgry) == tempMax)
 			{
 				isDraw = true;
@@ -331,11 +356,8 @@ public class Game
 	{
 		numOfDraws++;
 	}
-	
-	//return winner
-	// return get all players 
 	/**
-	 * 
+	 * gets rounds each player has won
 	 * @return String[] containing the number of games won by each player
 	 */
 	public String[] getRoundsWonPerPlayer(){
@@ -348,7 +370,6 @@ public class Game
 			//map the id to a position in the array and add the amount of rounds won
 			roundsWBP[p.getID()-1] = Integer.toString(p.getRoundsWon());
 		}
-		//TODO If we decide to move the remaining player this needs to be removed
 		Player wp = activePlayers.get(0);
 		roundsWBP[wp.getID()-1] = Integer.toString(wp.getRoundsWon());
 		return roundsWBP;

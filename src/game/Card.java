@@ -5,12 +5,13 @@ import java.util.Map;
 
 /**
  * class that makes a card object
- * @author Stephanie
- *
+ * @author Stephanie Neubauer 
  */
 public class Card 
 {
+	/**name of the card*/
 	private String name;
+	/** contains category labels and values */
 	private HashMap<String, Integer> categories;
 	/**
 	 * default constructor
@@ -35,12 +36,19 @@ public class Card
 			categories.put(categoryNames[i], values[i]);
 		}
 	}
-	
+	/**
+	 * gets value at a specified category 
+	 * @param ctgry String specifying which category
+	 * @return integer of value at the category
+	 */
 	public int getValueAtCategory(String ctgry)
 	{
 		return categories.get(ctgry);
 	}
-	
+	/**
+	 * searches category with the highest value
+	 * @return String containing name of category with highest value
+	 */
 	public String getHighestCategory()
 	{
 		int tempMax = 0;
@@ -63,31 +71,21 @@ public class Card
 	{
 		return name;
 	}
-	
+	/**
+	 * gets Map of categories and their respective values
+	 * @return
+	 */
 	public HashMap<String, Integer> getCategories()
 	{
 		return categories;
 	}
-	
+	/** 
+	 * checks if card has a category of the name 
+	 * @param categoryToCheck
+	 * @return boolean, true = card has category in its map
+	 */
 	public boolean hasCategory(String categoryToCheck)
 	{
 		return categories.containsKey(categoryToCheck);
 	}
-
-//	TODO delete tests
-//	public static void main (String[] args)
-//	{
-//		String[] cats = {"Health", "Sexiness", "Age", "strength"};
-//		int[] vals = {2, 6, 2, 9};
-//		
-//		String nm = "Chaos";
-//		
-//		Card trie = new Card(nm, cats, vals);
-//		
-//		System.out.println(trie.getName());
-//		System.out.println(trie.getHighestCategory());
-//		System.out.println(trie.getValueAtCategory("Sexiness"));
-//		System.out.println("Bye suckers.");
-//	}
-	
 }

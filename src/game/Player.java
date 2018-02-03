@@ -37,26 +37,14 @@ public abstract class Player
 	{
 		return roundsWon;
 	}
+	/**
+	 * gets name of the player
+	 * @return String containing name
+	 */
 	public String getName()
 	{
 		return name;
 	}
-//	/**
-//	 * updates the pile by removing the top card and appending the new pile
-//	 * @param newPile pile to be appended
-//	 */
-//	public void updatePile(Pile newPile)
-//	{
-//		hand.removeTopCard();
-//		hand.addPile(newPile);
-//	}
-//	/**
-//	 * updates the pile by removing the top card
-//	 */
-//	public void updatePile()
-//	{
-//		hand.removeTopCard();
-//	}
 	/**
 	 * increases the rounds won by one
 	 */
@@ -79,7 +67,10 @@ public abstract class Player
 	public Pile getPile() {
 		return hand;
 	}
-	
+	/**
+	 * choosing the best attribute in the round
+	 * @return String of a category
+	 */
 	public abstract String selectAttribute();
 	
 }
