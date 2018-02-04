@@ -114,9 +114,8 @@ public class TopTrumpsRESTAPI {
 		game = new Game(getDeck());
 		game.startGame(Integer.parseInt(numOfPlayers));
 		
-		returnString = game.getCurrentPlayer().getPile().getTopCard().getName();
-		
-		//String returnStringJSON = oWriter.writeValueAsString(returnString);
+		returnString = "The game will start now with "
+				+ game.getNumOfActivePlayers() + " players. Have fun.";
 		
 		return returnString;
 	}
@@ -196,7 +195,6 @@ public class TopTrumpsRESTAPI {
 		
 		return roundResult.toString()  ;			
 	}
-
 	
 	public Card[] getDeck()
 	{

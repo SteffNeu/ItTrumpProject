@@ -46,11 +46,15 @@
 		<br />
 		<br />
 		<h3>Game Rules</h3>
-		During your turn select a category from your current card. The higher the value the better.
+		Select how many players you wish to play against.
 		<br />
-		Outvalue all players' cards to win their cards.
+		On your turn, select a category from your current card. The higher the value the better.
 		<br />
-		You win if you collect all 40 cards first and eliminate all other players.
+		If your category value is higher than all other players' for that category, collect all cards played this round.
+		<br />
+		When a draw occurs, cards from this round remain in a communal pile and the next winner collects them all.
+		<br />
+		The player who manages to collect all 40 cards and eliminate all other players, wins.
 		<br />
 		Good luck and have fun!
 				
