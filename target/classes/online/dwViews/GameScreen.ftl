@@ -223,10 +223,23 @@
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
 				GameOnline(x);
+				loop();
 			}
 			// -----------------------------------------
 			// Add your other Javascript methods Here
 			// -----------------------------------------
+			function loop() {
+				var box = confirm("Next Round")
+				if (box == true){
+					executeRoundAI()
+					//alert(result)
+					loop()
+				}
+				else {
+					alert("something")
+				}
+			};
+		
 		
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
@@ -353,15 +366,16 @@
 				// to do when the response arrives 
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
- 					
-					document.getElementById("category").innerHTML = responseText;
+ 					//alert(responseText)
+ 					var values = JSON.parse(responseText)
+ 					alert(values)
+					//document.getElementById("category").innerHTML = values.humanplaying;
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
-			
-			
+		
 			
 			
 			

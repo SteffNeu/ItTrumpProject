@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import online.configuration.TopTrumpsJSONConfiguration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -142,10 +143,11 @@ public class TopTrumpsRESTAPI {
 
 	@GET
 	@Path("/game/executeRoundAI")
-	public String executeRoundAI()
+	public String executeRoundAI() throws JsonProcessingException
 	{
 		String roundResult = this.executeRound(game.getCurrentPlayer().selectAttribute());
-		return roundResult; //TODO object formatting
+		System.out.println(roundResult);
+		return oWriter.writeValueAsString(roundResult); //TODO object formatting
 	}
 	
 	
