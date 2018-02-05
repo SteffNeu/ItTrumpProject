@@ -223,16 +223,20 @@
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
 				GameOnline(x);
-				loop();
+				var flag = isCurrentHuman();
+				alert(flag);
+				//loop();
 			}
 			// -----------------------------------------
 			// Add your other Javascript methods Here
 			// -----------------------------------------
 			function loop() {
-				var box = confirm("Next Round")
+				alert(isCurrentHuman())
+				var box = prompt("Next Round")
 				if (box == true){
 					executeRoundAI()
 					//alert(result)
+					
 					loop()
 				}
 				else {
@@ -340,18 +344,6 @@
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			function executeRoundAI() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -368,8 +360,29 @@
  					var responseText = xhr.response; // the text of the response
  					//alert(responseText)
  					var values = JSON.parse(responseText)
- 					alert(values)
-					//document.getElementById("category").innerHTML = values.humanplaying;
+ 					updateScreen(values)
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			
+			function isCurrentHuman() {
+
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/isCurrentHuman"); // Request type and URL
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+					alert(responseText); // lets produce an alert
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -399,7 +412,13 @@
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
-			}			
+			}		
+			
+			function updateScreen(info){
+				document.getElementById("curPlay").innerHTML = info.activePlayer;
+				document.getElementById("curRound").innerHTML = info.roundnumber;
+				document.getElementById("comPile").innerHTML = info.communalcardnumber;
+			}	
 			
 
 		</script>

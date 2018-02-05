@@ -186,6 +186,7 @@ public class Game
 	public String executeRound(String category)
 	{
 		// get the id of the winner
+		System.out.println(category);
 		int winner = calculateRoundWinner(category);
 		// create StringBuilder for results
 		StringBuilder results = new StringBuilder("");
