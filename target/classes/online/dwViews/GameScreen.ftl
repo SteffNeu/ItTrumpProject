@@ -206,6 +206,9 @@
 	                  </table>
                 </div>
             </div> <!-- end of rounds stats area -->
+            <div>
+            	<button align="left" onclick="looping()">Execute Round</button>
+            </div>
         </div> <!-- end of player and stats area -->
 						
 		<script type="text/javascript">
@@ -223,15 +226,19 @@
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
 				GameOnline(x);
-				var flag = isCurrentHuman();
-				alert(flag);
-				//loop();
 			}
 			// -----------------------------------------
 			// Add your other Javascript methods Here
 			// -----------------------------------------
-			function loop() {
-				alert(isCurrentHuman())
+			
+			function looping(){
+				var yo = isCurrentHuman();
+				alert(yo);
+				alert("done");
+			}
+			
+			function loop(passing) {
+				alert(passing);
 				var box = prompt("Next Round")
 				if (box == true){
 					executeRoundAI()
@@ -274,6 +281,39 @@
 		
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
+			
+			function isCurrentHuman() {
+
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/isCurrentHuman"); // Request type and URL
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				var test = "YO"
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText)
+					alert(responseText); // lets produce an alert
+					alert(value.curHuman);
+					if(value.curHuman == 1){
+						alert("mesa 1")
+					}
+					else if(value.curHuman == 0){
+						alert("mesa 0")
+					}
+					loop(value.curHuman)
+					test = value.curHuman;
+				};
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();	
+				return test;
+			}
+				
 		
 			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
 			function helloJSONList() {
@@ -368,27 +408,7 @@
 			}
 			
 			
-			function isCurrentHuman() {
 
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/isCurrentHuman"); // Request type and URL
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-		
 			
 			
 			

@@ -123,13 +123,15 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/game/isCurrentHuman")
-	public String isCurrentHuman()
+	public String isCurrentHuman() throws JsonProcessingException
 	{
-		if(game.isCurrentChooserHuman())
-			return "1";
+		String val = "{\"curHuman\":\"";
+		if(this.game.isCurrentChooserHuman())
+			val +=  "1\"}";
 		else
-			return "0";
-		
+			val +=  "0\"}";
+		System.out.println(val);
+		return val;
 	}
 	
 	@GET
