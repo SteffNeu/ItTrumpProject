@@ -277,22 +277,19 @@
 				else{
 					//set up game and call hideContent
 					GameOnline(x);
-					getTopCards();
+					setUpGameDisplay();
 				}
 			}
 			
 			function updatePlayers(playerInfos){
 				//here the card update happens
 				getTopCards();
-				var checkPlayer = true;
+
 				document.getElementById("humanCardCount").textContent = "Cards: " + playerInfos.humancards;
-				for(var i = 1; i <= 5 && checkPlayer == true; i++) {
+				for(var i = 1; i <= 5; i++) {
 					var aiName = "ai" + i + "cards";
 					if (playerInfos.hasOwnProperty(aiName)) {
 						document.getElementById("ai" + i + "CardCount").textContent = "Cards: " + playerInfos[aiName];
-					}
-					else {
-						checkPlayer = false;
 					}
 				}
 			}
@@ -353,7 +350,6 @@
 		<script type="text/javascript">
 			
 			function getTopCards() {
-			alert("Mesa here")
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getTopCards"); // Request type and URL
@@ -367,12 +363,10 @@
 				// to do when the response arrives 
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
- 					alert(responseText);
  					var topcards = JSON.parse(responseText);
-					alert(topcards); // lets produce an alert
-					
-					var checkPlayer = true;
-					for (var i = 0; i < 5 && checkPlayer == true; i ++) {
+
+
+					for (var i = 0; i < 5 ; i ++) {
 						if (i == 0) {
 							document.getElementById("humanCardName").innerHTML = "<b>" + topcards.human.cardName + "</b>";
 							document.getElementById("btnCat1").innerHTML = topcards.human.category1;
@@ -392,9 +386,7 @@
 								document.getElementById(aiName + "LabelCat4").innerHTML = topcards[aiName].category4;
 								document.getElementById(aiName + "LabelCat5").innerHTML = topcards[aiName].category5;
 							}
-							else {
-								checkPlayer = false;
-							}					
+				
 						}
 					}
 					
@@ -408,19 +400,6 @@
 				xhr.send();		
 			}
 			
-			
-			function getProperty( propertyName, object ) {
-  var parts = propertyName.split( "." ),
-    length = parts.length,
-    i,
-    property = object || this;
-
-  for ( i = 0; i < length; i++ ) {
-    property = property[parts[i]];
-  }
-
-  return property;
-}
 			
 			
 			
@@ -439,7 +418,6 @@
 				// to do when the response arrives 
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
-					//alert(responseText); // lets produce an alert
 					document.getElementById("currentPlayers").innerHTML = responseText;
 				};
 				
@@ -499,7 +477,6 @@
 						//enable button on cards
 						enablePlayerChoice();
 						document.getElementById("nextBtn").disabled = true;
-						alert("humans turn")
 					}
 					else {
 						executeRoundAI();
@@ -533,7 +510,6 @@
  						alert("Thank you for playing");
  					}
  					else if(infos.humanplaying){
- 						alert(responseText);
  						updateInfo(infos);
  						updatePlayers(infos);
  						//display results
@@ -549,7 +525,32 @@
 				xhr.send();		
 			}
 			
+			
+			function setUpGameDisplay() {
 
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/setUpGameDisplay"); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					
+ 					var infos = JSON.parse(responseText)
+ 	
+ 					updateInfo(infos);
+ 					updatePlayers(infos);
+ 					
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
 			
 
 			
@@ -572,7 +573,6 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
-					alert(responseText)
 					updatePlayers(infos);
 					makeCardsVisible();
 					updateInfo(infos);
@@ -600,13 +600,11 @@
 				// to do when the response arrives 
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
 					var players = JSON.parse(responseText)
 					var arrayLength = players.length;
 					
 					//rethink if we can come into a scenario where we want to unhide ai's after human is out of the game
 					for (var i = 1; i < arrayLength; i++) {
-						alert("\""+players[i]+"\"");
 						var tmp = players[i];
 						document.getElementById(tmp).style.visibility = "visible";
 						

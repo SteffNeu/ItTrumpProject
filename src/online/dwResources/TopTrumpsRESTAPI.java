@@ -148,19 +148,28 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	@GET
+	@Path("/game/setUpGameDisplay")
+	public String setUpGameDisplay()
+	{
+		String roundResult = this.getUpdateInfoString();
+		return roundResult; //TODO object formatting
+	}
+	
+	@GET
 	@Path("/game/executeRoundHuman")
 	public String executeRoundHuman(@QueryParam("category") String category) throws IOException
 	{	
-		String roundResult = this.executeRound(category);
+		game.executeRound(category);
+		String roundResult = this.getUpdateInfoString();
 		return roundResult;	
 	}
 	
-
 	@GET
 	@Path("/game/executeRoundAI")
 	public String executeRoundAI()
 	{
-		String roundResult = this.executeRound(game.getCurrentPlayer().selectAttribute());
+		game.executeRound(game.getCurrentPlayer().selectAttribute());
+		String roundResult = this.getUpdateInfoString();
 		return roundResult; //TODO object formatting
 	}
 	
@@ -202,9 +211,9 @@ public class TopTrumpsRESTAPI {
 		return topCardInfo.toString();
 	}
 	
-	private String executeRound(String category) {
+	private String getUpdateInfoString() {
 		
-		game.executeRound(category);
+		
 		ArrayList<Player> players = game.getActivePlayers();
 
 		StringBuilder roundResult = new StringBuilder("{");
