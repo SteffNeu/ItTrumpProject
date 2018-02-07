@@ -213,7 +213,8 @@
 		
 			// Method that is called on page load
 			function initalize() {
-				//make sure to integrate this properly
+				
+				hideGame();
 				disablePlayerChoice();
 				// --------------------------------------------------------------------------
 				// You can call other methods you want to run when the page first loads here
@@ -246,13 +247,45 @@
 				document.getElementById("btnSpeed").disabled = true;				
 			}
 			
+			function hideGame(){
+				document.getElementById("gameView").style.visibility = "hidden";
+				document.getElementById("gameLogRow").style.visibility = "hidden";
+				document.getElementById("playerAndStatsRow").style.visibility = "hidden";
+				document.getElementById("roundStatsArea").style.visibility = "hidden";
+			}
+			
+			function showGame(){
+				document.getElementById("gameView").style.visibility = "visible";
+				document.getElementById("gameLogRow").style.visibility = "visible";
+				document.getElementById("playerAndStatsRow").style.visibility = "visible";
+				document.getElementById("roundStatsArea").style.visibility = "visible";
+			}
+			
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
-				GameOnline(x);
+				if(x < 1 || x > 4){
+					 document.getElementById("numPl").value = "";
+					 document.getElementById("currentPlayers").innerHTML = "Invalid input. Choose a number between 1 and 4."
+				}
+				else{
+					//set up game and call hideContent
+					GameOnline(x);
+				}
 			}
 			
 			function finishGame(){
 				executeRoundAI();
+			}
+			
+			function initContent(numPlayers){
+				document.getElementById("numPl").style.visibility = "hidden";
+				document.getElementById("startBtn").style.visibility = "hidden";
+				for(var i = 4 ; i > numPlayers; i--){
+					var aiID = "ai"+i
+					document.getElementById(aiID).style.visibility = "hidden";
+				}
+				showGame()
+				
 			}
 			
 			function updateInfo(infos){
@@ -360,8 +393,8 @@
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
-				document.getElementById("numPl").style.visibility = "hidden";
-				document.getElementById("startBtn").style.visibility = "hidden";
+				initContent(numOfPlayers)
+
 			}
 
 			function isHumanPlaying() {
@@ -513,10 +546,13 @@
 					alert(responseText); // lets produce an alert
 					var players = JSON.parse(responseText)
 					var arrayLength = players.length;
-					for (var i = 0; i < arrayLength; i++) {
+					
+					//rethink if we can come into a scenario where we want to unhide ai's after human is out of the game
+					for (var i = 1; i < arrayLength; i++) {
 						alert("\""+players[i]+"\"");
-						var tmp = "\""+players[i]+"\"";
+						var tmp = players[i];
 						document.getElementById(tmp).style.visibility = "visible";
+						
 					}
 											
 				};
