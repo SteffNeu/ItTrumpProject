@@ -66,12 +66,13 @@
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
+		                      	<div id="ai1CardName" style></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai1LabelCat1" class="label info">Size - 50</span>
-		                            <span id="ai1LabelCat2" class="label info">Speed -50</span>
-		                            <span id="ai1LabelCat3" class="label info">Range - 50</span>
-		                            <span id="ai1LabelCat4" class="label info">Firepower - 50</span>
-		                            <span id="ai1LabelCat5" class="label info">cargo -50</span>
+		                            <span id="ai1LabelCat1" class="label info"></span>
+		                            <span id="ai1LabelCat2" class="label info"></span>
+		                            <span id="ai1LabelCat3" class="label info"></span>
+		                            <span id="ai1LabelCat4" class="label info"></span>
+		                            <span id="ai1LabelCat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -86,12 +87,13 @@
 		                      <img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
+		                      	<div id="ai2CardName"></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai2LabelCat1" class="label info">Size - 50</span>
-		                            <span id="ai2LabelCat2" class="label info">Speed -50</span>
-		                            <span id="ai2LabelCat3" class="label info">Range - 50</span>
-		                            <span id="ai2LabelCat4" class="label info">Firepower - 50</span>
-		                            <span id="ai2LabelCat5" class="label info">cargo -50</span>
+		                            <span id="ai2LabelCat1" class="label info"></span>
+		                            <span id="ai2LabelCat2" class="label info"></span>
+		                            <span id="ai2LabelCat3" class="label info"></span>
+		                            <span id="ai2LabelCat4" class="label info"></span>
+		                            <span id="ai2LabelCat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -105,12 +107,13 @@
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
+		                      	<div id="ai3CardName"></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai3LabelCat1" class="label info">Size - 50</span>
-		                            <span id="ai3LabelCat2" class="label info">Speed -50</span>
-		                            <span id="ai3LabelCat3" class="label info">Range - 50</span>
-		                            <span id="ai3LabelCat4" class="label info">Firepower - 50</span>
-		                            <span id="ai3LabelCat5" class="label info">cargo -50</span>
+		                            <span id="ai3LabelCat1" class="label info"></span>
+		                            <span id="ai3LabelCat2" class="label info"></span>
+		                            <span id="ai3LabelCat3" class="label info"></span>
+		                            <span id="ai3LabelCat4" class="label info"></span>
+		                            <span id="ai3LabelCat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -124,12 +127,13 @@
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
+		                        <div id="ai4CardName"></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai4LabelCat1" class="label info">Size - 50</span>
-		                            <span id="ai4LabelCat2" class="label info">Speed -50</span>
-		                            <span id="ai4LabelCat3" class="label info">Range - 50</span>
-		                            <span id="ai4LabelCat4" class="label info">Firepower - 50</span>
-		                            <span id="ai4LabelCat5" class="label info">cargo -50</span>
+		                            <span id="ai4LabelCat1" class="label info"></span>
+		                            <span id="ai4LabelCat2" class="label info"></span>
+		                            <span id="ai4LabelCat3" class="label info"></span>
+		                            <span id="ai4LabelCat4" class="label info"></span>
+		                            <span id="ai4LabelCat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -170,12 +174,13 @@
                 	<div class="card-body"><img src="plane.png" height="200" width="200"></div>
                 	<div class="card-footer">
                     	<div class="container">
+                    	<div id="humanCardName"></div>
                     		<div id="playerBtns" class="btn-group-vertical" style="width: inherit">
-	                            <button id="btnCat1" type="button" class="btn btn-primary" onclick="executeRoundHuman('Size')">Size -50</button>
-	                            <button id="btnCat2" type="button" class="btn btn-primary" onclick="executeRoundHuman('Speed')">Speed - 50</button>
-	                            <button id="btnCat3" type="button" class="btn btn-primary" onclick="executeRoundHuman('Range')">Range - 50</button>
-	                            <button id="btnCat4" type="button" class="btn btn-primary" onclick="executeRoundHuman('Firepower')">Firepower - 50</button>
-	                            <button id="btnCat5" type="button" class="btn btn-primary" onclick="executeRoundHuman('Cargo')">Cargo - 50</button>
+	                            <button id="btnCat1" type="button" class="btn btn-primary" onclick="executeRoundHuman('Size')"></button>
+	                            <button id="btnCat2" type="button" class="btn btn-primary" onclick="executeRoundHuman('Speed')"></button>
+	                            <button id="btnCat3" type="button" class="btn btn-primary" onclick="executeRoundHuman('Range')"></button>
+	                            <button id="btnCat4" type="button" class="btn btn-primary" onclick="executeRoundHuman('Firepower')"></button>
+	                            <button id="btnCat5" type="button" class="btn btn-primary" onclick="executeRoundHuman('Cargo')"></button>
 	                        </div>
                     	</div>
                   	</div>
@@ -272,15 +277,23 @@
 				else{
 					//set up game and call hideContent
 					GameOnline(x);
+					getTopCards();
 				}
 			}
 			
 			function updatePlayers(playerInfos){
 				//here the card update happens
 				getTopCards();
+				var checkPlayer = true;
 				document.getElementById("humanCardCount").textContent = "Cards: " + playerInfos.humancards;
-				for(var i = 1; i <= 5; i++){
-				
+				for(var i = 1; i <= 5 && checkPlayer == true; i++) {
+					var aiName = "ai" + i + "cards";
+					if (playerInfos.hasOwnProperty(aiName)) {
+						document.getElementById("ai" + i + "CardCount").textContent = "Cards: " + playerInfos[aiName];
+					}
+					else {
+						checkPlayer = false;
+					}
 				}
 			}
 			
@@ -358,8 +371,32 @@
  					var topcards = JSON.parse(responseText);
 					alert(topcards); // lets produce an alert
 					
-					f
-					
+					var checkPlayer = true;
+					for (var i = 0; i < 5 && checkPlayer == true; i ++) {
+						if (i == 0) {
+							document.getElementById("humanCardName").innerHTML = "<b>" + topcards.human.cardName + "</b>";
+							document.getElementById("btnCat1").innerHTML = topcards.human.category1;
+							document.getElementById("btnCat2").innerHTML = topcards.human.category2;
+							document.getElementById("btnCat3").innerHTML = topcards.human.category3;
+							document.getElementById("btnCat4").innerHTML = topcards.human.category4;
+							document.getElementById("btnCat5").innerHTML = topcards.human.category5;
+							}
+						else {
+							var aiName = "ai" + i;
+							
+							if (topcards.hasOwnProperty(aiName)){
+								document.getElementById(aiName + "CardName").innerHTML = "<b>" + topcards[aiName].cardName + "</b>";
+								document.getElementById(aiName + "LabelCat1").innerHTML = topcards[aiName].category1;
+								document.getElementById(aiName + "LabelCat2").innerHTML = topcards[aiName].category2;
+								document.getElementById(aiName + "LabelCat3").innerHTML = topcards[aiName].category3;
+								document.getElementById(aiName + "LabelCat4").innerHTML = topcards[aiName].category4;
+								document.getElementById(aiName + "LabelCat5").innerHTML = topcards[aiName].category5;
+							}
+							else {
+								checkPlayer = false;
+							}					
+						}
+					}
 					
 					
 					
@@ -370,6 +407,22 @@
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
+			
+			
+			function getProperty( propertyName, object ) {
+  var parts = propertyName.split( "." ),
+    length = parts.length,
+    i,
+    property = object || this;
+
+  for ( i = 0; i < length; i++ ) {
+    property = property[parts[i]];
+  }
+
+  return property;
+}
+			
+			
 			
 			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
 			function GameOnline(numOfPlayers) {

@@ -186,15 +186,19 @@ public class TopTrumpsRESTAPI {
 		for(int i = 0; i < players.size(); i++)
 		{	
 			Card topCard = players.get(i).getPile().getTopCard();
-			topCardInfo.append("\"" + players.get(i).getName() + "\":{\"" + topCard.getName() + "\":{ ");	
+			topCardInfo.append("\"" + players.get(i).getName() + "\":{\"cardName\":\"" + topCard.getName() + "\", ");	
 			
 			HashMap<String, Integer> cardCategories = topCard.getCategories(); 
+			int j = 1;
 			for (Map.Entry<String, Integer> entry: cardCategories.entrySet()) {
-				topCardInfo.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\",");
+				topCardInfo.append("\"category" + j + "\":\"" + entry.getKey() + " " + entry.getValue() + "\",");
+				j ++;
 			}
 			topCardInfo.deleteCharAt(topCardInfo.length() - 1);
 			topCardInfo.append("},");
 		}
+		topCardInfo.deleteCharAt(topCardInfo.length() - 1);
+		topCardInfo.append("}");
 		return topCardInfo.toString();
 	}
 	
