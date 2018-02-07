@@ -62,16 +62,16 @@
 
 		            <div id="ai1" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
-		                  <div class="card-header">AI 1<span class="badge badge-info">CardCount</span></div>
+		                  <div class="card-header">AI 1 <span id="ai1CardCount" class="badge badge-info">Cards: </span></div>
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
 		                        <div class="btn-group-vertical">
-		                            <span class="label info">Size - 50</span>
-		                            <span class="label info">Speed -50</span>
-		                            <span class="label info">Range - 50</span>
-		                            <span class="label info">Firepower - 50</span>
-		                            <span class="label info">cargo -50</span>
+		                            <span id="ai1LabelCat1" class="label info">Size - 50</span>
+		                            <span id="ai1LabelCat2" class="label info">Speed -50</span>
+		                            <span id="ai1LabelCat3" class="label info">Range - 50</span>
+		                            <span id="ai1LabelCat4" class="label info">Firepower - 50</span>
+		                            <span id="ai1LabelCat5" class="label info">cargo -50</span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -81,17 +81,17 @@
 		
 		            <div id="ai2" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
-		                  <div class="card-header">AI 2<span class="badge badge-info">CardCount</span></div>
+		                  <div class="card-header">AI 2 <span id="ai2CardCount" class="badge badge-info">Cards: </span></div>
 		                  <div class="card-body">
 		                      <img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
 		                        <div class="btn-group-vertical">
-		                            <span class="label info">Size - 50</span>
-		                            <span class="label info">Speed -50</span>
-		                            <span class="label info">Range - 50</span>
-		                            <span class="label info">Firepower - 50</span>
-		                            <span class="label info">cargo -50</span>
+		                            <span id="ai2LabelCat1" class="label info">Size - 50</span>
+		                            <span id="ai2LabelCat2" class="label info">Speed -50</span>
+		                            <span id="ai2LabelCat3" class="label info">Range - 50</span>
+		                            <span id="ai2LabelCat4" class="label info">Firepower - 50</span>
+		                            <span id="ai2LabelCat5" class="label info">cargo -50</span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -101,16 +101,16 @@
 		            <div id="ai3" class="col-lg-3">
 		
 		                <div class="card" style="width: 250px" >
-		                  <div class="card-header">AI 3<span class="badge badge-info">CardCount</span></div>
+		                  <div class="card-header">AI 3 <span id="ai3CardCount" class="badge badge-info">Cards: </span></div>
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
 		                        <div class="btn-group-vertical">
-		                            <span class="label info">Size - 50</span>
-		                            <span class="label info">Speed -50</span>
-		                            <span class="label info">Range - 50</span>
-		                            <span class="label info">Firepower - 50</span>
-		                            <span class="label info">cargo -50</span>
+		                            <span id="ai3LabelCat1" class="label info">Size - 50</span>
+		                            <span id="ai3LabelCat2" class="label info">Speed -50</span>
+		                            <span id="ai3LabelCat3" class="label info">Range - 50</span>
+		                            <span id="ai3LabelCat4" class="label info">Firepower - 50</span>
+		                            <span id="ai3LabelCat5" class="label info">cargo -50</span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -120,16 +120,16 @@
 		            <div id="ai4" class="col-lg-3">
 		
 		                <div class="card" style="width: 250px" >
-		                  <div class="card-header">AI 4<span class="badge badge-info">CardCount</span></div>
+		                  <div class="card-header">AI 4<span id="ai4CardCount" class="badge badge-info">Cards: </span></div>
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
 		                        <div class="btn-group-vertical">
-		                            <span class="label info">Size - 50</span>
-		                            <span class="label info">Speed -50</span>
-		                            <span class="label info">Range - 50</span>
-		                            <span class="label info">Firepower - 50</span>
-		                            <span class="label info">cargo -50</span>
+		                            <span id="ai4LabelCat1" class="label info">Size - 50</span>
+		                            <span id="ai4LabelCat2" class="label info">Speed -50</span>
+		                            <span id="ai4LabelCat3" class="label info">Range - 50</span>
+		                            <span id="ai4LabelCat4" class="label info">Firepower - 50</span>
+		                            <span id="ai4LabelCat5" class="label info">cargo -50</span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -166,7 +166,7 @@
                 
             	<!--player card-->
                 <div id="human" class="card" style="width: 300px" >
-                	<div class="card-header">You<span class="badge badge-info">CardCount</span></div>
+                	<div class="card-header">You<span id="humanCardCount" class="badge badge-info">Cards: </span></div>
                 	<div class="card-body"><img src="plane.png" height="200" width="200"></div>
                 	<div class="card-footer">
                     	<div class="container">
@@ -213,9 +213,10 @@
 		
 			// Method that is called on page load
 			function initalize() {
-				
 				hideGame();
 				disablePlayerChoice();
+				
+				
 				// --------------------------------------------------------------------------
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
@@ -232,19 +233,19 @@
 				document.getElementById("ai3").style.visibility = "hidden";
 				document.getElementById("ai4").style.visibility = "hidden";			
 			
-				document.getElementById("btnSize").disabled = false;
-				document.getElementById("btnCargo").disabled = false;	
-				document.getElementById("btnRange").disabled = false;
-				document.getElementById("btnFirepower").disabled = false;
-				document.getElementById("btnSpeed").disabled = false;						
+				document.getElementById("btnCat1").disabled = false;
+				document.getElementById("btnCat2").disabled = false;	
+				document.getElementById("btnCat3").disabled = false;
+				document.getElementById("btnCat4").disabled = false;
+				document.getElementById("btnCat5").disabled = false;						
 			}
 			
 			function disablePlayerChoice(){
-				document.getElementById("btnSize").disabled = true;
-				document.getElementById("btnCargo").disabled = true;	
-				document.getElementById("btnRange").disabled = true;
-				document.getElementById("btnFirepower").disabled = true;
-				document.getElementById("btnSpeed").disabled = true;				
+				document.getElementById("btnCat1").disabled = true;
+				document.getElementById("btnCat2").disabled = true;	
+				document.getElementById("btnCat3").disabled = true;
+				document.getElementById("btnCat4").disabled = true;
+				document.getElementById("btnCat5").disabled = true;				
 			}
 			
 			function hideGame(){
@@ -271,6 +272,10 @@
 					//set up game and call hideContent
 					GameOnline(x);
 				}
+			}
+			
+			function updatePlayers(playerInfos){
+				document.getElementById("curPlay").innerHTML
 			}
 			
 			function finishGame(){
