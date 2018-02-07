@@ -166,7 +166,7 @@
                 
             	<!--player card-->
                 <div id="human" class="card" style="width: 300px" >
-                	<div class="card-header">You<span id="humanCardCount" class="badge badge-info">Cards: </span></div>
+                	<div class="card-header">You <span id="humanCardCount" class="badge badge-info">Cards: </span></div>
                 	<div class="card-body"><img src="plane.png" height="200" width="200"></div>
                 	<div class="card-footer">
                     	<div class="container">
@@ -226,6 +226,7 @@
 			}
 			
 			//enables the button on the card and hides the ai1 cards
+			//refactor with loops
 			function enablePlayerChoice(){
 				//alert("I'm in enable")
 				document.getElementById("ai1").style.visibility = "hidden";
@@ -275,7 +276,12 @@
 			}
 			
 			function updatePlayers(playerInfos){
-				document.getElementById("curPlay").innerHTML
+				//here the card update happens
+				getTopCards();
+				document.getElementById("humanCardCount").textContent = "Cards: " + playerInfos.humancards;
+				for(var i = 1; i <= 5; i++){
+				
+				}
 			}
 			
 			function finishGame(){
@@ -332,12 +338,12 @@
 		
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
-		
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloJSONList() {
+			
+			function getTopCards() {
+			alert("Mesa here")
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloJSONList"); // Request type and URL
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getTopCards"); // Request type and URL
 				
 				// Message is not sent yet, but we can check that the browser supports CORS
 				if (!xhr) {
@@ -348,29 +354,9 @@
 				// to do when the response arrives 
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloWord(word) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloWord?Word="+word); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
+ 					alert(responseText);
+ 					var topcards = JSON.parse(responseText);
+					alert(topcards); // lets produce an alert
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -445,6 +431,9 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText)
+ 					
+ 					
+ 					
 					if(value.curHuman){
 						//enable button on cards
 						enablePlayerChoice();
@@ -477,14 +466,15 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					
- 					var values = JSON.parse(responseText)
- 					if(values.gameover){
- 						updateInfo(values)
- 						alert("Thank you for playing")
+ 					var infos = JSON.parse(responseText)
+ 					if(infos.gameover){
+ 						updateInfo(infos)
+ 						alert("Thank you for playing");
  					}
- 					else if(values.humanplaying){
+ 					else if(infos.humanplaying){
  						alert(responseText);
- 						updateInfo(values);
+ 						updateInfo(infos);
+ 						updatePlayers(infos);
  						//display results
  						//enable button
  					}
@@ -522,6 +512,7 @@
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
 					alert(responseText)
+					updatePlayers(infos);
 					makeCardsVisible();
 					updateInfo(infos);
 				};

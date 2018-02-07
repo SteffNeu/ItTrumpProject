@@ -2,7 +2,7 @@ package online.dwResources;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -174,19 +174,36 @@ public class TopTrumpsRESTAPI {
 		return oWriter.writeValueAsString(playerNames);
 	}
 	
+	@GET
+	@Path("/game/getTopCards")
+	public String getTopCards() {
+		
+		ArrayList<Player> players = game.getActivePlayers();
+		
+		StringBuilder topCardInfo = new StringBuilder("{");
+		for(int i = 0; i < players.size(); i++)
+		{	
+			Card topCard = players.get(i).getPile().getTopCard();
+			topCardInfo.append("\"" + players.get(i).getName() + "\":{\"" + topCard.getName() + "\":{ ");	
+			
+			HashMap<String, Integer> cardCategories = topCard.getCategories(); 
+			for (Map.Entry<String, Integer> entry: cardCategories.entrySet()) {
+				topCardInfo.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\",");
+			}
+			topCardInfo.deleteCharAt(topCardInfo.length() - 1);
+			topCardInfo.append("}}}");
+		}
+		return topCardInfo.toString();
+	}
 	
-private String executeRound(String category) {
+	private String executeRound(String category) {
 		
 		
 		game.executeRound(category);
 		ArrayList<Player> players = game.getActivePlayers();
+
+		StringBuilder roundResult = new StringBuilder("{");
 		
-		// get top cards of each player
-		StringBuilder roundResult = new StringBuilder("{"); //TODO formatting in object
-		for(int i = 0; i < players.size(); i++)
-		{	
-			roundResult.append("\"" + players.get(i).getName() + "\":\"" + players.get(i).getPile().getTopCard().getName() + "\", ");	
-		}
 		roundResult.append("\"activePlayer\":\""+game.getCurrentPlayer().getName()+"\", ");
 				
 		roundResult.append("\"roundnumber\":\"" + Integer.toString(game.getNumOfRounds()) + "\", ");
@@ -219,7 +236,6 @@ private String executeRound(String category) {
 			isGameOver += "false}";
 		}
 		roundResult.append(isGameOver);
-		
 		return roundResult.toString()  ;			
 	}
 	
