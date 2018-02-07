@@ -3,7 +3,7 @@
 	<head>
 		<!-- Web page title -->
     	<title>Top Trumps</title>
-    	
+
     	<!-- Import JQuery, as it provides functions you will probably find useful (see https://jquery.com/) -->
     	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
     	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
@@ -19,141 +19,93 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 	</head>
-
-    <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-    	<div class="container">
-
-			<!-- Add your HTML Here -->
-			<h1>Top Trumps Online</h1>
-		<br />
-		Please Select an option
-		<br />
-		
-		<button id = "gameButton" class="float-left submit-button">Start a new Game</button>
-		<script type="text/javascript">
-			document.getElementById("gameButton").onclick = function () {
-				location.href = "http://localhost:7777/toptrumps/game";
-			};
-		</script>
-		<button id = "statsButton" class="float-left submit-button">View Game Statistics</button>
-		<script type="text/javascript">
-			document.getElementById("statsButton").onclick = function () {
-				location.href = "http://localhost:7777/toptrumps/stats";
-			};
-		</script>
-		<br />
-		<br />
-		<br />
-		<h3>Game Rules</h3>
-		Select how many players you wish to play against.
-		<br />
-		On your turn, select a category from your current card. The higher the value the better.
-		<br />
-		If your category value is higher than all other players' for that category, collect all cards played this round.
-		<br />
-		When a draw occurs, cards from this round remain in a communal pile and the next winner collects them all.
-		<br />
-		The player who manages to collect all 40 cards and eliminate all other players, wins.
-		<br />
-		Good luck and have fun!
-				
+	<body>
+		<style>
+		body{
+		  	background-image: url('https://static.gamespot.com/uploads/original/536/5360430/3141756-screenshot0034.jpg');
+		    background-position: center center;
+		    background-repeat:  no-repeat;
+		    background-attachment: fixed;
+		    background-size:  cover;
+			}
+			h3 {
+			    /*text-align: center;*/
+			    font-size: 24px;
+			    font-weight: bold;
+			}
+			p {
+			    font-size: 16px;
+			}
+		</style>
+		<div class ="jumbotron jumbotron-fluid">
+			<style>
+			.jumbotron {
+				background: #6699ff;
+				color: white;
+				text-align: center;
+				margin-top: 25px;
+  			padding: 1.5em 2em;
+				/*max-width: 700px;*/
+				margin-right: 25px;
+				margin-left: 25px;
+				margin-bottom: 25px;
+			}
+			.jumbotron h1 {
+				/*font-size: 40px;*/
+				font-size: 2.6em;
+				text-shadow: 2px 2px #b3b3ff;
+			}
+			.jumbotron p {
+				color: white;
+				font-size: 1.2em;
+			}
+			.btn-primary{
+				margin-bottom: 1px;
+			}
+			.btn-primary:hover{
+				background-color: #4d79ff;
+			}
+			</style>
+			<div class = "container">
+				<h1>TOP TRUMPS ONLINE</h1>
+				<p>Welcome to Top Trumps Online. We are providing for you a fun environment to play a little game with your favorite Star Wars ships.</p>
+				<p>Please Select an option: </p>
+				<p><a class="btn btn-primary btn-lg" href="http://localhost:7777/toptrumps/game" role="button">Start a new Game</a>
+					<a class="btn btn-primary btn-lg" href="http://localhost:7777/toptrumps/stats" role="button">View Game Statistics</a></p>
+			</div>
 		</div>
-		
-		<script type="text/javascript">
-		
-			// Method that is called on page load
-			function initalize() {
-			
-				// --------------------------------------------------------------------------
-				// You can call other methods you want to run when the page first loads here
-				// --------------------------------------------------------------------------
-				
-				// For example, lets call our sample methods
-				//helloJSONList();
-				//helloWord("Student");
-				
-			}
-			
-			// -----------------------------------------
-			// Add your other Javascript methods Here
-			// -----------------------------------------
-		
-			// This is a reusable method for creating a CORS request. Do not edit this.
-			function createCORSRequest(method, url) {
-  				var xhr = new XMLHttpRequest();
-  				if ("withCredentials" in xhr) {
 
-    				// Check if the XMLHttpRequest object has a "withCredentials" property.
-    				// "withCredentials" only exists on XMLHTTPRequest2 objects.
-    				xhr.open(method, url, true);
-
-  				} else if (typeof XDomainRequest != "undefined") {
-
-    				// Otherwise, check if XDomainRequest.
-    				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-    				xhr = new XDomainRequest();
-    				xhr.open(method, url);
-
- 				 } else {
-
-    				// Otherwise, CORS is not supported by the browser.
-    				xhr = null;
-
-  				 }
-  				 return xhr;
-			}
-		
-		</script>
-		
-		<!-- Here are examples of how to call REST API Methods -->
-		<script type="text/javascript">
-		
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloJSONList() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloJSONList"); // Request type and URL
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
+		<div class="container">
+			<style>
+				.container div{
+					width: auto;
+					padding: 15px;
+					margin: 25px;
+					background-color: whitesmoke;
 				}
+			</style>
+			<div class="row">
+				<div class="col-lg-7">
+					<h3><span>	Game Rules	</span></h3>
+					<p>
+						Select how many players you wish to play against.
+						<br />
+						On your turn, select a category from your current card. The higher the value the better.
+						If your category value is higher than all other players' for that category, collect all cards played this round.
+						When a draw occurs, cards from this round remain in a communal pile and the next winner collects them all.
+						The player who manages to collect all 40 cards and eliminate all other players, wins.
+						<br /><br />
+						<strong>Good luck and have fun!</strong>
+					</p>
+				</div>
 
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloWord(word) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloWord?Word="+word); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
+				<div class="col-lg-3">
 
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
+							<img src="https://lumiere-a.akamaihd.net/v1/images/Star-Destroyer_ab6b94bb.jpeg?region=0%2C50%2C1600%2C800" height="200" width="200">
+				</div>
+								<!--<img src="dcs.gla.ac.uk/~richardm/TopTrumps/Avenger.jpg" height="200" width="200"></div>-->
+      </div>
+		</div>
 
-		</script>
-		
-		</body>
+	</body>
 </html>
