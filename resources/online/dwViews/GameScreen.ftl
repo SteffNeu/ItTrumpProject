@@ -60,7 +60,7 @@
 				
 				<div id="aiCardsRow"class="row">
 
-		            <div class="col-lg-3">
+		            <div id="ai1" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 1<span class="badge badge-info">CardCount</span></div>
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
@@ -79,7 +79,7 @@
 		            </div>
 		
 		
-		            <div class="col-lg-3">
+		            <div id="ai2" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 2<span class="badge badge-info">CardCount</span></div>
 		                  <div class="card-body">
@@ -98,7 +98,7 @@
 		                </div>
 		            </div>
 		
-		            <div class="col-lg-3">
+		            <div id="ai3" class="col-lg-3">
 		
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 3<span class="badge badge-info">CardCount</span></div>
@@ -117,7 +117,7 @@
 		                </div>
 		            </div>
 		
-		            <div class="col-lg-3">
+		            <div id="ai4" class="col-lg-3">
 		
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 4<span class="badge badge-info">CardCount</span></div>
@@ -224,6 +224,12 @@
 			}
 			
 			function enablePlayerChoice(){
+				document.getElementById("ai1").style.visibility = "hidden";
+				document.getElementById("aiCardsRow").style.visibility = "hidden";
+				document.getElementById("ai2").style.visibility = "hidden";
+				document.getElementById("ai3").style.visibility = "hidden";
+				document.getElementById("ai4").style.visibility = "hidden";			
+			
 				document.getElementById("btnSize").disabled = false;
 				document.getElementById("btnCargo").disabled = false;	
 				document.getElementById("btnRange").disabled = false;
@@ -477,11 +483,18 @@
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
 					alert(responseText)
+					document.getElementById("ai1").style.visibility = "visible";
+					document.getElementById("ai2").style.visibility = "visible";
+					document.getElementById("ai3").style.visibility = "visible";
+					document.getElementById("ai4").style.visibility = "visible";	
 					updateInfo(infos);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();	
+				
+			
+				
 					
 			}			
 			
