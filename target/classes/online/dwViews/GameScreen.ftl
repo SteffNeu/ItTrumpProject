@@ -30,7 +30,7 @@
 			<p><strong>Please enter the number of players you wish to play against.</strong></p>
 		
 			<input type="text" id="numPl" placeholder="1-4">
-			<button onclick="setNumPl()">Start Game</button>
+			<button id="startBtn" onclick="setNumPl()">Start Game</button>
 
 			<p id="currentPlayers"></p>
 			<br />
@@ -215,7 +215,8 @@
 		
 			// Method that is called on page load
 			function initalize() {
-			
+				//make sure to integrate this properly
+				document.getElementById("humanexecute").disabled = true;
 				// --------------------------------------------------------------------------
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
@@ -230,6 +231,12 @@
 			
 			function finishGame(){
 				executeRoundAI();
+			}
+			
+			function updateInfo(infos){
+				document.getElementById("curPlay").innerHTML = infos.activePlayer;
+				document.getElementById("curRound").innerHTML = infos.roundnumber;
+				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
 			}
 			
 			function testBooleans(){
@@ -335,6 +342,8 @@
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
+				document.getElementById("numPl").style.visibility = "hidden";
+				document.getElementById("startBtn").style.visibility = "hidden";
 			}
 
 			function isHumanPlaying() {
@@ -414,10 +423,12 @@
  					
  					var values = JSON.parse(responseText)
  					if(values.gameover){
+ 						updateInfo(values)
  						alert("Thank you for playing")
  					}
  					else if(values.humanplaying){
- 						alert(responseText)
+ 						alert(responseText);
+ 						updateInfo(values);
  						//display results
  						//enable button
  					}
@@ -453,7 +464,9 @@
 				// to do when the response arrives 
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					var infos = JSON.parse(responseText)
 					alert(responseText)
+					updateInfo(infos);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
