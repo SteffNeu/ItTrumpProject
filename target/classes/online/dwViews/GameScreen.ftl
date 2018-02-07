@@ -171,11 +171,11 @@
                 	<div class="card-footer">
                     	<div class="container">
                     		<div id="playerBtns" class="btn-group-vertical" style="width: inherit">
-	                            <button id="btnSize" type="button" class="btn btn-primary">Size -50</button>
-	                            <button id="btnSpeed" type="button" class="btn btn-primary">Speed - 50</button>
-	                            <button id="btnRange" type="button" class="btn btn-primary">Range - 50</button>
-	                            <button id="btnFirepower" type="button" class="btn btn-primary">Firepower - 50</button>
-	                            <button id="btnCargo" type="button" class="btn btn-primary">Cargo - 50</button>
+	                            <button id="btnSize" type="button" class="btn btn-primary" onclick="executeRoundHuman('Size')">Size -50</button>
+	                            <button id="btnSpeed" type="button" class="btn btn-primary" onclick="executeRoundHuman('Speed')">Speed - 50</button>
+	                            <button id="btnRange" type="button" class="btn btn-primary" onclick="executeRoundHuman('Range')">Range - 50</button>
+	                            <button id="btnFirepower" type="button" class="btn btn-primary" onclick="executeRoundHuman('Firepower')">Firepower - 50</button>
+	                            <button id="btnCargo" type="button" class="btn btn-primary" onclick="executeRoundHuman('Cargo')">Cargo - 50</button>
 	                        </div>
                     	</div>
                   	</div>
@@ -207,16 +207,14 @@
                 </div>
             </div> <!-- end of rounds stats area -->
         </div> <!-- end of player and stats area -->
-        <div>
-           	<button id="humanexecute" align="middle" onclick="executeRoundHuman('Speed')">Execute Round</button>
-        </div>
+
 						
 		<script type="text/javascript">
 		
 			// Method that is called on page load
 			function initalize() {
 				//make sure to integrate this properly
-				document.getElementById("humanexecute").disabled = true;
+				disablePlayerChoice();
 				// --------------------------------------------------------------------------
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
@@ -224,6 +222,23 @@
 				// For example, lets call our sample methods
 				//GameOnline("3");	
 			}
+			
+			function enablePlayerChoice(){
+				document.getElementById("btnSize").disabled = false;
+				document.getElementById("btnCargo").disabled = false;	
+				document.getElementById("btnRange").disabled = false;
+				document.getElementById("btnFirepower").disabled = false;
+				document.getElementById("btnSpeed").disabled = false;						
+			}
+			
+			function disablePlayerChoice(){
+				document.getElementById("btnSize").disabled = true;
+				document.getElementById("btnCargo").disabled = true;	
+				document.getElementById("btnRange").disabled = true;
+				document.getElementById("btnFirepower").disabled = true;
+				document.getElementById("btnSpeed").disabled = true;				
+			}
+			
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
 				GameOnline(x);
@@ -239,10 +254,6 @@
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
 			}
 			
-			function testBooleans(){
-				isCurrentHuman();
-				isHumanPlaying();
-			}
 			// -----------------------------------------
 			// Add your other Javascript methods Here
 			// -----------------------------------------
@@ -391,7 +402,7 @@
  					var value = JSON.parse(responseText)
 					if(value.curHuman){
 						//enable button on cards
-						document.getElementById("humanexecute").disabled = false;
+						enablePlayerChoice();
 						document.getElementById("nextBtn").disabled = true;
 						alert("humans turn")
 					}
@@ -450,7 +461,7 @@
 			
 			function executeRoundHuman(category) {
 
-				document.getElementById("humanexecute").disabled = true;
+				disablePlayerChoice();
 				document.getElementById("nextBtn").disabled = false;
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/executeRoundHuman?category="+category); // Request type and URL+parameters
