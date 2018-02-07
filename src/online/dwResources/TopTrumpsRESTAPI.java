@@ -2,7 +2,9 @@ package online.dwResources;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -191,13 +193,12 @@ public class TopTrumpsRESTAPI {
 				topCardInfo.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\",");
 			}
 			topCardInfo.deleteCharAt(topCardInfo.length() - 1);
-			topCardInfo.append("}}}");
+			topCardInfo.append("},");
 		}
 		return topCardInfo.toString();
 	}
 	
 	private String executeRound(String category) {
-		
 		
 		game.executeRound(category);
 		ArrayList<Player> players = game.getActivePlayers();
@@ -238,6 +239,8 @@ public class TopTrumpsRESTAPI {
 		roundResult.append(isGameOver);
 		return roundResult.toString()  ;			
 	}
+
+	
 	
 	public Card[] getDeck()
 	{

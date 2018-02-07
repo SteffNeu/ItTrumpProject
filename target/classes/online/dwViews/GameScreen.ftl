@@ -357,6 +357,14 @@
  					alert(responseText);
  					var topcards = JSON.parse(responseText);
 					alert(topcards); // lets produce an alert
+					
+					f
+					
+					
+					
+					
+					
+					
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
