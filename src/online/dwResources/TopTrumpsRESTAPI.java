@@ -149,7 +149,7 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	
-	private String executeRound(String category) {
+private String executeRound(String category) {
 		
 		
 		game.executeRound(category);
@@ -159,28 +159,29 @@ public class TopTrumpsRESTAPI {
 		StringBuilder roundResult = new StringBuilder("{"); //TODO formatting in object
 		for(int i = 0; i < players.size(); i++)
 		{	
-			roundResult.append(players.get(i).getName() + ":\"" + players.get(i).getPile().getTopCard().getName() + "\", ");	
+			roundResult.append("\"" + players.get(i).getName() + "\":\"" + players.get(i).getPile().getTopCard().getName() + "\", ");	
 		}
+		roundResult.append("\"activePlayer\":\""+game.getCurrentPlayer().getName()+"\", ");
 				
-		roundResult.append("roundnumber:\"" + Integer.toString(game.getNumOfRounds()) + "\", ");
+		roundResult.append("\"roundnumber\":\"" + Integer.toString(game.getNumOfRounds()) + "\", ");
 				
-		roundResult.append("communalcardnumber:\"" + Integer.toString(game.getCommunalPile().getNumOfCards()) + "\", ");
+		roundResult.append("\"communalcardnumber\":\"" + Integer.toString(game.getCommunalPile().getNumOfCards()) + "\", ");
 		
 		// get the number of cards for each player
 		for (Player player : players)
 		{
-			roundResult.append(player.getName() + "cards:\"");
+			roundResult.append("\"" + player.getName() + "cards\":\"");
 			roundResult.append(player.getPile().getNumOfCards() + "\", ");
 		}
 		
-		String isHumanPlaying = "humanplaying:\"";
+		String isHumanPlaying = "\"humanplaying\":\"";
 		if (game.isHumanPlaying())
 			isHumanPlaying += "1\", ";
 		else
 			isHumanPlaying += "0\", ";
 		roundResult.append(isHumanPlaying);
 		
-		String isGameOver = "gameover:\"";
+		String isGameOver = "\"gameover\":\"";
 		if (players.size() == 1) {
 			isGameOver += "1\"}";
 			Database db = new Database();
