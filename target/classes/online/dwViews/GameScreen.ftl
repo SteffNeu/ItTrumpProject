@@ -208,7 +208,7 @@
             </div> <!-- end of rounds stats area -->
         </div> <!-- end of player and stats area -->
         <div>
-           	<button align="middle" onclick="executeRoundHuman('Speed')">Execute Round</button>
+           	<button id="humanexecute" align="middle" onclick="executeRoundHuman('Speed')">Execute Round</button>
         </div>
 						
 		<script type="text/javascript">
@@ -382,6 +382,8 @@
  					var value = JSON.parse(responseText)
 					if(value.curHuman){
 						//enable button on cards
+						document.getElementById("humanexecute").disabled = false;
+						document.getElementById("nextBtn").disabled = true;
 						alert("humans turn")
 					}
 					else {
@@ -437,6 +439,8 @@
 			
 			function executeRoundHuman(category) {
 
+				document.getElementById("humanexecute").disabled = true;
+				document.getElementById("nextBtn").disabled = false;
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/executeRoundHuman?category="+category); // Request type and URL+parameters
 				
@@ -453,7 +457,8 @@
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
+				xhr.send();	
+					
 			}			
 			
 
