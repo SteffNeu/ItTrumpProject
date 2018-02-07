@@ -171,11 +171,11 @@
                 	<div class="card-footer">
                     	<div class="container">
                     		<div id="playerBtns" class="btn-group-vertical" style="width: inherit">
-	                            <button id="btnSize" type="button" class="btn btn-primary" onclick="executeRoundHuman('Size')">Size -50</button>
-	                            <button id="btnSpeed" type="button" class="btn btn-primary" onclick="executeRoundHuman('Speed')">Speed - 50</button>
-	                            <button id="btnRange" type="button" class="btn btn-primary" onclick="executeRoundHuman('Range')">Range - 50</button>
-	                            <button id="btnFirepower" type="button" class="btn btn-primary" onclick="executeRoundHuman('Firepower')">Firepower - 50</button>
-	                            <button id="btnCargo" type="button" class="btn btn-primary" onclick="executeRoundHuman('Cargo')">Cargo - 50</button>
+	                            <button id="btnCat1" type="button" class="btn btn-primary" onclick="executeRoundHuman('Size')">Size -50</button>
+	                            <button id="btnCat2" type="button" class="btn btn-primary" onclick="executeRoundHuman('Speed')">Speed - 50</button>
+	                            <button id="btnCat3" type="button" class="btn btn-primary" onclick="executeRoundHuman('Range')">Range - 50</button>
+	                            <button id="btnCat4" type="button" class="btn btn-primary" onclick="executeRoundHuman('Firepower')">Firepower - 50</button>
+	                            <button id="btnCat5" type="button" class="btn btn-primary" onclick="executeRoundHuman('Cargo')">Cargo - 50</button>
 	                        </div>
                     	</div>
                   	</div>
