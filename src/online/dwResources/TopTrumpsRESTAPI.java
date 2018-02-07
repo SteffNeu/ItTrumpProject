@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import online.configuration.TopTrumpsJSONConfiguration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -159,6 +160,18 @@ public class TopTrumpsRESTAPI {
 	{
 		String roundResult = this.executeRound(game.getCurrentPlayer().selectAttribute());
 		return roundResult; //TODO object formatting
+	}
+	
+	@GET
+	@Path("/game/getActivePlayers")
+	public String getActivePlayers() throws JsonProcessingException {
+		ArrayList<String> playerNames = new ArrayList();
+		ArrayList<Player> players = game.getActivePlayers();
+		for (Player p : players) {
+			playerNames.add(p.getName());
+		}
+		System.out.println(oWriter.writeValueAsString(playerNames));
+		return oWriter.writeValueAsString(playerNames);
 	}
 	
 	

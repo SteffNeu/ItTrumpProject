@@ -60,7 +60,7 @@
 				
 				<div id="aiCardsRow"class="row">
 
-		            <div class="col-lg-3">
+		            <div id="ai1" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 1<span class="badge badge-info">CardCount</span></div>
 		                  <div class="card-body"><img src="plane.png" height="200" width="200"></div>
@@ -79,7 +79,7 @@
 		            </div>
 		
 		
-		            <div class="col-lg-3">
+		            <div id="ai2" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 2<span class="badge badge-info">CardCount</span></div>
 		                  <div class="card-body">
@@ -98,7 +98,7 @@
 		                </div>
 		            </div>
 		
-		            <div class="col-lg-3">
+		            <div id="ai3" class="col-lg-3">
 		
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 3<span class="badge badge-info">CardCount</span></div>
@@ -117,7 +117,7 @@
 		                </div>
 		            </div>
 		
-		            <div class="col-lg-3">
+		            <div id="ai4" class="col-lg-3">
 		
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 4<span class="badge badge-info">CardCount</span></div>
@@ -165,7 +165,7 @@
         	<div id="playerArea" class="col-lg-6">
                 
             	<!--player card-->
-                <div id="playerCard" class="card" style="width: 300px" >
+                <div id="human" class="card" style="width: 300px" >
                 	<div class="card-header">You<span class="badge badge-info">CardCount</span></div>
                 	<div class="card-body"><img src="plane.png" height="200" width="200"></div>
                 	<div class="card-footer">
@@ -223,7 +223,14 @@
 				//GameOnline("3");	
 			}
 			
+			//enables the button on the card and hides the ai1 cards
 			function enablePlayerChoice(){
+				//alert("I'm in enable")
+				document.getElementById("ai1").style.visibility = "hidden";
+				document.getElementById("ai2").style.visibility = "hidden";
+				document.getElementById("ai3").style.visibility = "hidden";
+				document.getElementById("ai4").style.visibility = "hidden";			
+			
 				document.getElementById("btnSize").disabled = false;
 				document.getElementById("btnCargo").disabled = false;	
 				document.getElementById("btnRange").disabled = false;
@@ -477,13 +484,47 @@
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
 					alert(responseText)
+					makeCardsVisible();
 					updateInfo(infos);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();	
+				
+			
+				
 					
+			}		
+			
+			function makeCardsVisible() {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getActivePlayers"); // Request type and URL
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+					alert(responseText); // lets produce an alert
+					var players = JSON.parse(responseText)
+					var arrayLength = players.length;
+					for (var i = 0; i < arrayLength; i++) {
+						alert("\""+players[i]+"\"");
+						var tmp = "\""+players[i]+"\"";
+						document.getElementById(tmp).style.visibility = "visible";
+					}
+											
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
 			}			
+				
 			
 
 		</script>
