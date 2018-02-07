@@ -152,6 +152,17 @@ public class TopTrumpsRESTAPI {
 		return roundResult; //TODO object formatting
 	}
 	
+	@GET
+	@Path("/game/isHumanPlaying")
+	public String isHumanPlaying(){
+		String isHumanPlaying = "{\"humanplaying\":";
+		if (game.isHumanPlaying())
+			isHumanPlaying += "true}";
+		else
+			isHumanPlaying += "false}";
+		
+		return isHumanPlaying;
+	}
 	
 	private String executeRound(String category) {
 		

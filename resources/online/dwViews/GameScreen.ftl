@@ -207,7 +207,7 @@
                 </div>
             </div> <!-- end of rounds stats area -->
             <div>
-            	<button align="left" onclick="looping()">Execute Round</button>
+            	<button align="left" onclick="isHumanPlaying()">Execute Round</button>
             </div>
         </div> <!-- end of player and stats area -->
 						
@@ -409,7 +409,32 @@
 			
 			
 
-			
+			function isHumanPlaying() {
+
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/isHumanPlaying"); // Request type and URL
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				var test = "YO"
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText)
+ 					if(value.humanplaying){
+ 						alert("True worked")
+ 					}
+ 					else if($not value.humanplaying){
+ 						alert("False worked")
+ 					}
+				};
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();	
+			}
 			
 			
 			
