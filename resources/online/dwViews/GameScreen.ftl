@@ -153,7 +153,7 @@
             </div>
 
             <div id="roundBtns" class="col-lg-4">
-                <button id="nextBtn" type="button" class="btn" style="width:40%">Continue</button>
+                <button id="nextBtn" type="button" class="btn" style="width:40%" onclick="isHumanPlaying()">Continue</button>
                 <button type="quitBtn" class="btn" style="width: 40%">Quit Game</button>
 
             </div>
@@ -207,6 +207,9 @@
                 </div>
             </div> <!-- end of rounds stats area -->
         </div> <!-- end of player and stats area -->
+        <div>
+           	<button align="middle" onclick="executeRoundHuman('Speed')">Execute Round</button>
+        </div>
 						
 		<script type="text/javascript">
 		
@@ -223,6 +226,15 @@
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
 				GameOnline(x);
+			}
+			
+			function finishGame(){
+				executeRoundAI();
+			}
+			
+			function testBooleans(){
+				isCurrentHuman();
+				isHumanPlaying();
 			}
 			// -----------------------------------------
 			// Add your other Javascript methods Here
@@ -324,18 +336,62 @@
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
+
+			function isHumanPlaying() {
+
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/isHumanPlaying"); // Request type and URL
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var val = JSON.parse(responseText)
+					if(val.humanplaying){
+						isCurrentHuman();
+					}
+					else {
+						finishGame();
+					}
+				};
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();	
+			}			
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			function isCurrentHuman() {
+
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/isCurrentHuman"); // Request type and URL
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var value = JSON.parse(responseText)
+					if(value.curHuman){
+						//enable button on cards
+						alert("humans turn")
+					}
+					else {
+						executeRoundAI();
+					}
+				};
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();	
+			}
+	
 			
 			
 			
@@ -354,15 +410,28 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					
-					document.getElementById("category").innerHTML = responseText;
+ 					var values = JSON.parse(responseText)
+ 					if(values.gameover){
+ 						alert("Thank you for playing")
+ 					}
+ 					else if(values.humanplaying){
+ 						alert(responseText)
+ 						//display results
+ 						//enable button
+ 					}
+ 					else{
+ 						finishGame();
+ 					}
+					
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
 			
+
 			
-			
+
 			
 			
 			
@@ -380,7 +449,7 @@
 				// to do when the response arrives 
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
-					document.getElementById("category").innerHTML = responseText;
+					alert(responseText)
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it

@@ -122,13 +122,26 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/game/isCurrentHuman")
-	public String isCurrentHuman()
-	{
-		if(game.isCurrentChooserHuman())
-			return "1";
+	public String isCurrentHuman()	{
+		String val = "{\"curHuman\":";
+		if(this.game.isCurrentChooserHuman())
+			val +=  "true}";
 		else
-			return "0";
-		
+			val +=  "false}";
+		System.out.println(val);
+		return val;
+	}
+	
+	@GET
+	@Path("/game/isHumanPlaying")
+	public String isHumanPlaying()	{
+		String val = "{\"humanplaying\":";
+		if(this.game.isHumanPlaying())
+			val +=  "true}";
+		else
+			val +=  "false}";
+		System.out.println(val);
+		return val;
 	}
 	
 	@GET
@@ -174,23 +187,23 @@ private String executeRound(String category) {
 			roundResult.append(player.getPile().getNumOfCards() + "\", ");
 		}
 		
-		String isHumanPlaying = "\"humanplaying\":\"";
+		String isHumanPlaying = "\"humanplaying\":";
 		if (game.isHumanPlaying())
-			isHumanPlaying += "1\", ";
+			isHumanPlaying += "true, ";
 		else
-			isHumanPlaying += "0\", ";
+			isHumanPlaying += "false, ";
 		roundResult.append(isHumanPlaying);
 		
-		String isGameOver = "\"gameover\":\"";
+		String isGameOver = "\"gameover\":";
 		if (players.size() == 1) {
-			isGameOver += "1\"}";
+			isGameOver += "true}";
 			Database db = new Database();
 			db.setGame(game);
 			db.writeInfoToDatabase();
 			db.disconnectFromDatabase();
 		}
 		else {
-			isGameOver += "0\"}";
+			isGameOver += "false}";
 		}
 		roundResult.append(isGameOver);
 		
