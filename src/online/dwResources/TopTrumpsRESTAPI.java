@@ -56,43 +56,6 @@ public class TopTrumpsRESTAPI {
 		// ----------------------------------------------------
 	}
 	
-	// ----------------------------------------------------
-	// Add relevant API methods here
-	// ----------------------------------------------------
-	
-	@GET
-	@Path("/helloJSONList")
-	/**
-	 * Here is an example of a simple REST get request that returns a String.
-	 * We also illustrate here how we can convert Java objects to JSON strings.
-	 * @return - List of words as JSON
-	 * @throws IOException
-	 */
-	public String helloJSONList() throws IOException {
-		
-		List<String> listOfWords = new ArrayList<String>();
-		listOfWords.add("Hello");
-		listOfWords.add("World!");
-		
-		// We can turn arbatory Java objects directly into JSON strings using
-		// Jackson seralization, assuming that the Java objects are not too complex.
-		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
-		
-		return listAsJSONString;
-	}
-	
-	@GET
-	@Path("/helloWord")
-	/**
-	 * Here is an example of how to read parameters provided in an HTML Get request.
-	 * @param Word - A word
-	 * @return - A String
-	 * @throws IOException
-	 */
-	public String helloWord(@QueryParam("Word") String Word) throws IOException {
-		return "Hello "+Word;
-	}
-	
 	@GET
 	@Path("/stats")
 	/**
@@ -160,6 +123,7 @@ public class TopTrumpsRESTAPI {
 	public String executeRoundHuman(@QueryParam("category") String category) throws IOException
 	{	
 		game.executeRound(category);
+		game.checkForElimination();
 		String roundResult = this.getUpdateInfoString();
 		return roundResult;	
 	}
@@ -169,6 +133,7 @@ public class TopTrumpsRESTAPI {
 	public String executeRoundAI()
 	{
 		game.executeRound(game.getCurrentPlayer().selectAttribute());
+		game.checkForElimination();
 		String roundResult = this.getUpdateInfoString();
 		return roundResult; //TODO object formatting
 	}
@@ -251,6 +216,8 @@ public class TopTrumpsRESTAPI {
 			roundResult.append(player.getPile().getNumOfCards() + "\", ");
 		}
 		
+		roundResult.append("\"numofdraws\":\"" + game.getNumOfDraws() + "\",");
+		
 		String isHumanPlaying = "\"humanplaying\":";
 		if (game.isHumanPlaying())
 			isHumanPlaying += "true, ";
@@ -261,10 +228,10 @@ public class TopTrumpsRESTAPI {
 		String isGameOver = "\"gameover\":";
 		if (players.size() == 1) {
 			isGameOver += "true}";
-			Database db = new Database();
-			db.setGame(game);
-			db.writeInfoToDatabase();
-			db.disconnectFromDatabase();
+//			Database db = new Database();
+//			db.setGame(game);
+//			db.writeInfoToDatabase();
+//			db.disconnectFromDatabase();
 		}
 		else {
 			isGameOver += "false}";
