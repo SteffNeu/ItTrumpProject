@@ -172,7 +172,7 @@ public class TopTrumpsRESTAPI {
 		String roundResult = this.getUpdateInfoString();
 		return roundResult; //TODO object formatting
 	}
-	
+
 	@GET
 	@Path("/game/getActivePlayers")
 	public String getActivePlayers() throws JsonProcessingException {
@@ -184,6 +184,26 @@ public class TopTrumpsRESTAPI {
 		System.out.println(oWriter.writeValueAsString(playerNames));
 		return oWriter.writeValueAsString(playerNames);
 	}
+
+	
+	@GET
+	@Path("/game/getCategory")
+	public String getCategory(@QueryParam("cat") String catRef){
+		String key ="{\"key\":\"";
+		Card card = game.getCurrentPlayer().getPile().getTopCard();
+		HashMap<String, Integer> cardCategories = card.getCategories();
+		int i = 1;
+		for (Map.Entry<String, Integer> entry: cardCategories.entrySet()) {
+			if(i == Integer.parseInt(catRef)) {
+				key += entry.getKey();
+			}
+			
+			i++;
+		}
+		System.out.println(key);
+		return key += "\"}";
+	}
+
 	
 	@GET
 	@Path("/game/getTopCards")

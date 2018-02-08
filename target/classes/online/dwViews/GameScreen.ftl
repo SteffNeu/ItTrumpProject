@@ -25,17 +25,20 @@
     <div style="background-image: url('data:image/jpeg;base64,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')">
     <div id="windowView" class="container" style="padding: 20px">
     	
-    	<div class="container" style="background-color: white">
+    	<div id="header" class="container" style="background-color: white">
 
+		
 			<p><strong>Please enter the number of players you wish to play against.</strong></p>
 		
+
 			<input type="text" id="numPl" placeholder="1-4">
 			<button id="startBtn" onclick="setNumPl()">Start Game</button>
+			<button id = "returnButton" class="float-right submit-button">Beam me up Scotty</button>
 
 			<p id="currentPlayers"></p>
 			<br />
 				
-			<button id = "returnButton" class="float-left submit-button">Beam me up Scotty</button>
+			
 			<script type="text/javascript">
 				document.getElementById("returnButton").onclick = function () {
 					location.href = "http://localhost:7777/toptrumps";
@@ -43,7 +46,7 @@
 			</script>
 <!--			
 			<br />
-			<button id="executeRound" onclick="executeRoundHuman('Speed')" class="floar-left submit-button">Category</button>
+			//<button id="executeRound" onclick="executeRoundHuman('Speed')" class="floar-left submit-button">Category</button>
 			<p id="category"></p>
 			<br /> -->
 		</div>
@@ -158,8 +161,9 @@
 
             <div id="roundBtns" class="col-lg-4">
                 <button id="nextBtn" type="button" class="btn" style="width:40%" onclick="isHumanPlaying()">Continue</button>
-                <button type="quitBtn" class="btn" style="width: 40%">Quit Game</button>
+                <button type="button" class="btn" value="Check"  onclick=window.location.href="http://localhost:7777/toptrumps" style="width: 40%">Quit Game</button>
 
+ 
             </div>
         </div>
         
@@ -176,11 +180,11 @@
                     	<div class="container">
                     	<div id="humanCardName"></div>
                     		<div id="playerBtns" class="btn-group-vertical" style="width: inherit">
-	                            <button id="btnCat1" type="button" class="btn btn-primary" onclick="executeRoundHuman('Size')"></button>
-	                            <button id="btnCat2" type="button" class="btn btn-primary" onclick="executeRoundHuman('Speed')"></button>
-	                            <button id="btnCat3" type="button" class="btn btn-primary" onclick="executeRoundHuman('Range')"></button>
-	                            <button id="btnCat4" type="button" class="btn btn-primary" onclick="executeRoundHuman('Firepower')"></button>
-	                            <button id="btnCat5" type="button" class="btn btn-primary" onclick="executeRoundHuman('Cargo')"></button>
+	                            <button id="btnCat1" type="button" class="btn btn-primary" onclick ="getCategory('1')"></button>
+	                            <button id="btnCat2" type="button" class="btn btn-primary" onclick ="getCategory('2')"></button>
+	                            <button id="btnCat3" type="button" class="btn btn-primary" onclick ="getCategory('3')"></button>
+	                            <button id="btnCat4" type="button" class="btn btn-primary" onclick ="getCategory('4')"></button>
+	                            <button id="btnCat5" type="button" class="btn btn-primary" onclick ="getCategory('5')"></button>
 	                        </div>
                     	</div>
                   	</div>
@@ -222,12 +226,6 @@
 				disablePlayerChoice();
 				
 				
-				// --------------------------------------------------------------------------
-				// You can call other methods you want to run when the page first loads here
-				// --------------------------------------------------------------------------
-				
-				// For example, lets call our sample methods
-				//GameOnline("3");	
 			}
 			
 			//enables the button on the card and hides the ai1 cards
@@ -254,6 +252,7 @@
 				document.getElementById("btnCat5").disabled = true;				
 			}
 			
+			//hide game related areas 
 			function hideGame(){
 				document.getElementById("gameView").style.visibility = "hidden";
 				document.getElementById("gameLogRow").style.visibility = "hidden";
@@ -262,6 +261,10 @@
 			}
 			
 			function showGame(){
+				//hide header
+				document.getElementById("header").style.visibility = "hidden";
+				
+				//show game area
 				document.getElementById("gameView").style.visibility = "visible";
 				document.getElementById("gameLogRow").style.visibility = "visible";
 				document.getElementById("playerAndStatsRow").style.visibility = "visible";
@@ -283,7 +286,7 @@
 			
 			function updatePlayers(playerInfos){
 				//here the card update happens
-				getTopCards();
+				getTopCards(playerInfos);
 
 				document.getElementById("humanCardCount").textContent = "Cards: " + playerInfos.humancards;
 				for(var i = 1; i <= 5; i++) {
@@ -298,9 +301,8 @@
 				executeRoundAI();
 			}
 			
-			function initContent(numPlayers){
-				document.getElementById("numPl").style.visibility = "hidden";
-				document.getElementById("startBtn").style.visibility = "hidden";
+			function initGameContent(numPlayers){
+
 				for(var i = 4 ; i > numPlayers; i--){
 					var aiID = "ai"+i
 					document.getElementById(aiID).style.visibility = "hidden";
@@ -308,6 +310,7 @@
 				showGame()
 				
 			}
+			
 			
 			function updateInfo(infos){
 				document.getElementById("curPlay").innerHTML = infos.activePlayer;
@@ -349,7 +352,9 @@
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
 			
-			function getTopCards() {
+			function getTopCards(infos) {
+			
+
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getTopCards"); // Request type and URL
@@ -365,6 +370,7 @@
  					var responseText = xhr.response; // the text of the response
  					var topcards = JSON.parse(responseText);
 
+					
 
 					for (var i = 0; i < 5 ; i ++) {
 						if (i == 0) {
@@ -389,6 +395,8 @@
 				
 						}
 					}
+					
+
 					
 					
 					
@@ -422,10 +430,12 @@
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-				initContent(numOfPlayers)
+				xhr.send();
+				initGameContent(numOfPlayers)
 
 			}
+			
+
 
 			function isHumanPlaying() {
 
@@ -552,9 +562,32 @@
 				xhr.send();		
 			}
 			
+			function getCategory(num) {
 
-			
-			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getCategory?cat="+num); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					alert(responseText);
+ 					alert("YO")
+ 					var category = JSON.parse(responseText);
+ 					alert(category.key);
+ 					executeRoundHuman(category.key);
+					
+ 					
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
 			
 			function executeRoundHuman(category) {
 
@@ -579,12 +612,9 @@
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();	
-				
+				xhr.send();			
+			}	
 			
-				
-					
-			}		
 			
 			function makeCardsVisible() {
 			
