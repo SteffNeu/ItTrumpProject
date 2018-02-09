@@ -558,6 +558,7 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					alert(responseText);
 
  					var infos = JSON.parse(responseText)
  					if(infos.gameover){
@@ -568,6 +569,15 @@
  					}
  					else if(infos.humanplaying){
  						updateInfo(infos);
+ 						if(infos.communalcardnumber != "0"){
+ 							alert("We had a draw")
+ 							document.getElementById("btnCat3").style.borderStyle = "double";
+ 							document.getElementById("btnCat3").style.borderColor = "green";
+ 							
+ 							document.getElementById("ai1LabelCat2").style.borderColor = "green";
+ 							document.getElementById("ai1LabelCat2").style.borderStyle = "double";
+ 						}
+ 						
  					}
  					else{
  						finishGame();
@@ -669,6 +679,7 @@
  					var toEliminate = JSON.parse(responseText);
  					if(toEliminate.elimination) {
  						for (var kill in toEliminate.eliminatedPlayers){
+ 							alert(toEliminate.eliminatedPlayers[kill] + " has been eliminated.");
  							document.getElementById(toEliminate.eliminatedPlayers[kill]).style.visibility = "hidden";
  						}
  					}

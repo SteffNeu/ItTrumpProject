@@ -2,11 +2,16 @@ package commandline;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Map;
+import java.util.Scanner;
 
-import game.*;
-import log.*;
-import database.*;
+import database.Database;
+import game.Card;
+import game.Game;
+import game.Player;
+import log.Log;
 
 /**
  * Top Trumps command line application
