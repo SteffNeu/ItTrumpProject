@@ -1,0 +1,17 @@
+game\Game.class
+database\Database.class
+game\Card.class
+online\configuration\TopTrumpsJSONConfiguration.class
+online\dwResources\GameWebPagesResource.class
+online\dwResources\TopTrumpsRESTAPI.class
+online\TopTrumpsOnlineApplication.class
+game\AIPlayer.class
+game\Player.class
+online\dwViews\GameScreenView.class
+online\dwViews\StatisticsView.class
+game\Pile.class
+log\Log.class
+commandline\TopTrumpsCLIApplication.class
+online\dwViews\SelectionScreenView.class
+TopTrumps.class
+game\HumanPlayer.class
