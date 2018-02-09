@@ -344,6 +344,7 @@
 
 
 			function updateInfo(infos){
+				eliminatePlayers();
 				document.getElementById("curPlay").innerHTML = infos.activePlayer;
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
@@ -567,9 +568,6 @@
  					}
  					else if(infos.humanplaying){
  						updateInfo(infos);
- 						//updatePlayers(infos);
- 						//display results
- 						//enable button
  					}
  					else{
  						finishGame();
@@ -645,6 +643,36 @@
  					var responseText = xhr.response; // the text of the response
  					var category = JSON.parse(responseText);
  					executeRoundHuman(category.key);
+
+
+				};
+
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();
+			}
+			
+			function eliminatePlayers() {
+//TODO
+
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/eliminate"); // Request type and URL+parameters
+
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					alert(responseText);
+ 					var toEliminate = JSON.parse(responseText);
+ 					if(toEliminate.elimination) {
+ 						for (var kill in toEliminate.eliminatedPlayers){
+ 							alert(toEliminate.eliminatedPlayers[kill]);
+ 						}
+ 					}
 
 
 				};

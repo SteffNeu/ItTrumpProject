@@ -42,7 +42,8 @@ public class TopTrumpsRESTAPI {
 	 * into JSON strings easily. */
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
 	/** TODO comment */
-	Game game;
+	private Game game;
+	private int numPlayers;
 	
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
@@ -79,6 +80,7 @@ public class TopTrumpsRESTAPI {
 		
 		game = new Game(getDeck());
 		game.startGame(Integer.parseInt(numOfPlayers));
+		numPlayers = game.getNumOfActivePlayers();
 		
 		returnString = "The game will start now with "
 				+ game.getNumOfActivePlayers() + " players. Have fun.";
@@ -254,6 +256,46 @@ public class TopTrumpsRESTAPI {
 		return roundResult.toString()  ;			
 	}
 
+	@GET
+	@Path("/game/eliminate")
+	public String eliminate() {
+		int playerDiff = numPlayers - game.getNumOfActivePlayers();
+		ArrayList<Player> players = game.getInactivePlayers();
+		int lastPos = game.getInactivePlayers().size()-1;
+		StringBuilder elimination = new StringBuilder("{\"elimination\":\"");
+
+		if(playerDiff == 0) {
+			elimination.append("false\"}");
+		}
+		else if(playerDiff == 1) {
+			elimination.append("true\", ");
+			elimination.append("\"eliminatedPlayers\":{\"kill1\":\"" + players.get(lastPos).getName() +"\"}}");
+			numPlayers -= 1;
+		}
+		else if(playerDiff == 2) {
+			elimination.append("true\", ");
+			elimination.append("\"eliminatedPlayers\":{\"kill1\":\"" + players.get(lastPos).getName() +"\", ");
+			elimination.append("\"kill2\":\"" + players.get(lastPos-1).getName() +"\"}}");
+			numPlayers -= 2;
+		}
+		else if(playerDiff == 3) {
+			elimination.append("true\", ");
+			elimination.append("\"eliminatedPlayers\":{\"kill1\":\"" + players.get(lastPos).getName() +"\", ");
+			elimination.append("\"kill2\":\"" + players.get(lastPos-1).getName() +"\", ");
+			elimination.append("\"kill3\":\"" + players.get(lastPos-2).getName() +"\"}}");
+			numPlayers -= 3;
+		}
+		else{
+			elimination.append("true\", ");
+			elimination.append("\"eliminatedPlayers\":{\"kill1\":\"" + players.get(lastPos).getName() +"\", ");
+			elimination.append("\"kill2\":\"" + players.get(lastPos-1).getName() +"\", ");
+			elimination.append("\"kill3\":\"" + players.get(lastPos-2).getName() +"\", ");
+			elimination.append("\"kill4\":\"" + players.get(lastPos-3).getName() +"\"}}");
+			numPlayers -= 4;
+		}
+		System.out.println(elimination.toString());
+		return elimination.toString();
+	}
 	
 	
 	public Card[] getDeck()

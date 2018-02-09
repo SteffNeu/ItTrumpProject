@@ -88,6 +88,15 @@ public class Game
 	{
 		return numOfRounds;
 	}
+	
+	/**
+	 * gets inactive players
+	 * @return ArrayList<Player> in active players
+	 */
+	public ArrayList<Player> getInactivePlayers(){
+		return inactivePlayers;
+	}
+	
 	/**
 	 * gets number of draws
 	 * @return integer num of draws
@@ -386,4 +395,6 @@ public class Game
 		else 
 			return false;
 	}
+	
+
 }
