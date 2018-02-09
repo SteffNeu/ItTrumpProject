@@ -356,10 +356,15 @@
 					
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
-							
+						
+				highlightCategory(infos.chosenCategory);			
 				getNumCards();
 				eliminatePlayers();
 
+			}
+			
+			function highlightCategory(cat){
+				alert(cat);
 			}
 
 			function showGameResults(infos){
