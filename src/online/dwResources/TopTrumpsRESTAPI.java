@@ -228,10 +228,10 @@ public class TopTrumpsRESTAPI {
 		String isGameOver = "\"gameover\":";
 		if (players.size() == 1) {
 			isGameOver += "true}";
-//			Database db = new Database();
-//			db.setGame(game);
-//			db.writeInfoToDatabase();
-//			db.disconnectFromDatabase();
+			Database db = new Database();
+			db.setGame(game);
+			db.writeInfoToDatabase();
+			db.disconnectFromDatabase();
 		}
 		else {
 			isGameOver += "false}";

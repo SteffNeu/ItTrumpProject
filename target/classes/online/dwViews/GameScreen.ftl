@@ -297,15 +297,23 @@
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
 				if(x < 1 || x > 4){
-					 document.getElementById("numPl").value = "";
-					 document.getElementById("currentPlayers").innerHTML = "Invalid input. Choose a number between 1 and 4."
+					document.getElementById("numPl").value = "";
+					document.getElementById("currentPlayers").innerHTML = "Invalid input. Choose a number between 1 and 4."
 				}
 				else{
-					//set up game and call hideContent
-					GameOnline(x);
-					setUpGameDisplay();
+				// set up game and call hideContent
+				GameOnline(x);
+				// wait for the GameOnline method to finish
+				sleep(100).then(() => {
+				    setUpGameDisplay();
+				})
 				}
 			}
+
+			function sleep(time){
+				return new Promise((resolve) => setTimeout(resolve, time));
+			}
+
 
 			function updatePlayers(playerInfos){
 				//here the card update happens
@@ -690,6 +698,14 @@
 			<!--once game has ended modal-->
 		<div id="gameEnd" class="container justify-content-center" style = "background-color: whitesmoke">
 	    <div class="container">
+				<style>
+					.btn-primary{
+						margin-bottom: 1px;
+					}
+					.btn-primary:hover{
+						background-color: #4d79ff;
+					}
+				</style>
 	      <div class="jumbotron vertical-center">
 	        <h2 class="container">GAME OVER</h2>
 	        <h4>The game has ended</h4>
