@@ -666,11 +666,10 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
- 					alert(responseText);
  					var toEliminate = JSON.parse(responseText);
  					if(toEliminate.elimination) {
  						for (var kill in toEliminate.eliminatedPlayers){
- 							alert(toEliminate.eliminatedPlayers[kill]);
+ 							document.getElementById(toEliminate.eliminatedPlayers[kill]).style.visibility = "hidden";
  						}
  					}
 
