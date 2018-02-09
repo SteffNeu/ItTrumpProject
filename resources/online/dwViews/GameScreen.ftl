@@ -249,15 +249,18 @@
 
 
 			}
+			
+			function hideAIs(){
+				document.getElementById("ai1").style.visibility = "hidden";
+				document.getElementById("ai2").style.visibility = "hidden";
+				document.getElementById("ai3").style.visibility = "hidden";
+				document.getElementById("ai4").style.visibility = "hidden";			
+			}
 
 			//enables the button on the card and hides the ai1 cards
 			//refactor with loops
 			function enablePlayerChoice(){
 				//alert("I'm in enable")
-				document.getElementById("ai1").style.visibility = "hidden";
-				document.getElementById("ai2").style.visibility = "hidden";
-				document.getElementById("ai3").style.visibility = "hidden";
-				document.getElementById("ai4").style.visibility = "hidden";
 
 				document.getElementById("btnCat1").disabled = false;
 				document.getElementById("btnCat2").disabled = false;
@@ -304,12 +307,13 @@
 					//set up game and call hideContent
 					GameOnline(x);
 					setUpGameDisplay();
+					getNumCards();
 				}
 			}
 
 			function updatePlayers(playerInfos){
 				//here the card update happens
-				getTopCards(playerInfos);
+				getTopCards();
 
 				document.getElementById("humanCardCount").textContent = "Cards: " + playerInfos.humancards;
 				for(var i = 1; i <= 5; i++) {
@@ -386,9 +390,9 @@
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
 
-			function getTopCards(infos) {
+			function getTopCards() {
 
-
+//				getNumCards();
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getTopCards"); // Request type and URL
@@ -445,6 +449,28 @@
 			}
 
 
+			function getNumCards() {
+				
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getNumCards"); // Request type and URL+parameters
+
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var infos = JSON.parse(responseText)
+ 					updatePlayers(infos);
+
+
+				};
+
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();
+			}
 
 
 			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
@@ -517,10 +543,12 @@
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText)
 
-
+//TODO rename
+					getNumCards();
 
 					if(value.curHuman){
 						//enable button on cards
+						hideAIs();
 						enablePlayerChoice();
 						document.getElementById("nextBtn").disabled = true;
 					}
@@ -553,13 +581,12 @@
  					var infos = JSON.parse(responseText)
  					if(infos.gameover){
  						updateInfo(infos)
- 						alert("Thank you for playing");
- 						alert("number of draws: " + infos.numofdraws); //MATT - number of draws
+ 						//alert("number of draws: " + infos.numofdraws); //MATT - number of draws
 						showGameResults(infos);
  					}
  					else if(infos.humanplaying){
  						updateInfo(infos);
- 						updatePlayers(infos);
+ 						//updatePlayers(infos);
  						//display results
  						//enable button
  					}
@@ -616,6 +643,7 @@
  					var responseText = xhr.response; // the text of the response
  					var category = JSON.parse(responseText);
  					executeRoundHuman(category.key);
+					makeCardsVisible();
 
 
 				};
@@ -626,7 +654,7 @@
 
 			function executeRoundHuman(category) {
 
-				disablePlayerChoice();
+
 				document.getElementById("nextBtn").disabled = false;
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/executeRoundHuman?category="+category); // Request type and URL+parameters
@@ -640,16 +668,16 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					alert(responseText);
  					var infos = JSON.parse(responseText)
-					updatePlayers(infos);
-					makeCardsVisible();
+					//updatePlayers(infos);
 					updateInfo(infos);
+					disablePlayerChoice();
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
 			}
-
 
 			function makeCardsVisible() {
 
@@ -680,7 +708,7 @@
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
 			}
-
+			
 
 
 		</script>

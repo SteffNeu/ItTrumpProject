@@ -196,6 +196,21 @@ public class TopTrumpsRESTAPI {
 		return topCardInfo.toString();
 	}
 	
+	@GET
+	@Path("/game/getNumCards")
+	public String getNumCards() {
+		ArrayList<Player> players = game.getActivePlayers();
+		StringBuilder roundResult = new StringBuilder("{");
+		for (Player player : players){
+			roundResult.append("\"" + player.getName() + "cards\":\"");
+			roundResult.append(player.getPile().getNumOfCards() + "\", ");
+		}
+		roundResult.deleteCharAt(roundResult.length()-2);
+		roundResult.deleteCharAt(roundResult.length()-1);
+		roundResult.append("}");
+		return roundResult.toString();
+	}
+	
 	private String getUpdateInfoString() {
 		
 		
