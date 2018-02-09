@@ -92,11 +92,11 @@
 		                      <div class="container">
 		                      	<div id="ai1CardName" style></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai1LabelCat1" class="label info"></span>
-		                            <span id="ai1LabelCat2" class="label info"></span>
-		                            <span id="ai1LabelCat3" class="label info"></span>
-		                            <span id="ai1LabelCat4" class="label info"></span>
-		                            <span id="ai1LabelCat5" class="label info"></span>
+		                            <span id="ai1Cat1" class="label info"></span>
+		                            <span id="ai1Cat2" class="label info"></span>
+		                            <span id="ai1Cat3" class="label info"></span>
+		                            <span id="ai1Cat4" class="label info"></span>
+		                            <span id="ai1Cat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -113,11 +113,11 @@
 		                      <div class="container">
 		                      	<div id="ai2CardName"></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai2LabelCat1" class="label info"></span>
-		                            <span id="ai2LabelCat2" class="label info"></span>
-		                            <span id="ai2LabelCat3" class="label info"></span>
-		                            <span id="ai2LabelCat4" class="label info"></span>
-		                            <span id="ai2LabelCat5" class="label info"></span>
+		                            <span id="ai2Cat1" class="label info"></span>
+		                            <span id="ai2Cat2" class="label info"></span>
+		                            <span id="ai2Cat3" class="label info"></span>
+		                            <span id="ai2Cat4" class="label info"></span>
+		                            <span id="ai2Cat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -133,11 +133,11 @@
 		                      <div class="container">
 		                      	<div id="ai3CardName"></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai3LabelCat1" class="label info"></span>
-		                            <span id="ai3LabelCat2" class="label info"></span>
-		                            <span id="ai3LabelCat3" class="label info"></span>
-		                            <span id="ai3LabelCat4" class="label info"></span>
-		                            <span id="ai3LabelCat5" class="label info"></span>
+		                            <span id="ai3Cat1" class="label info"></span>
+		                            <span id="ai3Cat2" class="label info"></span>
+		                            <span id="ai3Cat3" class="label info"></span>
+		                            <span id="ai3Cat4" class="label info"></span>
+		                            <span id="ai3Cat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -153,11 +153,11 @@
 		                      <div class="container">
 		                        <div id="ai4CardName"></div>
 		                        <div class="btn-group-vertical">
-		                            <span id="ai4LabelCat1" class="label info"></span>
-		                            <span id="ai4LabelCat2" class="label info"></span>
-		                            <span id="ai4LabelCat3" class="label info"></span>
-		                            <span id="ai4LabelCat4" class="label info"></span>
-		                            <span id="ai4LabelCat5" class="label info"></span>
+		                            <span id="ai4Cat1" class="label info"></span>
+		                            <span id="ai4Cat2" class="label info"></span>
+		                            <span id="ai4Cat3" class="label info"></span>
+		                            <span id="ai4Cat4" class="label info"></span>
+		                            <span id="ai4Cat5" class="label info"></span>
 		                        </div>
 		                    </div>
 		                  </div>
@@ -183,11 +183,11 @@
                     	<div class="container">
                     	<div id="humanCardName"></div>
                     		<div id="playerBtns" class="btn-group-vertical" style="width: inherit">
-	                            <button id="btnCat1" type="button" class="btn btn-primary" onclick ="getCategory('1')"></button>
-	                            <button id="btnCat2" type="button" class="btn btn-primary" onclick ="getCategory('2')"></button>
-	                            <button id="btnCat3" type="button" class="btn btn-primary" onclick ="getCategory('3')"></button>
-	                            <button id="btnCat4" type="button" class="btn btn-primary" onclick ="getCategory('4')"></button>
-	                            <button id="btnCat5" type="button" class="btn btn-primary" onclick ="getCategory('5')"></button>
+	                            <button id="humanCat1" type="button" class="btn btn-primary" onclick ="getCategory('1')"></button>
+	                            <button id="humanCat2" type="button" class="btn btn-primary" onclick ="getCategory('2')"></button>
+	                            <button id="humanCat3" type="button" class="btn btn-primary" onclick ="getCategory('3')"></button>
+	                            <button id="humanCat4" type="button" class="btn btn-primary" onclick ="getCategory('4')"></button>
+	                            <button id="humanCat5" type="button" class="btn btn-primary" onclick ="getCategory('5')"></button>
 	                        </div>
                     	</div>
                   	</div>
@@ -259,19 +259,19 @@
 				document.getElementById("ai3").style.visibility = "hidden";
 				document.getElementById("ai4").style.visibility = "hidden";
 
-				document.getElementById("btnCat1").disabled = false;
-				document.getElementById("btnCat2").disabled = false;
-				document.getElementById("btnCat3").disabled = false;
-				document.getElementById("btnCat4").disabled = false;
-				document.getElementById("btnCat5").disabled = false;
+				document.getElementById("humanCat1").disabled = false;
+				document.getElementById("humanCat2").disabled = false;
+				document.getElementById("humanCat3").disabled = false;
+				document.getElementById("humanCat4").disabled = false;
+				document.getElementById("humanCat5").disabled = false;
 			}
 
 			function disablePlayerChoice(){
-				document.getElementById("btnCat1").disabled = true;
-				document.getElementById("btnCat2").disabled = true;
-				document.getElementById("btnCat3").disabled = true;
-				document.getElementById("btnCat4").disabled = true;
-				document.getElementById("btnCat5").disabled = true;
+				document.getElementById("humanCat1").disabled = true;
+				document.getElementById("humanCat2").disabled = true;
+				document.getElementById("humanCat3").disabled = true;
+				document.getElementById("humanCat4").disabled = true;
+				document.getElementById("humanCat5").disabled = true;
 			}
 
 			//hide game related areas
@@ -362,9 +362,16 @@
 				eliminatePlayers();
 
 			}
-			
+//TODO			
 			function highlightCategory(cat){
-				alert(cat);
+				document.getElementById("humanCat"+cat).style.borderColor = "green";
+				document.getElementById("humanCat"+cat).style.borderWidth = "thick";
+				alert("humanCat"+cat);
+				for(var i = 1; i <= 5; i++){
+					alert("ai"+i+"Cat"+cat);
+					document.getElementById("ai"+i+"Cat"+cat).style.borderColor = "green";
+					document.getElementById("ai"+i+"Cat"+cat).style.borderWidth = "thick";
+				}
 			}
 
 			function showGameResults(infos){
@@ -436,11 +443,11 @@
 						if (i == 0) {
 							document.getElementById( "humanImgCard").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + topcards.human.cardName + ".jpg";
 							document.getElementById("humanCardName").innerHTML = "<b>" + topcards.human.cardName + "</b>";
-							document.getElementById("btnCat1").innerHTML = topcards.human.category1;
-							document.getElementById("btnCat2").innerHTML = topcards.human.category2;
-							document.getElementById("btnCat3").innerHTML = topcards.human.category3;
-							document.getElementById("btnCat4").innerHTML = topcards.human.category4;
-							document.getElementById("btnCat5").innerHTML = topcards.human.category5;
+							document.getElementById("humanCat1").innerHTML = topcards.human.category1;
+							document.getElementById("humanCat2").innerHTML = topcards.human.category2;
+							document.getElementById("humanCat3").innerHTML = topcards.human.category3;
+							document.getElementById("humanCat4").innerHTML = topcards.human.category4;
+							document.getElementById("humanCat5").innerHTML = topcards.human.category5;
 							}
 						else {
 							var aiName = "ai" + i;
@@ -448,11 +455,11 @@
 							if (topcards.hasOwnProperty(aiName)){
 								document.getElementById(aiName + "ImgCard").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + topcards[aiName].cardName + ".jpg";
 								document.getElementById(aiName + "CardName").innerHTML = "<b>" + topcards[aiName].cardName + "</b>";
-								document.getElementById(aiName + "LabelCat1").innerHTML = topcards[aiName].category1;
-								document.getElementById(aiName + "LabelCat2").innerHTML = topcards[aiName].category2;
-								document.getElementById(aiName + "LabelCat3").innerHTML = topcards[aiName].category3;
-								document.getElementById(aiName + "LabelCat4").innerHTML = topcards[aiName].category4;
-								document.getElementById(aiName + "LabelCat5").innerHTML = topcards[aiName].category5;
+								document.getElementById(aiName + "Cat1").innerHTML = topcards[aiName].category1;
+								document.getElementById(aiName + "Cat2").innerHTML = topcards[aiName].category2;
+								document.getElementById(aiName + "Cat3").innerHTML = topcards[aiName].category3;
+								document.getElementById(aiName + "Cat4").innerHTML = topcards[aiName].category4;
+								document.getElementById(aiName + "Cat5").innerHTML = topcards[aiName].category5;
 							}
 
 						}
@@ -575,7 +582,6 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
-
  					var infos = JSON.parse(responseText)
  					if(infos.gameover){
  						updateInfo(infos)
@@ -671,7 +677,6 @@
 			}
 			
 			function eliminatePlayers() {
-//TODO
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/eliminate"); // Request type and URL+parameters
@@ -719,7 +724,6 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
-					//updatePlayers(infos);
 					makeCardsVisible();
 					updateInfo(infos);
 				};
