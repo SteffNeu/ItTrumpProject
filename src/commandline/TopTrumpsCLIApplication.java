@@ -35,8 +35,6 @@ public class TopTrumpsCLIApplication {
 		// Loop until the user wants to exit the game
 		mainLoop:
 		while (!userWantsToQuit) {
-			boolean playAGame = false;
-			boolean wantsStatisitics = false;
 			boolean requireInput = true;
 			String input = "";
 			// ask user to play game or get statistics
@@ -83,7 +81,12 @@ public class TopTrumpsCLIApplication {
 									+ " either to small or too big. "
 									+ "Please try again.");
 					}
-					catch(InputMismatchException| NumberFormatException e)
+					catch(InputMismatchException e)
+					{
+						System.err.println("There was a problem while reading in your input. Are you sure you entered a number? "
+								+ "Please try again.");
+					}
+					catch(NumberFormatException e)
 					{
 						System.err.println("There was a problem while reading in your input. Are you sure you entered a number? "
 								+ "Please try again.");
@@ -102,7 +105,12 @@ public class TopTrumpsCLIApplication {
 						else
 							System.err.println("Sorry, we couldn't handle your input, please press 'Enter' if you want to continue. ");
 					}
-					catch(InputMismatchException| NumberFormatException e)
+					catch(InputMismatchException e)
+					{
+						System.err.println("There was a problem while reading in your input. Are you sure you entered a number? "
+								+ "Please try again.");
+					}
+					catch(NumberFormatException e)
 					{
 						System.err.println("There was a problem while reading in your input. Are you sure you entered a number? "
 								+ "Please try again.");

@@ -3,7 +3,6 @@ package online.dwResources;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -143,7 +142,7 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/game/getActivePlayers")
 	public String getActivePlayers() throws JsonProcessingException {
-		ArrayList<String> playerNames = new ArrayList();
+		ArrayList<String> playerNames = new ArrayList<String>();
 		ArrayList<Player> players = game.getActivePlayers();
 		for (Player p : players) {
 			playerNames.add(p.getName());
