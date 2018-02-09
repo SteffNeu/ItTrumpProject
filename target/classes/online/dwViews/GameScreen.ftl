@@ -525,7 +525,7 @@
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText)
 
-
+					getNumCards();
 
 					if(value.curHuman){
 						//enable button on cards
@@ -567,7 +567,7 @@
  					}
  					else if(infos.humanplaying){
  						updateInfo(infos);
- 						updatePlayers(infos);
+ 						//updatePlayers(infos);
  						//display results
  						//enable button
  					}
@@ -602,6 +602,27 @@
  					updateInfo(infos);
  					updatePlayers(infos);
 
+				};
+
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();
+			}
+			
+			function getNumCards() {
+				
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getNumCards"); // Request type and URL+parameters
+
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					var infos = JSON.parse(responseText)
+ 					updatePlayers(infos);
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
@@ -649,7 +670,7 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
-					updatePlayers(infos);
+					//updatePlayers(infos);
 					makeCardsVisible();
 					updateInfo(infos);
 				};
