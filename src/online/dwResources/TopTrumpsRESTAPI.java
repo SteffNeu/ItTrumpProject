@@ -224,14 +224,9 @@ public class TopTrumpsRESTAPI {
 				
 		roundResult.append("\"communalcardnumber\":\"" + Integer.toString(game.getCommunalPile().getNumOfCards()) + "\", ");
 		
-		// get the number of cards for each player
-		for (Player player : players)
-		{
-			roundResult.append("\"" + player.getName() + "cards\":\"");
-			roundResult.append(player.getPile().getNumOfCards() + "\", ");
-		}
-		
 		roundResult.append("\"numofdraws\":\"" + game.getNumOfDraws() + "\",");
+		
+		roundResult.append("\"chosenCategory\":\"" + game.getChosenCat() + "\", ");
 		
 		String isHumanPlaying = "\"humanplaying\":";
 		if (game.isHumanPlaying())

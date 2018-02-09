@@ -24,6 +24,8 @@ public class Game
 	private Pile communalPile;
 	/** true if last round was a draw */
 	private boolean lastRoundDraw;
+	/** remember the chosen category	 */
+	private int chosenCat;
 	
 	/** 
 	 * constructor
@@ -104,6 +106,13 @@ public class Game
 	public int getNumOfDraws()
 	{
 		return numOfDraws;
+	}
+	/**
+	 * gets index relating to the chosen category
+	 * @return integer representing the chosen category
+	 */	
+	public int getChosenCat() {
+		return chosenCat;
 	}
 	/**
 	 * gets the player that is currently choosing the categories
@@ -194,6 +203,9 @@ public class Game
 	 */
 	public String executeRound(String category)
 	{
+		//extract the index of the chosen category
+		calculateIndex(category);
+		
 		// get the id of the winner
 		int winner = calculateRoundWinner(category);
 		// create StringBuilder for results
@@ -394,6 +406,24 @@ public class Game
 			return true;
 		else 
 			return false;
+	}
+	
+	/**
+	 * Derive the index of a category from it's name and store it in an instance variable
+	 * the variable can be accessed via getChosenCat()
+	 * @param cat String containing the chosen category
+	 */
+	private void calculateIndex(String cat) {
+		//get the hashmap containig the categories
+		HashMap<String, Integer> card = activePlayers.get(0).getPile().getCards().get(0).getCategories();
+		int index = 1;
+		//iterate over the entry set
+		for(Map.Entry<String, Integer> pair : card.entrySet()) {
+			if(pair.getKey().equals(cat)) {
+				chosenCat = index;
+			}
+			index++;
+		}
 	}
 	
 

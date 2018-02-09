@@ -316,8 +316,6 @@
 
 
 			function updatePlayers(playerInfos){
-				//here the card update happens
-				getTopCards(playerInfos);
 
 				document.getElementById("humanCardCount").textContent = "Cards: " + playerInfos.humancards;
 				for(var i = 1; i <= 5; i++) {
@@ -344,10 +342,24 @@
 
 
 			function updateInfo(infos){
-				eliminatePlayers();
-				document.getElementById("curPlay").innerHTML = infos.activePlayer;
+				if(infos.communalcardnumber != "0"){
+					alert("The last round resulted in a draw!")
+				}
+				if(infos.activePlayer == "human"){
+					document.getElementById("GameLogContent").innerHTML = "You won the round";
+					document.getElementById("curPlay").innerHTML = "You";
+				}
+				else{
+					document.getElementById("GameLogContent").innerHTML = infos.activePlayer +"won the round";				
+					document.getElementById("curPlay").innerHTML = infos.activePlayer;
+				}
+					
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
+							
+				getNumCards();
+				eliminatePlayers();
+
 			}
 
 			function showGameResults(infos){
@@ -526,7 +538,7 @@
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText)
 
-					getNumCards();
+					getTopCards();
 
 					if(value.curHuman){
 						//enable button on cards
@@ -570,6 +582,7 @@
  						updateInfo(infos);
  					}
  					else{
+ 						document.getElementById("GameLogContent").innerHTML = "You have lost the game. The remaining rounds will now be executed automatically!"	
  						finishGame();
  					}
 
@@ -599,6 +612,7 @@
 
  					updateInfo(infos);
  					updatePlayers(infos);
+ 					getTopCards();
 
 				};
 
@@ -669,6 +683,9 @@
  					var toEliminate = JSON.parse(responseText);
  					if(toEliminate.elimination) {
  						for (var kill in toEliminate.eliminatedPlayers){
+ 							if(toEliminate.eliminatedPlayers[kill] != "human"){
+ 								alert("Player " + toEliminate.eliminatedPlayers[kill] + " has been eliminated");
+ 							}
  							document.getElementById(toEliminate.eliminatedPlayers[kill]).style.visibility = "hidden";
  						}
  					}
