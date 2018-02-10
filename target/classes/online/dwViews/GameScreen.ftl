@@ -440,11 +440,14 @@
 				}	
 			}
 
-			//display the results of the round in a table
+			//display the results of the game in a new view
 			function showGameResults(infos){
+			
+				//hide game view
 				var e = document.getElementById("gameView");
 				e.style.display = 'none';
 
+				//show end-screen
 				var d = document.getElementById("gameEnd");
 				d.style.visibility = 'visible';
 				document.getElementById("gameWinner").innerHTML = infos.activePlayer;
@@ -566,6 +569,36 @@
 				
 
 			}
+			
+			//set up the game details at the beginning of the game
+			function setUpGameDisplay() {
+
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/setUpGameDisplay"); // Request type and URL+parameters
+
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+  					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives
+				xhr.onload = function(e) {
+ 					var responseText = xhr.response; // the text of the response
+ 					//parse responseText into a json-object
+ 					var infos = JSON.parse(responseText)
+
+					//update and display the game related infos
+ 					updateInfo(infos);
+ 					updatePlayers(infos);
+ 					getTopCards();
+
+				};
+
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();
+			}
+						
 
 
 			//checks if the human is still in the game ; the execution of a round starts with the call of this method
@@ -644,8 +677,7 @@
 			}
 
 
-
-
+			//execute the round of an ai (automated choice of category)
 			function executeRoundAI() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -660,18 +692,23 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					//parse responseText into a json-object 					
  					var infos = JSON.parse(responseText)
  
+ 					//if the human is still in, continue with updating the game information 
  					if(infos.humanplaying){
  						sleep(200).then(() => {
 				    		updateInfo(infos);
 						})
  						
  					}
- 					else{			 
+ 					//if the player is out check if the game is still running
+ 					else{			
+ 						//game over? redirect to end-screen 
  						if(infos.gameover){
  							showGameResults(infos);
  						}
+ 						//game on? loop to finish game (which calls this method until infos.gameover evaluates to true)
  						else{      
  							finishGame();
  						}
@@ -683,11 +720,16 @@
 				xhr.send();
 			}
 
-
-			function setUpGameDisplay() {
-
+			//execute the round of an ai (execution based on chosen category)
+			function executeRoundHuman(category) {
+				
+				//disable the player buttons so that he can't choose a category if he loses
+				disablePlayerChoice();
+				
+				//enable the next round button
+				document.getElementById("nextBtn").disabled = false;
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/setUpGameDisplay"); // Request type and URL+parameters
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/executeRoundHuman?category="+category); // Request type and URL+parameters
 
 				// Message is not sent yet, but we can check that the browser supports CORS
 				if (!xhr) {
@@ -698,19 +740,28 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
-
+ 					//parse responseText into a json-object 
  					var infos = JSON.parse(responseText)
+ 					
+ 					//turn over the ai cards to be able to see the cards at the end of the round
+					makeCardsVisible();
 
- 					updateInfo(infos);
- 					updatePlayers(infos);
- 					getTopCards();
-
+					//if the game is over continue to end-screen, else update game log
+					if(infos.gameover){
+						showGameResults(infos);
+ 					}
+ 					else{
+ 						sleep(200).then(() => {
+				    		updateInfo(infos);
+						})
+					}
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
 			}
-			
+
+			//get the number of cards for 
 			function getNumCards() {
 				
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getNumCards"); // Request type and URL+parameters
@@ -789,38 +840,6 @@
 				xhr.send();
 			}
 
-			function executeRoundHuman(category) {
-
-				disablePlayerChoice();
-				document.getElementById("nextBtn").disabled = false;
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/executeRoundHuman?category="+category); // Request type and URL+parameters
-
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
- 					var infos = JSON.parse(responseText)
-					makeCardsVisible();
-
-					if(infos.gameover){
-						showGameResults(infos);
- 					}
- 					else{
- 						sleep(200).then(() => {
-				    		updateInfo(infos);
-						})
-					}
-				};
-
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();
-			}
 
 
 			function makeCardsVisible() {
