@@ -92,6 +92,7 @@
 		            <div id="ai1" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 1 <span id="ai1CardCount" class="badge badge-info">Cards: </span></div>
+		                  <div id="ai1CardInfo">
 		                  <div class="card-body"><img id="ai1ImgCard" src="" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
@@ -104,6 +105,7 @@
 		                            <span id="ai1Cat5" class="label info"></span>
 		                        </div>
 		                    </div>
+		                    </div>
 		                  </div>
 		                </div>
 		            </div>
@@ -112,20 +114,22 @@
 		            <div id="ai2" class="col-lg-3">
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 2 <span id="ai2CardCount" class="badge badge-info">Cards: </span></div>
-		                  <div class="card-body">
-		                      <img id="ai2ImgCard" src="" height="200" width="200"></div>
-		                  <div class="card-footer">
-		                      <div class="container">
-		                      	<div id="ai2CardName"></div>
-		                        <div class="btn-group-vertical">
-		                            <span id="ai2Cat1" class="label info"></span>
-		                            <span id="ai2Cat2" class="label info"></span>
-		                            <span id="ai2Cat3" class="label info"></span>
-		                            <span id="ai2Cat4" class="label info"></span>
-		                            <span id="ai2Cat5" class="label info"></span>
-		                        </div>
-		                    </div>
-		                  </div>
+		                  <div id="ai2CardInfo">
+		                  	<div class="card-body">
+		                    	  <img id="ai2ImgCard" src="" height="200" width="200"></div>
+		                  	<div class="card-footer">
+		                    	<div class="container">
+		                      		<div id="ai2CardName"></div>
+		                        	<div class="btn-group-vertical">
+		                            	<span id="ai2Cat1" class="label info"></span>
+			                            <span id="ai2Cat2" class="label info"></span>
+			                            <span id="ai2Cat3" class="label info"></span>
+			                            <span id="ai2Cat4" class="label info"></span>
+		    	                        <span id="ai2Cat5" class="label info"></span>
+		        	                </div>
+		            	        </div>
+		                  	</div>
+		                  	</div>
 		                </div>
 		            </div>
 
@@ -133,8 +137,9 @@
 
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 3 <span id="ai3CardCount" class="badge badge-info">Cards: </span></div>
+		                  <div id="ai3CardInfo">
 		                  <div class="card-body"><img id="ai3ImgCard" src="" height="200" width="200"></div>
-		                  <div class="card-footer">
+		                 <div class="card-footer">
 		                      <div class="container">
 		                      	<div id="ai3CardName"></div>
 		                        <div class="btn-group-vertical">
@@ -146,6 +151,7 @@
 		                        </div>
 		                    </div>
 		                  </div>
+		                 </div> 
 		                </div>
 		            </div>
 
@@ -153,6 +159,7 @@
 
 		                <div class="card" style="width: 250px" >
 		                  <div class="card-header">AI 4<span id="ai4CardCount" class="badge badge-info">Cards: </span></div>
+		                  <div id="ai4CardInfo">
 		                  <div class="card-body"><img id="ai4ImgCard" src="" height="200" width="200"></div>
 		                  <div class="card-footer">
 		                      <div class="container">
@@ -166,6 +173,7 @@
 		                        </div>
 		                    </div>
 		                  </div>
+		                </div>
 		                </div>
 
 		            </div>
@@ -267,10 +275,10 @@
 			//refactor with loops
 			function enablePlayerChoice(){
 				//alert("I'm in enable")
-				document.getElementById("ai1").style.visibility = "hidden";
-				document.getElementById("ai2").style.visibility = "hidden";
-				document.getElementById("ai3").style.visibility = "hidden";
-				document.getElementById("ai4").style.visibility = "hidden";
+				document.getElementById("ai1CardInfo").style.visibility = "hidden";
+				document.getElementById("ai2CardInfo").style.visibility = "hidden";
+				document.getElementById("ai3CardInfo").style.visibility = "hidden";
+				document.getElementById("ai4CardInfo").style.visibility = "hidden";
 
 				document.getElementById("humanCat1").disabled = false;
 				document.getElementById("humanCat2").disabled = false;
@@ -772,7 +780,7 @@
 					//rethink if we can come into a scenario where we want to unhide ai's after human is out of the game
 					for (var i = 1; i < arrayLength; i++) {
 						var tmp = players[i];
-						document.getElementById(tmp).style.visibility = "visible";
+						document.getElementById(tmp+"CardInfo").style.visibility = "visible";
 
 					}
 
