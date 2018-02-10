@@ -217,11 +217,11 @@
 											<h4>Game Log</h4>
 											<p id="GameLogContent"></p>
 											<div id="roundresults">
-												<div id="humanResult"></div>
 												<div id="ai1Result"></div>
 												<div id="ai2Result"></div>
 												<div id="ai3Result"></div>		
 												<div id="ai4Result"></div>
+												<div id="humanResult"></div>
 											</div>
 
 							</div>
