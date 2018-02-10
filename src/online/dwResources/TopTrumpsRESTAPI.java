@@ -216,7 +216,15 @@ public class TopTrumpsRESTAPI {
 		
 		ArrayList<Player> players = game.getActivePlayers();
 
-		StringBuilder roundResult = new StringBuilder("{");
+		StringBuilder roundResult = new StringBuilder("{\"players\":{");
+		int index = 1;
+		for(Player p : players) {
+			roundResult.append("\"p"+index+"\":\""+p.getName()+"\", ");
+			index++;
+		}
+		roundResult.deleteCharAt(roundResult.length()-2);
+		roundResult.deleteCharAt(roundResult.length()-1);
+		roundResult.append("}, ");
 		
 		roundResult.append("\"activePlayer\":\""+game.getCurrentPlayer().getName()+"\", ");
 				
@@ -246,7 +254,9 @@ public class TopTrumpsRESTAPI {
 		else {
 			isGameOver += "false}";
 		}
+
 		roundResult.append(isGameOver);
+		System.out.println(roundResult.toString());
 		return roundResult.toString()  ;			
 	}
 

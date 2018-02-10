@@ -223,7 +223,7 @@
 							<div class="row" style="margin-bottom:25px">
 				      	<div id="roundBtns" class="col-lg-8">
 				          <button id="nextBtn" type="button" class="btn btn-primary clearfloat" style="width:80%" onclick="isHumanPlaying()">Continue</button>
-				          <button type="button" class="btn btn-primary clearfloat" value="Check"  onclick=window.location.href="http://localhost:7777/toptrumps" style="width: 80%">Quit Game</button>
+				          <button id="quitGameBtn" type="button" class="btn btn-primary clearfloat" value="Check"  onclick=window.location.href="http://localhost:7777/toptrumps" style="width: 80%">Quit Game</button>
 				        </div>
 				      </div>
 
@@ -340,6 +340,10 @@
 			}
 
 			function finishGame(){
+ 				document.getElementById("GameLogContent").innerHTML = "You have lost the game. The remaining rounds will now be executed automatically!";
+ 				document.getElementById("roundresults").innerHTML = "";
+ 				document.getElementById("nextBtn").disabled = true;
+				document.getElementById("quitGameBtn").disabled = true;				
 				executeRoundAI();
 			}
 
@@ -370,23 +374,22 @@
 				}	
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
-						
-				displayLog(infos.chosenCategory);			
+							
+				displayLog(infos);			
 				getNumCards();
 				eliminatePlayers();
 
 			}
 			
-			function displayLog(cat){
+			function displayLog(gameInfos){
+				var cat = gameInfos.chosenCategory
 				if(cat != 0){
 					document.getElementById("humanResult").innerHTML = "You: " + document.getElementById("humanCat"+cat).textContent;
-					for(var i = 1; i <= 5; i++){
-						if(document.getElementById("ai"+i+"Cat"+cat) != null ){
-							if(document.getElementById("ai"+i+"Cat"+cat).textContent != ""){
-								document.getElementById("ai"+i+"Result").innerHTML = "ai"+i+": " + document.getElementById("ai"+i+"Cat"+cat).textContent;
-							}
-						}
-					}
+					
+					for (var player in gameInfos.players){
+						curP = gameInfos.players[player]
+						document.getElementById(curP+"Result").innerHTML = curP + ": " + document.getElementById(curP+"Cat"+cat).textContent;
+ 					}
 				}	
 			}
 
@@ -608,10 +611,7 @@
  					else if(infos.humanplaying){
  						updateInfo(infos);
  					}
- 					else{
- 						document.getElementById("GameLogContent").innerHTML = "You have lost the game. The remaining rounds will now be executed automatically!"
- 						document.getElementById("roundresults").style.visibility = "hidden";
- 							
+ 					else{			       
  						finishGame();
  					}
 
@@ -715,6 +715,7 @@
  								alert("Player " + toEliminate.eliminatedPlayers[kill] + " has been eliminated");
  							}
  							document.getElementById(toEliminate.eliminatedPlayers[kill]).style.visibility = "hidden";
+ 							document.getElementById(toEliminate.eliminatedPlayers[kill]+"Result").style.visibility = "hidden";
  						}
  					}
 
