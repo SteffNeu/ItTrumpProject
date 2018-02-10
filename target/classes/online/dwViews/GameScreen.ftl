@@ -19,6 +19,11 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 	</head>
+	
+	<style>
+		.solidBorder {border-style: solid; color: green;}
+		.noBorder {border-style: none;}		
+	</style>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     <!-- TODO get the real picture with not hard coded path in here -->
@@ -203,7 +208,15 @@
 				          	<div class="card-body">
 											<h4>Game Log</h4>
 											<p id="GameLogContent"></p>
-										</div>
+											<div id="roundresults">
+												<div id="humanResult"></div>
+												<div id="ai1Result"></div>
+												<div id="ai2Result"></div>
+												<div id="ai3Result"></div>		
+												<div id="ai4Result"></div>
+											</div>
+
+							</div>
 				          </div>
 				        </div>
 							</div>
@@ -342,9 +355,7 @@
 
 
 			function updateInfo(infos){
-				if(infos.communalcardnumber != "0"){
-					alert("The last round resulted in a draw!")
-				}
+
 				if(infos.activePlayer == "human"){
 					document.getElementById("GameLogContent").innerHTML = "You won the round";
 					document.getElementById("curPlay").innerHTML = "You";
@@ -353,25 +364,30 @@
 					document.getElementById("GameLogContent").innerHTML = infos.activePlayer +"won the round";				
 					document.getElementById("curPlay").innerHTML = infos.activePlayer;
 				}
-					
+				
+				if(infos.communalcardnumber != "0"){
+					document.getElementById("GameLogContent").innerHTML = "The last round resulted in a draw!";	
+				}	
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
 						
-				highlightCategory(infos.chosenCategory);			
+				displayLog(infos.chosenCategory);			
 				getNumCards();
 				eliminatePlayers();
 
 			}
-//TODO			
-			function highlightCategory(cat){
-				document.getElementById("humanCat"+cat).style.borderColor = "green";
-				document.getElementById("humanCat"+cat).style.borderWidth = "thick";
-				alert("humanCat"+cat);
-				for(var i = 1; i <= 5; i++){
-					alert("ai"+i+"Cat"+cat);
-					document.getElementById("ai"+i+"Cat"+cat).style.borderColor = "green";
-					document.getElementById("ai"+i+"Cat"+cat).style.borderWidth = "thick";
-				}
+			
+			function displayLog(cat){
+				if(cat != 0){
+					document.getElementById("humanResult").innerHTML = "You: " + document.getElementById("humanCat"+cat).textContent;
+					for(var i = 1; i <= 5; i++){
+						if(document.getElementById("ai"+i+"Cat"+cat) != null ){
+							if(document.getElementById("ai"+i+"Cat"+cat).textContent != ""){
+								document.getElementById("ai"+i+"Result").innerHTML = "ai"+i+": " + document.getElementById("ai"+i+"Cat"+cat).textContent;
+							}
+						}
+					}
+				}	
 			}
 
 			function showGameResults(infos){
@@ -593,7 +609,9 @@
  						updateInfo(infos);
  					}
  					else{
- 						document.getElementById("GameLogContent").innerHTML = "You have lost the game. The remaining rounds will now be executed automatically!"	
+ 						document.getElementById("GameLogContent").innerHTML = "You have lost the game. The remaining rounds will now be executed automatically!"
+ 						document.getElementById("roundresults").style.visibility = "hidden";
+ 							
  						finishGame();
  					}
 
