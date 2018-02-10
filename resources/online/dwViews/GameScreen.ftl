@@ -68,7 +68,7 @@
     	<div id="header" class="container" style="background-color: white">
 				<p><strong>Please enter the number of players you wish to play against.</strong></p>
 
-				<input type="text" id="numPl" placeholder="1-4">
+				<input type="text" id="numPl" placeholder="1-4" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 				<button id="startBtn" onclick="setNumPl()" class="btn btn-primary">Start Game</button>
 				<br />
 				<button id = "returnButton" class="btn btn-primary float-left">Return Home</button>
@@ -321,6 +321,7 @@
 
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
+				alert(typeof x);
 				if(x < 1 || x > 4){
 					document.getElementById("numPl").value = "";
 					document.getElementById("currentPlayers").innerHTML = "Invalid input. Choose a number between 1 and 4."
@@ -639,7 +640,10 @@
 						showGameResults(infos);
  					}
  					else if(infos.humanplaying){
- 						updateInfo(infos);
+ 						sleep(200).then(() => {
+				    		updateInfo(infos);
+						})
+ 						
  					}
  					else{			       
  						finishGame();
@@ -775,7 +779,14 @@
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
 					makeCardsVisible();
-					updateInfo(infos);
+					sleep(200).then(() => {
+				    	updateInfo(infos);
+					})
+					if(infos.gameover){
+ 						alert("Thank you for playing");
+ 						alert("number of draws: " + infos.numofdraws); //MATT - number of draws
+						showGameResults(infos);
+ 					}
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
