@@ -273,13 +273,17 @@
 
 			//enables the button on the card and hides the ai1 cards
 			//refactor with loops
-			function enablePlayerChoice(){
-				//alert("I'm in enable")
+			function hideAIs(){
 				document.getElementById("ai1CardInfo").style.visibility = "hidden";
 				document.getElementById("ai2CardInfo").style.visibility = "hidden";
 				document.getElementById("ai3CardInfo").style.visibility = "hidden";
 				document.getElementById("ai4CardInfo").style.visibility = "hidden";
+			}
+			
+			
+			function enablePlayerChoice(){
 
+				
 				document.getElementById("humanCat1").disabled = false;
 				document.getElementById("humanCat2").disabled = false;
 				document.getElementById("humanCat3").disabled = false;
@@ -367,18 +371,26 @@
 
 
 			function updateInfo(infos){
-
 				if(infos.activePlayer == "human"){
 					document.getElementById("GameLogContent").innerHTML = "You won the round";
 					document.getElementById("curPlay").innerHTML = "You";
 				}
 				else{
-					document.getElementById("GameLogContent").innerHTML = infos.activePlayer +"won the round";				
+					document.getElementById("GameLogContent").innerHTML = infos.activePlayer +" won the round";				
 					document.getElementById("curPlay").innerHTML = infos.activePlayer;
 				}
 				
 				if(infos.communalcardnumber != "0"){
 					document.getElementById("GameLogContent").innerHTML = "The last round resulted in a draw!";	
+				}
+				
+				if(infos.roundnumber == "0"){
+					if(infos.activePlayer == "human"){
+						document.getElementById("GameLogContent").innerHTML = "You start the game";
+					}
+					else{
+						document.getElementById("GameLogContent").innerHTML = infos.activePlayer + " starts the game";
+					}				
 				}	
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
@@ -392,11 +404,16 @@
 			function displayLog(gameInfos){
 				var cat = gameInfos.chosenCategory
 				if(cat != 0){
-					document.getElementById("humanResult").innerHTML = "You: " + document.getElementById("humanCat"+cat).textContent;
+
 					
 					for (var player in gameInfos.players){
 						curP = gameInfos.players[player]
-						document.getElementById(curP+"Result").innerHTML = curP + ": " + document.getElementById(curP+"Cat"+cat).textContent;
+						if (curP == "human"){
+							document.getElementById("humanResult").innerHTML = "You: " + document.getElementById("humanCat"+cat).textContent;
+						}
+						else {
+							document.getElementById(curP+"Result").innerHTML = curP + ": " + document.getElementById(curP+"Cat"+cat).textContent;
+						}
  					}
 				}	
 			}
@@ -528,6 +545,8 @@
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
 				initGameContent(numOfPlayers)
+				hideAIs();
+				
 
 			}
 
@@ -547,7 +566,8 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
- 					var val = JSON.parse(responseText)
+ 					var val = JSON.parse(responseText);
+ 					
 					if(val.humanplaying){
 						isCurrentHuman();
 					}
@@ -576,15 +596,17 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var value = JSON.parse(responseText)
-
 					getTopCards();
 
 					if(value.curHuman){
 						//enable button on cards
+						hideAIs();
 						enablePlayerChoice();
+						
 						document.getElementById("nextBtn").disabled = true;
 					}
 					else {
+						makeCardsVisible();
 						executeRoundAI();
 					}
 				};
@@ -723,6 +745,7 @@
  								alert("Player " + toEliminate.eliminatedPlayers[kill] + " has been eliminated");
  							}
  							document.getElementById(toEliminate.eliminatedPlayers[kill]).style.visibility = "hidden";
+ 							document.getElementById(toEliminate.eliminatedPlayers[kill]+"CardInfo").style.visibility = "hidden";
  							document.getElementById(toEliminate.eliminatedPlayers[kill]+"Result").style.visibility = "hidden";
  						}
  					}
