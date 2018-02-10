@@ -321,7 +321,6 @@
 
 			function setNumPl() {
 				var x = document.getElementById("numPl").value;
-				alert(typeof x);
 				if(x < 1 || x > 4){
 					document.getElementById("numPl").value = "";
 					document.getElementById("currentPlayers").innerHTML = "Invalid input. Choose a number between 1 and 4."
@@ -633,20 +632,20 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
- 					if(infos.gameover){
- 						updateInfo(infos)
- 						alert("Thank you for playing");
- 						alert("number of draws: " + infos.numofdraws); //MATT - number of draws
-						showGameResults(infos);
- 					}
- 					else if(infos.humanplaying){
+ 
+ 					if(infos.humanplaying){
  						sleep(200).then(() => {
 				    		updateInfo(infos);
 						})
  						
  					}
- 					else{			       
- 						finishGame();
+ 					else{			 
+ 						if(infos.gameover){
+ 							showGameResults(infos);
+ 						}
+ 						else{      
+ 							finishGame();
+ 						}
  					}
 
 				};
@@ -779,14 +778,15 @@
  					var responseText = xhr.response; // the text of the response
  					var infos = JSON.parse(responseText)
 					makeCardsVisible();
-					sleep(200).then(() => {
-				    	updateInfo(infos);
-					})
+
 					if(infos.gameover){
- 						alert("Thank you for playing");
- 						alert("number of draws: " + infos.numofdraws); //MATT - number of draws
 						showGameResults(infos);
  					}
+ 					else{
+ 						sleep(200).then(() => {
+				    		updateInfo(infos);
+						})
+					}
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
