@@ -898,17 +898,17 @@
 	        <table align="left">
 	          <!--winner-->
 	          <tr>
-	            <th>Winner</th>
+	            <th>Winner	</th>
 	            <td id="gameWinner"></td>
 	          </tr>
 	          <!--Rounds played-->
 	          <tr>
-	            <th>Rounds</th>
+	            <th>Rounds	</th>
 	            <td id="gameTotalRounds"></td>
 	          </tr>
 	          <!--Number of draws-->
 	          <tr>
-	            <th>Draws</th>
+	            <th>Draws	</th>
 	            <td id="gameTotalDraws"></td>
 	          </tr>
 	          </table>
