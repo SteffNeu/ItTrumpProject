@@ -230,7 +230,7 @@
 							</div>
 							<div class="row" style="margin-bottom:25px">
 				      	<div id="roundBtns" class="col-lg-8">
-				          <button id="nextBtn" type="button" class="btn btn-primary clearfloat" style="width:80%" onclick="isHumanPlaying()">Continue</button>
+				          <button id="nextBtn" type="button" class="btn btn-primary clearfloat" style="width:80%" onclick="isHumanPlaying()">Play Round</button>
 				          <button id="quitGameBtn" type="button" class="btn btn-primary clearfloat" value="Check"  onclick=window.location.href="http://localhost:7777/toptrumps" style="width: 80%">Quit Game</button>
 				        </div>
 				      </div>
@@ -265,14 +265,12 @@
 
 			// Method that is called on page load
 			function initalize() {
+				//show only the prompt for a player-number
 				hideGame();
 				disablePlayerChoice();
-
-
 			}
 
-			//enables the button on the card and hides the ai1 cards
-			//refactor with loops
+			//hides the information about the cards
 			function hideAIs(){
 				document.getElementById("ai1CardInfo").style.visibility = "hidden";
 				document.getElementById("ai2CardInfo").style.visibility = "hidden";
@@ -281,9 +279,8 @@
 			}
 			
 			
+			//enable the buttons for the player to choose a category
 			function enablePlayerChoice(){
-
-				
 				document.getElementById("humanCat1").disabled = false;
 				document.getElementById("humanCat2").disabled = false;
 				document.getElementById("humanCat3").disabled = false;
@@ -291,6 +288,7 @@
 				document.getElementById("humanCat5").disabled = false;
 			}
 
+			//disable the buttons of the player to stop him from choosing a category
 			function disablePlayerChoice(){
 				document.getElementById("humanCat1").disabled = true;
 				document.getElementById("humanCat2").disabled = true;
@@ -308,6 +306,7 @@
 				document.getElementById("gameEnd").style.visibility = "hidden";
 			}
 
+			//displays the game elements and hides the header
 			function showGame(){
 				//hide header
 				document.getElementById("header").style.display = "none";
@@ -319,14 +318,16 @@
 				document.getElementById("roundStatsArea").style.visibility = "visible";
 			}
 
+			//get input from textfield and use it to start a new game
 			function setNumPl() {
+				//get and verify input
 				var x = document.getElementById("numPl").value;
 				if(x < 1 || x > 4){
 					document.getElementById("numPl").value = "";
 					document.getElementById("currentPlayers").innerHTML = "Invalid input. Choose a number between 1 and 4."
 				}
 				else{
-				// set up game and call hideContent
+				// set up game and update game area
 				GameOnline(x);
 				// wait for the GameOnline method to finish
 				sleep(100).then(() => {
@@ -335,13 +336,15 @@
 				}
 			}
 
+			//delay the execution of a function to tackle asynchronous behaviour of javascript
 			function sleep(time){
 				return new Promise((resolve) => setTimeout(resolve, time));
 			}
 
-
+			//update the card count for the players
 			function updatePlayers(playerInfos){
 
+				//update the card count for the ai's 
 				document.getElementById("humanCardCount").textContent = "Cards: " + playerInfos.humancards;
 				for(var i = 1; i <= 5; i++) {
 					var aiName = "ai" + i + "cards";
@@ -351,26 +354,35 @@
 				}
 			}
 
+			//execute rest of the ai rounds after the human was eliminated
 			function finishGame(){
+				//inform player of his loss and put the game in a hold state
  				document.getElementById("GameLogContent").innerHTML = "You have lost the game. The remaining rounds will now be executed automatically!";
  				document.getElementById("roundresults").innerHTML = "";
  				document.getElementById("nextBtn").disabled = true;
-				document.getElementById("quitGameBtn").disabled = true;				
+				document.getElementById("quitGameBtn").disabled = true;			
+				
+				//continue to execute ai rounds	
 				executeRoundAI();
 			}
 
+			//derive the number of ai's that are to be displayed
 			function initGameContent(numPlayers){
 
+				//hide unused ai's
 				for(var i = 4 ; i > numPlayers; i--){
 					var aiID = "ai"+i
 					document.getElementById(aiID).style.visibility = "hidden";
 				}
+				//display game elements
 				showGame()
 
 			}
 
-
+			//update game log header and check for elimination
 			function updateInfo(infos){
+			
+				//determine the message of the round winner (human or ai)
 				if(infos.activePlayer == "human"){
 					document.getElementById("GameLogContent").innerHTML = "You won the round";
 					document.getElementById("curPlay").innerHTML = "You";
@@ -380,10 +392,12 @@
 					document.getElementById("curPlay").innerHTML = infos.activePlayer;
 				}
 				
+				//inform about a draw if one occurred
 				if(infos.communalcardnumber != "0"){
 					document.getElementById("GameLogContent").innerHTML = "The last round resulted in a draw!";	
 				}
 				
+				//take the information for the first round in account and display corresponding message
 				if(infos.roundnumber == "0"){
 					if(infos.activePlayer == "human"){
 						document.getElementById("GameLogContent").innerHTML = "You start the game";
@@ -392,20 +406,28 @@
 						document.getElementById("GameLogContent").innerHTML = infos.activePlayer + " starts the game";
 					}				
 				}	
+				
+				//
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
-							
-				displayLog(infos);			
+				
+				//update game log			
+				displayLog(infos);
+				
+				//get number of cards to update the piles of the players			
 				getNumCards();
+				
+				//hide players that were eliminated
 				eliminatePlayers();
 
 			}
 			
+			//display the winning category for every player
 			function displayLog(gameInfos){
 				var cat = gameInfos.chosenCategory
+				//catch category of the first round
 				if(cat != 0){
-
-					
+					//loop over players to update the corresponding fields
 					for (var player in gameInfos.players){
 						curP = gameInfos.players[player]
 						if (curP == "human"){
@@ -418,6 +440,7 @@
 				}	
 			}
 
+			//display the results of the round in a table
 			function showGameResults(infos){
 				var e = document.getElementById("gameView");
 				e.style.display = 'none';
@@ -429,9 +452,7 @@
 				document.getElementById("gameTotalDraws").innerHTML = infos.numofdraws;
 
 			}
-			// -----------------------------------------
-			// Add your other Javascript methods Here
-			// -----------------------------------------
+
 
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
@@ -463,10 +484,8 @@
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
 
-			function getTopCards(infos) {
-
-
-
+			//get the top card of every player and assign the categories and their respective values to the card display
+			function getTopCards() {
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getTopCards"); // Request type and URL
 
@@ -479,11 +498,13 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					//parse responseText into a json-object
  					var topcards = JSON.parse(responseText);
 
 
-
+					//loop through the players and update the cards
 					for (var i = 0; i < 5 ; i ++) {
+						// 0 is the human card
 						if (i == 0) {
 							document.getElementById( "humanImgCard").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + topcards.human.cardName + ".jpg";
 							document.getElementById("humanCardName").innerHTML = "<b>" + topcards.human.cardName + "</b>";
@@ -495,7 +516,8 @@
 							}
 						else {
 							var aiName = "ai" + i;
-
+							
+							//check if ai exist and if yes update the card
 							if (topcards.hasOwnProperty(aiName)){
 								document.getElementById(aiName + "ImgCard").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + topcards[aiName].cardName + ".jpg";
 								document.getElementById(aiName + "CardName").innerHTML = "<b>" + topcards[aiName].cardName + "</b>";
@@ -508,13 +530,6 @@
 
 						}
 					}
-
-
-
-
-
-
-
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
@@ -524,7 +539,7 @@
 
 
 
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
+			//Start the game
 			function GameOnline(numOfPlayers) {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -544,6 +559,8 @@
 
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
+				
+				//set up the game display
 				initGameContent(numOfPlayers)
 				hideAIs();
 				
@@ -551,7 +568,7 @@
 			}
 
 
-
+			//checks if the human is still in the game ; the execution of a round starts with the call of this method
 			function isHumanPlaying() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -566,12 +583,17 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					
+ 					//parse responseText into a json-object
  					var val = JSON.parse(responseText);
  					
+ 					//check if human is still in the game
 					if(val.humanplaying){
+						//check if the human is the current player
 						isCurrentHuman();
 					}
 					else {
+						//human is out execute ai rounds
 						finishGame();
 					}
 				};
@@ -580,7 +602,7 @@
 			}
 
 
-
+			//checks if it is the humans turn and call the according execute
 			function isCurrentHuman() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -595,17 +617,24 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					
+ 					//parse responseText into a json-object
  					var value = JSON.parse(responseText)
+ 					
+ 					//update the top cards
 					getTopCards();
 
+					//decide which execution path is to be taken (human choice or automatic ai)
 					if(value.curHuman){
-						//enable button on cards
+						//enable button on cards and hide ai cards
 						hideAIs();
 						enablePlayerChoice();
 						
+						//disable the next button to enforce the choice of a category
 						document.getElementById("nextBtn").disabled = true;
 					}
 					else {
+						//turn over the cards and execute the round
 						makeCardsVisible();
 						executeRoundAI();
 					}

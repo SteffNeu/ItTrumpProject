@@ -230,7 +230,7 @@
 							</div>
 							<div class="row" style="margin-bottom:25px">
 				      	<div id="roundBtns" class="col-lg-8">
-				          <button id="nextBtn" type="button" class="btn btn-primary clearfloat" style="width:80%" onclick="isHumanPlaying()">Continue</button>
+				          <button id="nextBtn" type="button" class="btn btn-primary clearfloat" style="width:80%" onclick="isHumanPlaying()">Play Round</button>
 				          <button id="quitGameBtn" type="button" class="btn btn-primary clearfloat" value="Check"  onclick=window.location.href="http://localhost:7777/toptrumps" style="width: 80%">Quit Game</button>
 				        </div>
 				      </div>
@@ -267,6 +267,7 @@
 			function initalize() {
 				//show only the prompt for a player-number
 				hideGame();
+				disablePlayerChoice();
 			}
 
 			//hides the information about the cards
@@ -439,6 +440,7 @@
 				}	
 			}
 
+			//display the results of the round in a table
 			function showGameResults(infos){
 				var e = document.getElementById("gameView");
 				e.style.display = 'none';
@@ -450,9 +452,7 @@
 				document.getElementById("gameTotalDraws").innerHTML = infos.numofdraws;
 
 			}
-			// -----------------------------------------
-			// Add your other Javascript methods Here
-			// -----------------------------------------
+
 
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
@@ -484,10 +484,8 @@
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
 
-			function getTopCards(infos) {
-
-
-
+			//get the top card of every player and assign the categories and their respective values to the card display
+			function getTopCards() {
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
 				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/game/getTopCards"); // Request type and URL
 
@@ -500,11 +498,13 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					//parse responseText into a json-object
  					var topcards = JSON.parse(responseText);
 
 
-
+					//loop through the players and update the cards
 					for (var i = 0; i < 5 ; i ++) {
+						// 0 is the human card
 						if (i == 0) {
 							document.getElementById( "humanImgCard").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + topcards.human.cardName + ".jpg";
 							document.getElementById("humanCardName").innerHTML = "<b>" + topcards.human.cardName + "</b>";
@@ -516,7 +516,8 @@
 							}
 						else {
 							var aiName = "ai" + i;
-
+							
+							//check if ai exist and if yes update the card
 							if (topcards.hasOwnProperty(aiName)){
 								document.getElementById(aiName + "ImgCard").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + topcards[aiName].cardName + ".jpg";
 								document.getElementById(aiName + "CardName").innerHTML = "<b>" + topcards[aiName].cardName + "</b>";
@@ -529,13 +530,6 @@
 
 						}
 					}
-
-
-
-
-
-
-
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
@@ -545,7 +539,7 @@
 
 
 
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
+			//Start the game
 			function GameOnline(numOfPlayers) {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -565,6 +559,8 @@
 
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
+				
+				//set up the game display
 				initGameContent(numOfPlayers)
 				hideAIs();
 				
@@ -572,7 +568,7 @@
 			}
 
 
-
+			//checks if the human is still in the game ; the execution of a round starts with the call of this method
 			function isHumanPlaying() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -587,12 +583,17 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					
+ 					//parse responseText into a json-object
  					var val = JSON.parse(responseText);
  					
+ 					//check if human is still in the game
 					if(val.humanplaying){
+						//check if the human is the current player
 						isCurrentHuman();
 					}
 					else {
+						//human is out execute ai rounds
 						finishGame();
 					}
 				};
@@ -601,7 +602,7 @@
 			}
 
 
-
+			//checks if it is the humans turn and call the according execute
 			function isCurrentHuman() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -616,17 +617,24 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
+ 					
+ 					//parse responseText into a json-object
  					var value = JSON.parse(responseText)
+ 					
+ 					//update the top cards
 					getTopCards();
 
+					//decide which execution path is to be taken (human choice or automatic ai)
 					if(value.curHuman){
-						//enable button on cards
+						//enable button on cards and hide ai cards
 						hideAIs();
 						enablePlayerChoice();
 						
+						//disable the next button to enforce the choice of a category
 						document.getElementById("nextBtn").disabled = true;
 					}
 					else {
+						//turn over the cards and execute the round
 						makeCardsVisible();
 						executeRoundAI();
 					}
