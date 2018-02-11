@@ -407,7 +407,7 @@
 					}				
 				}	
 				
-				//
+				//display roundnumber and number of cards in the communal pile
 				document.getElementById("curRound").innerHTML = infos.roundnumber;
 				document.getElementById("comPile").innerHTML = infos.communalcardnumber;
 				
@@ -440,7 +440,7 @@
 				}	
 			}
 
-			//display the results of the game in a new view
+			//display the results of the game with a new view
 			function showGameResults(infos){
 			
 				//hide game view
@@ -775,7 +775,8 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
- 					var infos = JSON.parse(responseText)
+ 					var infos = JSON.parse(responseText) //parse responseText into a json-object 
+ 					//pass the card information to updatePlayers to update the card number of piles 
  					updatePlayers(infos);
 				};
 
@@ -783,6 +784,8 @@
 				xhr.send();
 			}
 
+			//called when a button is pressed; extracts the chosen category and passes it to the human round execution
+			//num is between 1 and 5 and relates to the categories
 			function getCategory(num) {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -797,7 +800,8 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
- 					var category = JSON.parse(responseText);
+ 					var category = JSON.parse(responseText); //parse responseText into a json-object 
+ 					//after deriving the category from the number, executeHuman is called with the category
  					executeRoundHuman(category.key);
 
 
@@ -807,6 +811,7 @@
 				xhr.send();
 			}
 			
+			//checks if an ai was eliminated and if so, hide it from the game display
 			function eliminatePlayers() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -821,7 +826,7 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
- 					var toEliminate = JSON.parse(responseText);
+ 					var toEliminate = JSON.parse(responseText); //parse responseText into a json-object 
  					if(toEliminate.elimination) {
  						for (var kill in toEliminate.eliminatedPlayers){
  							if(toEliminate.eliminatedPlayers[kill] != "human"){

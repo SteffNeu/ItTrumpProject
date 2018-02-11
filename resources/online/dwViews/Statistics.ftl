@@ -109,6 +109,7 @@
 						background-color: whitesmoke;
 				}
 			</style>
+			<!-- table for the statistics-->
 			<table>
  				<tr>
   				  	<th>Games played</th>
@@ -174,6 +175,7 @@
 
 		<script type="text/javascript">
 
+			//retrieves the information from the database and writes them into a table
 			function getStatistics() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -189,7 +191,7 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
 					var values = JSON.parse(responseText) //turn response into an object
-					//extract information from object
+					//extract information from object and write them to the table
 					document.getElementById("games").innerHTML = values.games;
 					document.getElementById("aiWins").innerHTML = values.aiWins;
 					document.getElementById("humanWins").innerHTML = values.humanWins;
