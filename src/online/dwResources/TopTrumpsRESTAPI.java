@@ -72,6 +72,12 @@ public class TopTrumpsRESTAPI {
 
 	@GET
 	@Path("/game")
+	/**
+	 * 
+	 * @param numOfPlayers
+	 * @return
+	 * @throws IOException
+	 */
 	public String GameOnline(@QueryParam("3") String numOfPlayers) throws IOException
 	{
 		String returnString = "";

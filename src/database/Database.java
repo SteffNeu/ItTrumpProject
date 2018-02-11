@@ -36,14 +36,6 @@ public class Database {
 			e.printStackTrace();
 			return;
 		}
-
-		if (connection != null) {
-			//TODO remove before submission
-			System.out.println("Connection to database was successful");
-		}
-		else {
-			System.err.println("Failed to make connection to database!");
-		}
 	}
 	/**
 	 * disconnect from the database
@@ -51,8 +43,6 @@ public class Database {
 	public void disconnectFromDatabase() {
 		try {
 			connection.close();
-			//TODO remove before submission
-			System.out.println("Connection closed");
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
