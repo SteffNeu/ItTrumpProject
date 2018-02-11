@@ -40,8 +40,9 @@ public class TopTrumpsRESTAPI {
 	/** A Jackson Object writer. It allows us to turn Java objects
 	 * into JSON strings easily. */
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
-	/** TODO comment */
+	/** instance of the game */
 	private Game game;
+	/** number of players still in the game */
 	private int numPlayers;
 	
 	/**
@@ -73,60 +74,69 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/game")
 	/**
+	 * Sets up a new game
 	 * 
-	 * @param numOfPlayers
-	 * @return
+	 * @param numOfPlayers String containing the number of players
 	 * @throws IOException
 	 */
-	public String GameOnline(@QueryParam("3") String numOfPlayers) throws IOException
+	public void GameOnline(@QueryParam("3") String numOfPlayers) throws IOException
 	{
-		String returnString = "";
-		//StringBuilder sb = new StringBuilder(returnString);
 		
+		//create and start a game
 		game = new Game(getDeck());
 		game.startGame(Integer.parseInt(numOfPlayers));
 		numPlayers = game.getNumOfActivePlayers();
 		
-		returnString = "The game will start now with "
-				+ game.getNumOfActivePlayers() + " players. Have fun.";
-		
-		return returnString;
 	}
 	
 	@GET
 	@Path("/game/isCurrentHuman")
+	/**
+	 * Determine if the current chooser in the game is the player or an ai
+	 * @return String containing whether the current player is human or ai
+	 */
 	public String isCurrentHuman()	{
 		String val = "{\"curHuman\":";
 		if(this.game.isCurrentChooserHuman())
 			val +=  "true}";
 		else
 			val +=  "false}";
-		System.out.println(val);
 		return val;
 	}
 	
 	@GET
 	@Path("/game/isHumanPlaying")
+	/**
+	 * Determine if the human is still playing
+	 * @return String containing whether the player is still in the game or not
+	 */
 	public String isHumanPlaying()	{
 		String val = "{\"humanplaying\":";
 		if(this.game.isHumanPlaying())
 			val +=  "true}";
 		else
 			val +=  "false}";
-		System.out.println(val);
 		return val;
 	}
 	
 	@GET
 	@Path("/game/setUpGameDisplay")
+	/**
+	 * Get the initial game set up
+	 * @return String @see getUpdateInfoString() 
+	 */
 	public String setUpGameDisplay()
 	{
 		String roundResult = this.getUpdateInfoString();
-		return roundResult; //TODO object formatting
+		return roundResult;
 	}
 	
 	@GET
 	@Path("/game/executeRoundHuman")
+	/**
+	 * Execute the round of a human (requires input to choose category)
+	 * @return String @see getUpdateInfoString() 
+	 */
 	public String executeRoundHuman(@QueryParam("category") String category) throws IOException
 	{	
 		game.executeRound(category);
@@ -137,6 +147,10 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/game/executeRoundAI")
+	/**
+	 * Execute the round of an ai (automated choice of category)
+	 * @return String @see getUpdateInfoString() 
+	 */
 	public String executeRoundAI()
 	{
 		game.executeRound(game.getCurrentPlayer().selectAttribute());
@@ -147,24 +161,36 @@ public class TopTrumpsRESTAPI {
 
 	@GET
 	@Path("/game/getActivePlayers")
+	/**
+	 * Get the active players
+	 * @return String with active players
+	 * @throws JsonProcessingException
+	 */
 	public String getActivePlayers() throws JsonProcessingException {
 		ArrayList<String> playerNames = new ArrayList<String>();
 		ArrayList<Player> players = game.getActivePlayers();
+		//go through players and safe their names
 		for (Player p : players) {
 			playerNames.add(p.getName());
 		}
-		System.out.println(oWriter.writeValueAsString(playerNames));
 		return oWriter.writeValueAsString(playerNames);
 	}
 
 	
 	@GET
 	@Path("/game/getCategory")
+	/**
+	 * Get the category corresponding to its numeric value
+	 * @param catRef number referring to a category 
+	 * @return String containing key-value pair, where the value is the category that matches the reference
+	 */
 	public String getCategory(@QueryParam("cat") String catRef){
 		String key ="{\"key\":\"";
+		//get a card
 		Card card = game.getCurrentPlayer().getPile().getTopCard();
 		HashMap<String, Integer> cardCategories = card.getCategories();
 		int i = 1;
+		//go through the categories and remember the one that appears, when the counter matches the reference
 		for (Map.Entry<String, Integer> entry: cardCategories.entrySet()) {
 			if(i == Integer.parseInt(catRef)) {
 				key += entry.getKey();
@@ -172,12 +198,15 @@ public class TopTrumpsRESTAPI {
 			
 			i++;
 		}
-		System.out.println(key);
 		return key += "\"}";
 	}
 
 	@GET
 	@Path("/game/getNumCards")
+	/**
+	 * Get the number of cards for each player
+	 * @return String containing key-value pairs player:numberOfCards
+	 */
 	public String getNumCards() {
 		ArrayList<Player> players = game.getActivePlayers();
 		StringBuilder roundResult = new StringBuilder("{");
@@ -193,11 +222,16 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/game/getTopCards")
+	/**
+	 * Get the top card from each player
+	 * @return String with nested information for each player player:{card:{category:value}}
+	 */
 	public String getTopCards() {
 		
 		ArrayList<Player> players = game.getActivePlayers();
 		
 		StringBuilder topCardInfo = new StringBuilder("{");
+		//get the players and their top card
 		for(int i = 0; i < players.size(); i++)
 		{	
 			Card topCard = players.get(i).getPile().getTopCard();
@@ -205,6 +239,7 @@ public class TopTrumpsRESTAPI {
 			
 			HashMap<String, Integer> cardCategories = topCard.getCategories(); 
 			int j = 1;
+			//get the entries for the top card
 			for (Map.Entry<String, Integer> entry: cardCategories.entrySet()) {
 				topCardInfo.append("\"category" + j + "\":\"" + entry.getKey() + " " + entry.getValue() + "\",");
 				j ++;
@@ -217,6 +252,12 @@ public class TopTrumpsRESTAPI {
 		return topCardInfo.toString();
 	}
 	
+	/**
+	 * Get information about an executed round and write to database if the game is over
+	 * @return String containing information for further game processing such as:
+	 * players in game, active player, round number, cards in communal pile,
+	 * number of draws, chosen category, is the human still in the game and if the game is still going
+	 */
 	private String getUpdateInfoString() {
 		
 		
@@ -224,6 +265,7 @@ public class TopTrumpsRESTAPI {
 
 		StringBuilder roundResult = new StringBuilder("{\"players\":{");
 		int index = 1;
+		//get players
 		for(Player p : players) {
 			roundResult.append("\"p"+index+"\":\""+p.getName()+"\", ");
 			index++;
@@ -250,6 +292,8 @@ public class TopTrumpsRESTAPI {
 		roundResult.append(isHumanPlaying);
 		
 		String isGameOver = "\"gameover\":";
+		
+		//if the game is over write to the database
 		if (players.size() == 1) {
 			isGameOver += "true}";
 			Database db = new Database();
@@ -262,18 +306,23 @@ public class TopTrumpsRESTAPI {
 		}
 
 		roundResult.append(isGameOver);
-		System.out.println(roundResult.toString());
 		return roundResult.toString()  ;			
 	}
 
 	@GET
 	@Path("/game/eliminate")
+	/**
+	 * Get the players that were eliminated in a round
+	 * @return String information if a player was eliminated and if yes, which: elimination,eliminatedPlayers{key:player}
+	 */
 	public String eliminate() {
+		//see if the number of players decreased
 		int playerDiff = numPlayers - game.getNumOfActivePlayers();
 		ArrayList<Player> players = game.getInactivePlayers();
 		int lastPos = game.getInactivePlayers().size()-1;
 		StringBuilder elimination = new StringBuilder("{\"elimination\":\"");
 
+		//append information about elemination depending on the amount of eliminated players
 		if(playerDiff == 0) {
 			elimination.append("false\"}");
 		}
@@ -303,11 +352,13 @@ public class TopTrumpsRESTAPI {
 			elimination.append("\"kill4\":\"" + players.get(lastPos-3).getName() +"\"}}");
 			numPlayers -= 4;
 		}
-		System.out.println(elimination.toString());
 		return elimination.toString();
 	}
 	
-	
+	/**
+	 * Get the card deck
+	 * @return Card[] the read cards
+	 */
 	public Card[] getDeck()
 	{
 		return TopTrumpsCLIApplication.initializeDeck();

@@ -20,10 +20,6 @@
 
 	</head>
 	
-	<style>
-		.solidBorder {border-style: solid; color: green;}
-		.noBorder {border-style: none;}		
-	</style>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     <!-- TODO get the real picture with not hard coded path in here -->
@@ -77,7 +73,6 @@
 						location.href = "http://localhost:7777/toptrumps";
 					};
 				</script>
-				<p id="currentPlayers"></p>
 				<br />
 			</div>
 		</div>
@@ -542,7 +537,7 @@
 
 
 
-			//Start the game
+			//create and start the game
 			function GameOnline(numOfPlayers) {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -556,14 +551,13 @@
 				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
 				// to do when the response arrives
 				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					document.getElementById("currentPlayers").innerHTML = responseText;
+
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
 				
-				//set up the game display
+				//after creating the game, set up the game display
 				initGameContent(numOfPlayers)
 				hideAIs();
 				
@@ -827,11 +821,15 @@
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
  					var toEliminate = JSON.parse(responseText); //parse responseText into a json-object 
+ 					//check if elimination occurred
  					if(toEliminate.elimination) {
+ 						//go through eliminated players
  						for (var kill in toEliminate.eliminatedPlayers){
  							if(toEliminate.eliminatedPlayers[kill] != "human"){
+ 								//notify player of elimination
  								alert("Player " + toEliminate.eliminatedPlayers[kill] + " has been eliminated");
  							}
+ 							//hide information about eliminated ai
  							document.getElementById(toEliminate.eliminatedPlayers[kill]).style.visibility = "hidden";
  							document.getElementById(toEliminate.eliminatedPlayers[kill]+"CardInfo").style.visibility = "hidden";
  							document.getElementById(toEliminate.eliminatedPlayers[kill]+"Result").style.visibility = "hidden";
@@ -846,7 +844,7 @@
 			}
 
 
-
+			//turn over the card information of ai's that are still in the game
 			function makeCardsVisible() {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -861,12 +859,13 @@
 				// to do when the response arrives
 				xhr.onload = function(e) {
  					var responseText = xhr.response; // the text of the response
-					var players = JSON.parse(responseText)
-					var arrayLength = players.length;
+					var players = JSON.parse(responseText) //parse responseText into a json-object
+					var arrayLength = players.length; //determine number of players
 
-					//rethink if we can come into a scenario where we want to unhide ai's after human is out of the game
+					//iterate over active players, starting from 1 to ignore the human
 					for (var i = 1; i < arrayLength; i++) {
 						var tmp = players[i];
+						//display the information of the ai
 						document.getElementById(tmp+"CardInfo").style.visibility = "visible";
 
 					}

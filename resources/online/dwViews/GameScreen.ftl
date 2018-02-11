@@ -20,10 +20,6 @@
 
 	</head>
 	
-	<style>
-		.solidBorder {border-style: solid; color: green;}
-		.noBorder {border-style: none;}		
-	</style>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     <!-- TODO get the real picture with not hard coded path in here -->
@@ -77,7 +73,6 @@
 						location.href = "http://localhost:7777/toptrumps";
 					};
 				</script>
-				<p id="currentPlayers"></p>
 				<br />
 			</div>
 		</div>
@@ -542,7 +537,7 @@
 
 
 
-			//Start the game
+			//create and start the game
 			function GameOnline(numOfPlayers) {
 
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -556,14 +551,13 @@
 				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
 				// to do when the response arrives
 				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					document.getElementById("currentPlayers").innerHTML = responseText;
+
 				};
 
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();
 				
-				//set up the game display
+				//after creating the game, set up the game display
 				initGameContent(numOfPlayers)
 				hideAIs();
 				
