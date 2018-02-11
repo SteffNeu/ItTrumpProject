@@ -67,7 +67,9 @@
 				<input type="text" id="numPl" placeholder="1-4" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 				<button id="startBtn" onclick="setNumPl()" class="btn btn-primary">Start Game</button>
 				<br />
+				<div id="currentPlayers"></div>
 				<button id = "returnButton" class="btn btn-primary float-left">Return Home</button>
+
 				<script type="text/javascript">
 					document.getElementById("returnButton").onclick = function () {
 						location.href = "http://localhost:7777/toptrumps";
