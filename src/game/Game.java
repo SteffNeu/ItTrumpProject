@@ -304,9 +304,13 @@ public class Game
 				{
 					killPlayer(i);
 					currentChooser = activePlayers.get(0).getID();
+					i--;
 				}
 				else
-					killPlayer(i);	
+				{
+					killPlayer(i);
+					i--;
+				}
 			}
 	}
 	/**
